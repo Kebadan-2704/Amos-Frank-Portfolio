@@ -1,0 +1,28 @@
+.cursor-dot {
+  position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+  background: var(--accent-primary); border-radius: 50%;
+  pointer-events: none; z-index: var(--z-cursor);
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  position: fixed; top: 0; left: 0; width: 40px; height: 40px;
+  border: 1.5px solid rgba(229,9,20,0.5); border-radius: 50%;
+  pointer-events: none; z-index: var(--z-cursor);
+}
+.cursor-dot.hidden, .cursor-ring.hidden { opacity: 0; }
+.cursor-ring.hovered { border-color: var(--accent-primary); background: rgba(229,9,20,0.06); }
+.cursor-dot.clicked { background: white; }
+.cursor-ring.clicked { border-color: white; }
+
+/* Hide default cursor on desktop — but NOT inside iframes */
+@media (hover: hover) {
+  *:not(iframe):not(iframe *) { cursor: none; }
+}
+@media (hover: none) {
+  .cursor-dot, .cursor-ring { display: none !important; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cursor-dot, .cursor-ring { display: none !important; }
+}

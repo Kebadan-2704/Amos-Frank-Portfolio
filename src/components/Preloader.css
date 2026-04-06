@@ -1,0 +1,47 @@
+.preloader {
+  position: fixed; inset: 0; z-index: var(--z-preloader);
+  background: #050505; display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.preloader::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(229,9,20,0.06) 0%, transparent 60%); }
+
+/* Grid background */
+.preloader-grid-bg {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(229,9,20,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(229,9,20,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: grid-drift 20s linear infinite;
+}
+@keyframes grid-drift { from { transform: translate(0,0); } to { transform: translate(-60px,-60px); } }
+
+/* Pulsing rings */
+.preloader-rings { position: absolute; display: flex; align-items: center; justify-content: center; }
+.preloader-ring { position: absolute; border: 1px solid rgba(229,9,20,0.15); border-radius: 50%; }
+.preloader-ring-1 { width: 200px; height: 200px; }
+.preloader-ring-2 { width: 300px; height: 300px; }
+.preloader-ring-3 { width: 400px; height: 400px; }
+
+.preloader-content { display: flex; flex-direction: column; align-items: center; gap: 20px; z-index: 2; }
+
+/* Bars */
+.preloader-bars { display: flex; align-items: flex-end; gap: 5px; height: 50px; margin-bottom: 4px; }
+.preloader-bar { width: 5px; background: var(--accent-gradient); border-radius: 3px; box-shadow: 0 0 8px rgba(229,9,20,0.5); }
+
+/* Name - letter by letter */
+.preloader-name-wrapper { display: flex; perspective: 600px; }
+.preloader-letter {
+  font-family: var(--font-accent); font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900;
+  background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  letter-spacing: 6px; display: inline-block;
+}
+.preloader-space { width: 20px; }
+
+.preloader-tagline { font-family: var(--font-heading); font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; }
+
+/* Progress */
+.preloader-progress-container { width: 240px; height: 2px; background: rgba(255,255,255,0.06); border-radius: 2px; position: relative; margin-top: 12px; overflow: visible; }
+.preloader-progress-bar { height: 100%; background: var(--accent-gradient); border-radius: 2px; transition: width 0.08s ease; }
+.preloader-progress-glow { position: absolute; top: -4px; width: 10px; height: 10px; background: var(--accent-primary); border-radius: 50%; filter: blur(4px); transform: translateX(-50%); }
+.preloader-progress-text { font-size: 0.7rem; color: var(--text-muted); letter-spacing: 3px; font-family: var(--font-heading); margin-top: 4px; }
+
+/* Particles */
+.preloader-particle { position: absolute; font-size: 1.2rem; color: var(--accent-primary); opacity: 0.3; pointer-events: none; }
