@@ -162,7 +162,6 @@ const Hero = () => {
           >
             {spotifyTracks.slice(0, 3).map((track, idx) => (
               <div className="hero-spotify-item" key={idx}>
-                <div className="spotify-glass-overlay"></div>
                 <iframe 
                   src={`https://open.spotify.com/embed/track/${track.id}?utm_source=generator&theme=0`} 
                   width="100%" 
