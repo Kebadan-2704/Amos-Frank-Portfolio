@@ -47,8 +47,8 @@ export const artistInfo = {
   tagline: 'Keyboardist, Guitarist & Music Producer',
   role: 'Keyboardist',
   roles: ['Keyboardist', 'Guitarist', 'Bass Guitarist', 'Music Producer', 'Performer', 'Teacher'],
-  bio: `Amos Frank is a versatile and accomplished musician with a rich background spanning over 20 years, having embarked on his musical journey at the age of 10. Inspired by artists like Snarky Puppy, Cody Fry, Bruno Mars, Cory Henry, Jacob Collier, and Israel Houghton, Amos brings a unique blend of musicality to his performances.`,
-  bioExtended: `Mastering multiple instruments, including the keyboard, guitar, and bass guitar, he has performed professionally for over 11 years, contributing his talents across various genres and bands. His expertise also extends into music production, which he has passionately pursued since 2016, creating work that resonates with his diverse influences. With experience teaching in international schools, Amos shares his expertise as a performer, producer, and educator at Musik Hub, where he teaches keyboard, bass guitar, and music production, guiding aspiring musicians toward their full potential.`,
+  bio: `I’m Amos Frank, a music producer, performer, and educator with over 20 years of musical experience. I started my journey at the age of 10 and have been performing professionally for over 11 years across a wide range of genres.\n\nI specialize in keyboard, bass guitar, and music production, and I’m passionate about creating music that connects—whether it’s on stage, in the studio, or in the classroom.`,
+  bioExtended: `Inspired by artists like Snarky Puppy, Cory Henry, Jacob Collier, Bruno Mars, and Israel Houghton, my style blends groove, harmony, and modern production.\n\nThrough my music school, Musik Hub, I help students grow into confident, creative musicians while also working with artists and clients to bring their musical ideas to life.`,
   stats: {
     tracks: 30,
     videos: 29,

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
+import { loadTextShape } from '@tsparticles/shape-text';
 import { TypeAnimation } from 'react-type-animation';
 import { FaInstagram, FaPlay, FaChevronDown, FaHeadphones, FaMusic } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -16,25 +17,51 @@ const Hero = () => {
   const imageScale = useTransform(scrollY, [0, 500], [1, 1.15]);
 
   useEffect(() => {
-    initParticlesEngine(async (engine) => { await loadSlim(engine); }).then(() => setParticlesReady(true));
+    initParticlesEngine(async (engine) => { 
+      await loadTextShape(engine);
+      await loadSlim(engine); 
+    }).then(() => setParticlesReady(true));
   }, []);
+
+  // Detect current theme for particle colors
+  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+  const particleColors = isLight
+    ? ['#7C3AED', '#EC4899', '#F97316']
+    : ['#e50914', '#ff1a1a', '#ff4444'];
+  const particleLinkColor = isLight ? '#7C3AED' : '#e50914';
+  const particleLinkOpacity = isLight ? 0.15 : 0.1;
+  const particleSize = isLight ? { min: 8, max: 18 } : { min: 6, max: 14 };
 
   const particlesOptions = {
     fullScreen: false,
     background: { color: { value: 'transparent' } },
     fpsLimit: 60,
     particles: {
-      color: { value: ['#e50914', '#ff1a1a', '#ff4444'] },
-      links: { color: '#e50914', distance: 120, enable: true, opacity: 0.08, width: 1 },
-      move: { enable: true, speed: 0.8, direction: 'none', random: true, outModes: { default: 'bounce' } },
-      number: { value: 40, density: { enable: true, area: 1000 } },
-      opacity: { value: { min: 0.1, max: 0.4 } },
-      shape: { type: 'circle' },
-      size: { value: { min: 1, max: 2 } },
+      color: { value: particleColors },
+      links: { color: particleLinkColor, distance: 140, enable: true, opacity: particleLinkOpacity, width: 1 },
+      move: { enable: true, speed: 1.0, direction: 'none', random: true, outModes: { default: 'bounce' } },
+      number: { value: 55, density: { enable: true, area: 900 } },
+      opacity: { value: { min: 0.15, max: 0.45 } },
+      shape: { 
+        type: ['char', 'character'], 
+        options: {
+          character: [
+            { value: '♪', font: 'Arial', weight: 'bold' },
+            { value: '♫', font: 'Arial', weight: 'bold' },
+            { value: '♬', font: 'Arial', weight: 'bold' }
+          ],
+          char: [
+            { value: '♪', font: 'Arial', weight: 'bold' },
+            { value: '♫', font: 'Arial', weight: 'bold' },
+            { value: '♬', font: 'Arial', weight: 'bold' }
+          ]
+        }
+      },
+      size: { value: particleSize },
     },
     interactivity: {
       events: { onHover: { enable: true, mode: 'grab' } },
-      modes: { grab: { distance: 140, links: { opacity: 0.25 } } },
+      modes: { grab: { distance: 160, links: { opacity: 0.3 } } },
     },
     detectRetina: true,
   };

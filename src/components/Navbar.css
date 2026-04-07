@@ -98,3 +98,51 @@
   .navbar-link { font-size: 1.3rem; }
   .navbar-toggle { z-index: 1000; }
 }
+
+/* ========== LIGHT THEME OVERRIDES ========== */
+[data-theme="light"] .navbar-scrolled {
+  background: rgba(255, 251, 245, 0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(124, 58, 237, 0.08);
+  box-shadow: 0 2px 20px rgba(124, 58, 237, 0.04);
+}
+[data-theme="light"] .navbar-link {
+  color: var(--text-secondary);
+}
+[data-theme="light"] .navbar-link:hover,
+[data-theme="light"] .navbar-link.active {
+  color: var(--text-primary);
+}
+[data-theme="light"] .navbar-link::after {
+  background: linear-gradient(90deg, #7C3AED, #EC4899);
+}
+[data-theme="light"] .theme-toggle {
+  border-color: rgba(124, 58, 237, 0.15);
+  color: var(--text-primary);
+}
+[data-theme="light"] .theme-toggle:hover {
+  background: rgba(124, 58, 237, 0.06);
+  border-color: #7C3AED;
+  color: #7C3AED;
+}
+[data-theme="light"] .navbar-music-bars span {
+  background: linear-gradient(180deg, #7C3AED, #EC4899);
+}
+[data-theme="light"] .navbar-logo-circle {
+  border-color: rgba(124, 58, 237, 0.3);
+}
+[data-theme="light"] .navbar-logo:hover .navbar-logo-circle {
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+}
+[data-theme="light"] .logo-accent {
+  background: linear-gradient(135deg, #7C3AED, #EC4899);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+@media (max-width: 768px) {
+  [data-theme="light"] .navbar-links {
+    background: rgba(255, 251, 245, 0.97);
+    backdrop-filter: blur(20px);
+  }
+}
+

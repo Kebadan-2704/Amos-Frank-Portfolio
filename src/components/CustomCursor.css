@@ -26,3 +26,13 @@
 @media (prefers-reduced-motion: reduce) {
   .cursor-dot, .cursor-ring { display: none !important; }
 }
+
+/* ========== LIGHT THEME OVERRIDES ========== */
+[data-theme="light"] .cursor-ring {
+  border-color: rgba(124,58,237,0.4);
+}
+[data-theme="light"] .cursor-ring.hovered {
+  border-color: #7C3AED;
+  background: rgba(124,58,237,0.06);
+}
+

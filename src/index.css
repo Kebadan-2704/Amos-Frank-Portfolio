@@ -80,48 +80,49 @@
   --z-cursor: 9999;
 }
 
-/* ---- Light Theme (Vibrant) ---- */
+/* ---- Light Theme (Vibrant & Alive) ---- */
 [data-theme="light"] {
-  /* Backgrounds */
-  --bg-primary: #f4f6f8;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #eaedf1;
+  /* Backgrounds — Warm cream tones, NOT hospital grey */
+  --bg-primary: #FFFBF5;
+  --bg-secondary: #FFF8F0;
+  --bg-tertiary: #FFF0E5;
   --bg-card: #ffffff;
   --bg-elevated: #ffffff;
 
-  /* Accent Colors (Keeping Red Vibrant) */
-  --accent-primary: #e50914;
-  --accent-hover: #ff2d2d;
-  --accent-glow: #ff1a1a;
-  --accent-dark: #cc0000;
-  --accent-gradient: linear-gradient(135deg, #e50914 0%, #ff4444 50%, #e50914 100%);
-  --accent-gradient-hover: linear-gradient(135deg, #ff1a1a 0%, #ff6666 50%, #ff1a1a 100%);
-  --accent-subtle: rgba(229, 9, 20, 0.08);
-  --accent-subtle-border: rgba(229, 9, 20, 0.2);
+  /* Accent Colors — Electric Violet → Magenta Pink */
+  --accent-primary: #7C3AED;
+  --accent-hover: #9333EA;
+  --accent-glow: #A855F7;
+  --accent-dark: #5B21B6;
+  --accent-gradient: linear-gradient(135deg, #7C3AED 0%, #EC4899 50%, #F97316 100%);
+  --accent-gradient-hover: linear-gradient(135deg, #9333EA 0%, #F472B6 50%, #FB923C 100%);
+  --accent-subtle: rgba(124, 58, 237, 0.06);
+  --accent-subtle-border: rgba(124, 58, 237, 0.15);
 
-  /* Text */
-  --text-primary: #121212;
-  --text-secondary: #4b5563;
-  --text-muted: #6b7280;
-  --text-accent: #e50914;
+  /* Text — Rich, contrasty */
+  --text-primary: #1a1025;
+  --text-secondary: #4a3f5c;
+  --text-muted: #7c7291;
+  --text-accent: #7C3AED;
 
-  /* Glassmorphism */
-  --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-bg-light: rgba(245, 245, 245, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.08);
-  --glass-border-hover: rgba(0, 0, 0, 0.15);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  /* Glassmorphism — Warm tinted glass */
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-bg-light: rgba(255, 248, 240, 0.65);
+  --glass-border: rgba(124, 58, 237, 0.08);
+  --glass-border-hover: rgba(124, 58, 237, 0.2);
+  --glass-shadow: 0 8px 32px rgba(124, 58, 237, 0.06);
 
-  /* Shadows adjustments */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-  --shadow-glow: 0 0 20px rgba(229, 9, 20, 0.2);
-  --shadow-glow-intense: 0 0 40px rgba(229, 9, 20, 0.3);
+  /* Shadows — Colored undertones */
+  --shadow-sm: 0 2px 8px rgba(124, 58, 237, 0.06);
+  --shadow-md: 0 4px 16px rgba(124, 58, 237, 0.08);
+  --shadow-lg: 0 8px 32px rgba(124, 58, 237, 0.1);
+  --shadow-xl: 0 16px 48px rgba(124, 58, 237, 0.12);
+  --shadow-glow: 0 0 20px rgba(124, 58, 237, 0.15);
+  --shadow-glow-intense: 0 0 40px rgba(236, 72, 153, 0.2);
 }
 
 [data-theme="light"] body::after {
-  opacity: 0.015; /* Lighter film grain for light mode */
+  opacity: 0; /* No film grain on light mode — it's meant to be clean & bright */
 }
 
 /* ---- Global Reset & Base ---- */
@@ -560,7 +561,6 @@ button:focus-visible {
   }
 }
 
-/* ---- Accessibility: Reduced Motion ---- */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -575,3 +575,77 @@ button:focus-visible {
     scroll-behavior: auto;
   }
 }
+
+/* ======================================================
+   LIGHT THEME — COMPONENT-LEVEL OVERRIDES
+   Making every element vibrant and alive
+   ====================================================== */
+
+/* --- Buttons in Light Mode --- */
+[data-theme="light"] .btn-primary {
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3), 0 2px 8px rgba(236, 72, 153, 0.2);
+}
+[data-theme="light"] .btn-primary:hover {
+  box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4), 0 0 60px rgba(236, 72, 153, 0.15);
+}
+[data-theme="light"] .btn-outline {
+  border: 2px solid rgba(124, 58, 237, 0.2);
+  color: var(--text-primary);
+}
+[data-theme="light"] .btn-outline:hover {
+  background: rgba(124, 58, 237, 0.04);
+  border-color: rgba(124, 58, 237, 0.4);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.12);
+}
+[data-theme="light"] .btn-outline::after {
+  background: linear-gradient(135deg, transparent 30%, rgba(124,58,237,0.3) 50%, transparent 70%);
+}
+
+/* --- Glass Cards in Light Mode --- */
+[data-theme="light"] .glass-card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(124, 58, 237, 0.1);
+  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.06), 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+[data-theme="light"] .glass-card:hover {
+  border-color: rgba(124, 58, 237, 0.2);
+  box-shadow: 0 12px 40px rgba(124, 58, 237, 0.1), 0 0 20px rgba(236, 72, 153, 0.05);
+}
+
+/* --- Glow Elements --- */
+[data-theme="light"] .glow-line {
+  background: var(--accent-gradient);
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.3), 0 0 30px rgba(236, 72, 153, 0.15);
+}
+
+/* --- Section Subtitles --- */
+[data-theme="light"] .section-subtitle::before,
+[data-theme="light"] .section-subtitle::after {
+  background: var(--accent-primary);
+}
+
+/* --- Selection --- */
+[data-theme="light"] ::selection {
+  background: rgba(124, 58, 237, 0.15);
+  color: #1a1025;
+}
+
+/* --- Scrollbar --- */
+[data-theme="light"] html {
+  scrollbar-color: #7C3AED #FFF8F0;
+}
+[data-theme="light"] html::-webkit-scrollbar-track {
+  background: #FFF8F0;
+}
+[data-theme="light"] html::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #7C3AED, #EC4899);
+}
+[data-theme="light"] html::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #9333EA, #F472B6);
+}
+
+/* --- Focus styles --- */
+[data-theme="light"] *:focus-visible {
+  outline-color: #7C3AED;
+}
+

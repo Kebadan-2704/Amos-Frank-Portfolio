@@ -58,8 +58,8 @@
 .music-card-play { font-size: 2rem; color: white; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5)); }
 .music-card-badge { position: absolute; top: 10px; right: 10px; width: 28px; height: 28px; border-radius: 6px; background: rgba(255,0,0,0.85); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: white; }
 .music-card-info { padding: 14px 16px; }
-.music-card-title { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
-.music-card-artist { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.music-card-title { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); display: -webkit-box; -webkit-line-clamp: 1; line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.music-card-artist { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 1; line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 
 .music-load-more { text-align: center; padding: 20px 0; }
 
@@ -75,4 +75,78 @@
 .music-modal-info p { color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px; }
 
 @media (max-width: 1024px) { .music-grid { grid-template-columns: repeat(2, 1fr); } .spotify-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 600px) { .music-grid { grid-template-columns: 1fr; } .spotify-grid { grid-template-columns: 1fr; } .carousel-thumb { width: 130px; } .music-filters { gap: 6px; } .music-filter-btn { padding: 8px 14px; font-size: 0.78rem; } }
+@media (max-width: 600px) { 
+  .music-grid { grid-template-columns: 1fr; } 
+  .spotify-grid { grid-template-columns: 1fr; } 
+  .carousel-thumb { width: 280px; height: 160px; scroll-snap-align: center; } 
+  .music-carousel { scroll-snap-type: x mandatory; padding-bottom: 10px; }
+  .music-filters { gap: 6px; } 
+  .music-filter-btn { padding: 8px 14px; font-size: 0.78rem; } 
+}
+
+/* ========== LIGHT THEME OVERRIDES ========== */
+[data-theme="light"] .music-filter-btn {
+  border-color: rgba(124,58,237,0.1);
+  background: #ffffff;
+  color: var(--text-secondary);
+}
+[data-theme="light"] .music-filter-btn:hover {
+  border-color: rgba(124,58,237,0.25);
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(124,58,237,0.06);
+}
+[data-theme="light"] .music-filter-btn.active {
+  background: linear-gradient(135deg, #7C3AED, #EC4899, #F97316);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 15px rgba(124,58,237,0.2), 0 2px 8px rgba(236,72,153,0.15);
+}
+[data-theme="light"] .featured-player {
+  border-color: rgba(124,58,237,0.12);
+  box-shadow: 0 4px 30px rgba(124,58,237,0.06);
+}
+[data-theme="light"] .music-card {
+  background: #ffffff;
+  border-color: rgba(124,58,237,0.06);
+  box-shadow: 0 2px 12px rgba(124,58,237,0.04);
+}
+[data-theme="light"] .music-card:hover {
+  border-color: rgba(124,58,237,0.15);
+  box-shadow: 0 8px 30px rgba(124,58,237,0.08);
+}
+[data-theme="light"] .music-card-badge {
+  background: linear-gradient(135deg, #7C3AED, #EC4899);
+}
+[data-theme="light"] .carousel-thumb {
+  background: #ffffff;
+  border-color: rgba(124,58,237,0.06);
+}
+[data-theme="light"] .carousel-thumb.active {
+  border-color: #7C3AED;
+  box-shadow: 0 0 15px rgba(124,58,237,0.15);
+}
+[data-theme="light"] .carousel-thumb:hover {
+  border-color: rgba(124,58,237,0.2);
+  box-shadow: 0 4px 12px rgba(124,58,237,0.06);
+}
+[data-theme="light"] .carousel-nav {
+  background: #ffffff;
+  border-color: rgba(124,58,237,0.1);
+  color: var(--text-secondary);
+  box-shadow: 0 2px 8px rgba(124,58,237,0.06);
+}
+[data-theme="light"] .carousel-nav:hover {
+  background: linear-gradient(135deg, #7C3AED, #EC4899);
+  color: white;
+}
+[data-theme="light"] .carousel-playing-indicator span {
+  background: linear-gradient(180deg, #7C3AED, #EC4899);
+}
+[data-theme="light"] .music-section-label svg {
+  color: #7C3AED;
+}
+[data-theme="light"] .music-modal {
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(124,58,237,0.15);
+}
+

@@ -66,16 +66,42 @@ function App() {
   const hasSeenPreloader = sessionStorage.getItem('preloader-seen') === 'true';
   const [loading, setLoading] = useState(!hasSeenPreloader);
 
-  // Theme State
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+  // Theme State: Local storage first, then system preference, default to dark
+  const getInitialTheme = () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) return savedTheme;
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      return 'light';
+    }
+    return 'dark';
+  };
+
+  const [theme, setTheme] = useState(getInitialTheme);
+
+  // Listen to system theme changes in real-time
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: light)');
+    const handleChange = (e) => {
+      // Only auto-switch if the user hasn't explicitly set a preference in localStorage
+      if (!localStorage.getItem('theme')) {
+        setTheme(e.matches ? 'light' : 'dark');
+      }
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+    setTheme(prev => {
+      const newTheme = prev === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('theme', newTheme);
+      return newTheme;
+    });
   };
 
   const handlePreloaderComplete = () => {

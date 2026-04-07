@@ -28,7 +28,13 @@
 .text-accent { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .about-role { display: inline-flex; align-items: center; gap: 8px; color: var(--text-secondary); font-weight: 600; font-size: 1rem; }
 .about-role svg { color: var(--accent-primary); }
-.about-bio { color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem; }
+.about-bio {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 25px;
+  white-space: pre-wrap;
+}
 .about-cta-btn { margin-top: 8px; }
 
 /* Skills / Instrument tags */
@@ -56,3 +62,60 @@
   .about-gallery-creative { max-width: 320px; height: 400px; }
   .about-photo-secondary { right: -10px; }
 }
+
+/* ========== LIGHT THEME OVERRIDES ========== */
+[data-theme="light"] .about::before {
+  background: linear-gradient(90deg, transparent, rgba(124,58,237,0.15), rgba(236,72,153,0.1), transparent);
+}
+[data-theme="light"] .about-image-frame {
+  border-color: rgba(124,58,237,0.15);
+  box-shadow: 0 20px 60px rgba(124,58,237,0.08);
+}
+[data-theme="light"] .about-image-frame-small {
+  border-color: #FFF8F0;
+  box-shadow: 0 15px 40px rgba(124,58,237,0.1);
+}
+[data-theme="light"] .about-exp-badge {
+  background: rgba(255,255,255,0.9);
+  border-color: rgba(124,58,237,0.2);
+  box-shadow: 0 8px 24px rgba(124,58,237,0.08);
+}
+[data-theme="light"] .about-exp-number {
+  background: linear-gradient(135deg, #7C3AED, #EC4899, #F97316);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+[data-theme="light"] .about-dots-pattern {
+  background-image: radial-gradient(rgba(124,58,237,0.12) 2px, transparent 2px);
+}
+[data-theme="light"] .about-role svg {
+  color: #7C3AED;
+}
+[data-theme="light"] .about-skill-tag {
+  background: rgba(124,58,237,0.04);
+  border-color: rgba(124,58,237,0.1);
+  color: var(--text-secondary);
+}
+[data-theme="light"] .about-skill-tag svg {
+  color: #7C3AED;
+}
+[data-theme="light"] .about-skill-tag:hover {
+  background: rgba(124,58,237,0.08);
+  border-color: rgba(124,58,237,0.25);
+  color: var(--text-primary);
+  box-shadow: 0 4px 12px rgba(124,58,237,0.06);
+}
+[data-theme="light"] .about-info-item {
+  background: #ffffff;
+  border-color: rgba(124,58,237,0.06);
+  box-shadow: 0 2px 8px rgba(124,58,237,0.04);
+}
+[data-theme="light"] .about-info-icon {
+  color: #7C3AED;
+}
+[data-theme="light"] .text-accent {
+  background: linear-gradient(135deg, #7C3AED, #EC4899);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+

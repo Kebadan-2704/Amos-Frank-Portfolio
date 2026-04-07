@@ -4,12 +4,18 @@ import { FaMusic, FaVideo, FaCalendarAlt, FaGuitar } from 'react-icons/fa';
 import { artistInfo } from '../data/tracks';
 import './Stats.css';
 
-const statsData = [
-  { iconType: 'music', end: artistInfo.stats.tracks, suffix: '+', label: 'Original Tracks', color: '#e50914' },
-  { iconType: 'video', end: artistInfo.stats.videos, suffix: '+', label: 'Music Videos', color: '#ff4444' },
-  { iconType: 'guitar', end: artistInfo.stats.yearsPerforming, suffix: '+', label: 'Years Performing', color: '#ff6b6b' },
-  { iconType: 'calendar', end: artistInfo.stats.yearsActive, suffix: '+', label: 'Years in Music', color: '#e50914' },
-];
+// Theme-aware colors for light mode
+const isDarkTheme = () => typeof document === 'undefined' || document.documentElement.getAttribute('data-theme') !== 'light';
+
+const getStatsData = () => {
+  const dark = isDarkTheme();
+  return [
+    { iconType: 'music', end: artistInfo.stats.tracks, suffix: '+', label: 'Original Tracks', color: dark ? '#e50914' : '#7C3AED' },
+    { iconType: 'video', end: artistInfo.stats.videos, suffix: '+', label: 'Music Videos', color: dark ? '#ff4444' : '#EC4899' },
+    { iconType: 'guitar', end: artistInfo.stats.yearsPerforming, suffix: '+', label: 'Years Performing', color: dark ? '#ff6b6b' : '#F97316' },
+    { iconType: 'calendar', end: artistInfo.stats.yearsActive, suffix: '+', label: 'Years in Music', color: dark ? '#e50914' : '#06B6D4' },
+  ];
+};
 
 const getIcon = (type) => {
   switch (type) {
@@ -92,7 +98,7 @@ const Stats = () => {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
         >
-          {statsData.map((stat, index) => (
+          {getStatsData().map((stat, index) => (
             <StatItem key={index} stat={stat} index={index} />
           ))}
         </motion.div>
