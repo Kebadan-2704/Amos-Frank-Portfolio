@@ -38,7 +38,7 @@ const Footer = () => {
         <motion.div className="footer-grid" variants={container} initial="hidden" animate={isInView ? 'visible' : 'hidden'}>
           <motion.div className="footer-brand" variants={item}>
             <div className="footer-logo">
-              <FaKeyboard className="footer-logo-icon" aria-hidden="true" />
+              <div aria-hidden="true" />
               <div>
                 <span className="footer-logo-name">AMOS <span className="text-accent">FRANK</span></span>
                 <span className="footer-logo-tagline">The Music Experience</span>

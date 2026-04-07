@@ -1,0 +1,23 @@
+{
+  "name": "Amos Frank Portfolio",
+  "short_name": "Amos Frank",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#7C3AED",
+  "description": "Amos Frank - The Music Experience",
+  "icons": [
+    {
+      "src": "/amos-hero.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/amos-hero.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

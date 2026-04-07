@@ -172,16 +172,6 @@ const Hero = () => {
           </motion.div>
         </motion.div>
       </motion.div>
-
-      <motion.div
-        className="hero-scroll-indicator"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-      >
-        <span>SCROLL</span>
-        <FaChevronDown />
-      </motion.div>
     </section>
   );
 };
