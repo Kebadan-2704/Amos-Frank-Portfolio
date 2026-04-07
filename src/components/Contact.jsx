@@ -84,10 +84,17 @@ const Contact = () => {
   };
 
   const infoItems = [
-    { icon: FaEnvelope, label: 'Email', value: artistInfo.contact.email },
-    { icon: FaPhone, label: 'Phone', value: artistInfo.contact.phone },
-    { icon: FaMapMarkerAlt, label: 'Location', value: artistInfo.contact.location },
+    { icon: FaEnvelope, label: 'Email', value: artistInfo.contact.email, type: 'email' },
+    { icon: FaPhone, label: 'Phone', value: artistInfo.contact.phone, type: 'phone' },
+    { icon: FaMapMarkerAlt, label: 'Location', value: artistInfo.contact.location, type: 'location' },
   ];
+
+  const getLinkHref = (info) => {
+    if (info.type === 'email') return `mailto:${info.value}`;
+    if (info.type === 'phone') return `tel:${info.value.replace(/[^0-9+]/g, '')}`;
+    if (info.type === 'location') return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(info.value)}`;
+    return '#';
+  };
 
   return (
     <section id="contact" className="contact section">
@@ -114,7 +121,10 @@ const Contact = () => {
 
             <div className="contact-info-items">
               {infoItems.map((info, index) => (
-                <motion.div
+                <motion.a
+                  href={getLinkHref(info)}
+                  target={info.type === 'location' ? '_blank' : undefined}
+                  rel={info.type === 'location' ? 'noreferrer' : undefined}
                   key={index}
                   className="contact-info-item"
                   variants={item}
@@ -125,7 +135,7 @@ const Contact = () => {
                     <span className="contact-info-label">{info.label}</span>
                     <span className="contact-info-value">{info.value}</span>
                   </div>
-                </motion.div>
+                </motion.a>
               ))}
             </div>
 

@@ -66,9 +66,9 @@ const Footer = () => {
           <motion.div className="footer-contact-col" variants={item}>
             <h4 className="footer-col-title">Contact Info</h4>
             <div className="footer-contact-items">
-              <p>{artistInfo.contact.email}</p>
-              <p>{artistInfo.contact.phone}</p>
-              <p>{artistInfo.contact.location}</p>
+              <p><a href={`mailto:${artistInfo.contact.email}`}>{artistInfo.contact.email}</a></p>
+              <p><a href={`tel:${artistInfo.contact.phone.replace(/[^0-9+]/g, '')}`}>{artistInfo.contact.phone}</a></p>
+              <p><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(artistInfo.contact.location)}`} target="_blank" rel="noreferrer">{artistInfo.contact.location}</a></p>
             </div>
             <h4 className="footer-col-title" style={{ marginTop: '20px' }}>Follow & Learn</h4>
             <ul className="footer-quick-links">

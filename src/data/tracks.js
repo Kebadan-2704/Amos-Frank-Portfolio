@@ -63,7 +63,7 @@ export const artistInfo = {
   contact: {
     email: 'iamamosfrank.v@gmail.com',
     phone: '+91 7708913686',
-    location: 'India',
+    location: '3rd Street West, Ragavendra Garden, Veerakeralam, Tamil Nadu',
   },
   photos: {
     hero: '/amos-hero.jpg',

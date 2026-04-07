@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaMusic, FaBars, FaTimes } from 'react-icons/fa';
+import { FaMusic, FaBars, FaTimes, FaSun, FaMoon } from 'react-icons/fa';
 import './Navbar.css';
 
-const Navbar = () => {
+const Navbar = ({ theme, toggleTheme }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
@@ -73,6 +73,13 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-right">
+          <button 
+            className="theme-toggle" 
+            onClick={toggleTheme} 
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          >
+            {theme === 'dark' ? <FaSun /> : <FaMoon />}
+          </button>
           <div className="navbar-music-bars" aria-hidden="true">
             <span /><span /><span />
           </div>

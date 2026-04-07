@@ -66,6 +66,18 @@ function App() {
   const hasSeenPreloader = sessionStorage.getItem('preloader-seen') === 'true';
   const [loading, setLoading] = useState(!hasSeenPreloader);
 
+  // Theme State
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
   const handlePreloaderComplete = () => {
     setLoading(false);
     sessionStorage.setItem('preloader-seen', 'true');
@@ -97,7 +109,7 @@ function App() {
         {loading && <Preloader onComplete={handlePreloaderComplete} />}
         <div style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.6s ease' }}>
           <CustomCursor />
-          <Navbar />
+          <Navbar theme={theme} toggleTheme={toggleTheme} />
           <main id="main-content">
             <AnimatedRoutes />
           </main>

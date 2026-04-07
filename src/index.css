@@ -80,6 +80,50 @@
   --z-cursor: 9999;
 }
 
+/* ---- Light Theme (Vibrant) ---- */
+[data-theme="light"] {
+  /* Backgrounds */
+  --bg-primary: #f4f6f8;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #eaedf1;
+  --bg-card: #ffffff;
+  --bg-elevated: #ffffff;
+
+  /* Accent Colors (Keeping Red Vibrant) */
+  --accent-primary: #e50914;
+  --accent-hover: #ff2d2d;
+  --accent-glow: #ff1a1a;
+  --accent-dark: #cc0000;
+  --accent-gradient: linear-gradient(135deg, #e50914 0%, #ff4444 50%, #e50914 100%);
+  --accent-gradient-hover: linear-gradient(135deg, #ff1a1a 0%, #ff6666 50%, #ff1a1a 100%);
+  --accent-subtle: rgba(229, 9, 20, 0.08);
+  --accent-subtle-border: rgba(229, 9, 20, 0.2);
+
+  /* Text */
+  --text-primary: #121212;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+  --text-accent: #e50914;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-bg-light: rgba(245, 245, 245, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-border-hover: rgba(0, 0, 0, 0.15);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+
+  /* Shadows adjustments */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 20px rgba(229, 9, 20, 0.2);
+  --shadow-glow-intense: 0 0 40px rgba(229, 9, 20, 0.3);
+}
+
+[data-theme="light"] body::after {
+  opacity: 0.015; /* Lighter film grain for light mode */
+}
+
 /* ---- Global Reset & Base ---- */
 *,
 *::before,
