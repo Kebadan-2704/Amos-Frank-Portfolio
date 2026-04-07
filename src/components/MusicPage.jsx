@@ -7,9 +7,7 @@ import './MusicPage.css';
 const categories = [
   { key: 'all', label: 'All', icon: <FaMusic /> },
   { key: 'spotify', label: 'Spotify', icon: <FaSpotify /> },
-  { key: 'featured', label: 'Featured', icon: <FaCompactDisc /> },
   { key: 'original', label: 'Originals', icon: <FaYoutube /> },
-  { key: 'cover', label: 'Covers', icon: <FaPlay /> },
 ];
 
 const MusicPage = () => {
