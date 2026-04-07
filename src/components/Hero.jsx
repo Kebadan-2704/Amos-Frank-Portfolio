@@ -13,7 +13,6 @@ const Hero = () => {
   const [particlesReady, setParticlesReady] = useState(false);
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 600], [0, 150]);
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
   const imageScale = useTransform(scrollY, [0, 500], [1, 1.15]);
 
   useEffect(() => {
@@ -81,7 +80,7 @@ const Hero = () => {
       {particlesReady && <Particles id="hero-particles" className="hero-particles" options={particlesOptions} />}
       <div className="hero-gradient-overlay" />
 
-      <motion.div className="hero-content container" style={{ y: heroY, opacity: heroOpacity }}>
+      <motion.div className="hero-content container" style={{ y: heroY }}>
         <motion.div className="hero-left" variants={textContainer} initial="hidden" animate="visible">
           <motion.div className="hero-badge" variants={textLine}>
             <span className="badge-dot" />
@@ -101,7 +100,7 @@ const Hero = () => {
           <motion.div className="hero-typed-wrapper" variants={textLine}>
             <span className="hero-typed-label">I'm a </span>
             <TypeAnimation
-              sequence={['Keyboardist', 2000, 'Guitarist', 2000, 'Bass Guitarist', 2000, 'Music Producer', 2000, 'Performer', 2000, 'Teacher', 2000]}
+              sequence={['Music Producer', 2000, 'Performer', 2000, 'Teacher', 2000]}
               wrapper="span" className="hero-typed-text" speed={50} repeat={Infinity}
             />
           </motion.div>

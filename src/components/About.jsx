@@ -75,20 +75,11 @@ const About = () => {
               I'm <span className="text-accent">Amos Frank</span>
             </motion.h3>
             <motion.p className="about-role" variants={item}>
-              <FaKeyboard /> Keyboardist, Guitarist & Music Producer
             </motion.p>
             <motion.p className="about-bio" variants={textReveal}>{artistInfo.bio}</motion.p>
             <motion.p className="about-bio" variants={textReveal}>{artistInfo.bioExtended}</motion.p>
 
-            {/* Instruments & Skills */}
-            <motion.div className="about-skills" variants={container}>
-              <motion.div className="about-skill-tag" variants={item}><FaKeyboard /> Keyboard</motion.div>
-              <motion.div className="about-skill-tag" variants={item}><FaGuitar /> Guitar</motion.div>
-              <motion.div className="about-skill-tag" variants={item}><FaGuitar /> Bass Guitar</motion.div>
-              <motion.div className="about-skill-tag" variants={item}>🎛️ Music Production</motion.div>
-              <motion.div className="about-skill-tag" variants={item}>🎤 Performer</motion.div>
-              <motion.div className="about-skill-tag" variants={item}>📚 Teacher</motion.div>
-            </motion.div>
+            {/* Instruments & Skills Removed for formality */}
 
             <motion.div className="about-info-grid" variants={container}>
               <motion.div className="about-info-item" variants={item} whileHover={{ x: 6, borderColor: 'rgba(229,9,20,0.2)' }}>

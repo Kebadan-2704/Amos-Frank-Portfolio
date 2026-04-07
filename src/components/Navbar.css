@@ -93,7 +93,7 @@
 
 @media (max-width: 768px) {
   .navbar-toggle { display: block; }
-  .navbar-links { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10,10,10,0.97); backdrop-filter: blur(20px); flex-direction: column; align-items: center; justify-content: center; gap: 40px; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); z-index: 999; }
+  .navbar-links { position: fixed; top: 0; left: 0; right: 0; bottom: 0; height: 100dvh; background: rgba(10,10,10,0.97); backdrop-filter: blur(20px); flex-direction: column; align-items: center; justify-content: center; gap: 40px; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); z-index: 999; }
   .navbar-links.open { transform: translateX(0); }
   .navbar-link { font-size: 1.3rem; }
   .navbar-toggle { z-index: 1000; }

@@ -1,4 +1,4 @@
-.hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; padding-top: 80px; }
+.hero { position: relative; min-height: 100dvh; display: flex; align-items: center; overflow: hidden; padding-top: 80px; }
 .hero-particles { position: absolute; inset: 0; z-index: 0; }
 .hero-gradient-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(10,10,10,0.96) 0%, rgba(10,10,10,0.6) 40%, rgba(10,10,10,0.8) 70%, rgba(10,10,10,0.95) 100%); z-index: 1; pointer-events: none; }
 /* Cinematic vignette */
