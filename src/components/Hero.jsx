@@ -153,24 +153,28 @@ const Hero = () => {
             ))}
           </motion.div>
 
-          {/* Spotify playable embed */}
+          {/* Spotify swipeable carousel */}
           <motion.div
             className="hero-spotify-strip"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.6 }}
-            style={{ width: '100%', maxWidth: '340px' }}
           >
-            <iframe 
-              style={{ borderRadius: '12px' }} 
-              src={`https://open.spotify.com/embed/track/${spotifyTracks[0].id}?utm_source=generator&theme=0`} 
-              width="100%" 
-              height="80" 
-              frameBorder="0" 
-              allowFullScreen="" 
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-              loading="lazy"
-            ></iframe>
+            {spotifyTracks.slice(0, 3).map((track, idx) => (
+              <div className="hero-spotify-item" key={idx}>
+                <div className="spotify-glass-overlay"></div>
+                <iframe 
+                  src={`https://open.spotify.com/embed/track/${track.id}?utm_source=generator&theme=0`} 
+                  width="100%" 
+                  height="80" 
+                  frameBorder="0" 
+                  allowFullScreen="" 
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                  loading="lazy"
+                  className="spotify-iframe"
+                ></iframe>
+              </div>
+            ))}
           </motion.div>
         </motion.div>
       </motion.div>

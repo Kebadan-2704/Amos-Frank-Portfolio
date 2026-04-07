@@ -45,17 +45,59 @@
 .hero-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
 .hero-image-wrapper:hover .hero-image { transform: scale(1.05); }
 
-/* Photo strip replacing Spotify embed */
-.hero-photo-strip { display: flex; gap: 10px; width: 100%; max-width: 340px; }
-.hero-strip-item { flex: 1; aspect-ratio: 1; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); transition: all var(--transition-medium); position: relative; }
-.hero-strip-item::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%); pointer-events: none; }
-.hero-strip-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-.hero-strip-item:hover { border-color: rgba(229,9,20,0.3); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(229,9,20,0.15); }
-.hero-strip-item:hover img { transform: scale(1.1); }
+/* Spotify Carousel */
+.hero-spotify-strip {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  width: 100%;
+  max-width: 380px;
+  gap: 16px;
+  padding-bottom: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-primary) transparent;
+}
+.hero-spotify-strip::-webkit-scrollbar {
+  height: 4px;
+}
+.hero-spotify-strip::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 4px;
+}
+.hero-spotify-strip::-webkit-scrollbar-track {
+  background: transparent;
+}
 
-/* Scroll indicator */
-.hero-scroll-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; z-index: 2; color: var(--text-muted); font-size: 0.7rem; letter-spacing: 4px; }
-.hero-scroll-indicator:hover { color: var(--accent-primary); }
+.hero-spotify-item {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: transparent;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+.spotify-glass-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.05); /* Slight lightening mask */
+  pointer-events: none;
+  z-index: 10;
+}
+.spotify-iframe {
+  display: block;
+  width: 100%;
+  height: 80px;
+  border-radius: 14px;
+  opacity: 0.92; /* Gives that lesser transparency feeling */
+}
+
+[data-theme="light"] .spotify-glass-overlay {
+  background: rgba(0, 0, 0, 0.03); /* Subtle dark overlay for contrast in light mode */
+}
+[data-theme="light"] .spotify-iframe {
+  opacity: 0.85; /* Blend with light background slightly */
+}
 
 /* ========== RESPONSIVE ========== */
 @media (max-width: 1024px) {
