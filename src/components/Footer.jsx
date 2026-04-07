@@ -80,7 +80,7 @@ const Footer = () => {
         </motion.div>
 
         <motion.div className="footer-bottom" variants={item} initial="hidden" animate={isInView ? 'visible' : 'hidden'}>
-          <p>© {year} Amos Frank. Made with <motion.span aria-label="love" animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1.5, repeat: Infinity }}><FaHeart className="footer-heart" /></motion.span> All rights reserved.</p>
+          <p>© {year} All rights reserved.</p>
         </motion.div>
       </div>
     </footer>
