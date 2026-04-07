@@ -1,22 +1,21 @@
 import { useRef, useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { FaMusic, FaVideo, FaCalendarAlt } from 'react-icons/fa';
-import { SiSpotify } from 'react-icons/si';
+import { FaMusic, FaVideo, FaCalendarAlt, FaGuitar } from 'react-icons/fa';
 import { artistInfo } from '../data/tracks';
 import './Stats.css';
 
 const statsData = [
   { iconType: 'music', end: artistInfo.stats.tracks, suffix: '+', label: 'Original Tracks', color: '#e50914' },
   { iconType: 'video', end: artistInfo.stats.videos, suffix: '+', label: 'Music Videos', color: '#ff4444' },
-  { iconType: 'spotify', end: artistInfo.stats.spotifyTracks, suffix: '', label: 'Spotify Releases', color: '#1db954' },
-  { iconType: 'calendar', end: artistInfo.stats.yearsActive, suffix: '+', label: 'Years Active', color: '#ff6b6b' },
+  { iconType: 'guitar', end: artistInfo.stats.yearsPerforming, suffix: '+', label: 'Years Performing', color: '#ff6b6b' },
+  { iconType: 'calendar', end: artistInfo.stats.yearsActive, suffix: '+', label: 'Years in Music', color: '#e50914' },
 ];
 
 const getIcon = (type) => {
   switch (type) {
     case 'music': return <FaMusic />;
     case 'video': return <FaVideo />;
-    case 'spotify': return <SiSpotify />;
+    case 'guitar': return <FaGuitar />;
     case 'calendar': return <FaCalendarAlt />;
     default: return <FaMusic />;
   }

@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import { HelmetProvider } from 'react-helmet-async';
 import SEO from './components/SEO';
+import AnimatedFavicon from './components/AnimatedFavicon';
 
 // Lazy-loaded pages for code splitting
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -79,6 +80,7 @@ function App() {
     <HelmetProvider>
       <ErrorBoundary>
         <SEO />
+        <AnimatedFavicon />
         <Router>
         {/* Skip to content link for keyboard/screen-reader users */}
         <a href="#main-content" className="skip-link" style={{

@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { FaPlay, FaTimes, FaYoutube, FaSpotify, FaChevronLeft, FaChevronRight, FaMusic, FaCompactDisc } from 'react-icons/fa';
+import { FaPlay, FaTimes, FaYoutube, FaChevronLeft, FaChevronRight, FaMusic, FaCompactDisc, FaSpotify } from 'react-icons/fa';
 import { youtubeVideos, spotifyTracks, getThumbnail, featuredVideoId } from '../data/tracks';
 import './MusicPage.css';
 
 const categories = [
   { key: 'all', label: 'All', icon: <FaMusic /> },
+  { key: 'spotify', label: 'Spotify', icon: <FaSpotify /> },
   { key: 'featured', label: 'Featured', icon: <FaCompactDisc /> },
   { key: 'original', label: 'Originals', icon: <FaYoutube /> },
   { key: 'cover', label: 'Covers', icon: <FaPlay /> },
-  { key: 'spotify', label: 'Spotify', icon: <FaSpotify /> },
 ];
 
 const MusicPage = () => {
@@ -25,8 +25,6 @@ const MusicPage = () => {
 
   const filteredVideos = activeTab === 'all'
     ? youtubeVideos
-    : activeTab === 'spotify'
-    ? []
     : youtubeVideos.filter(v => v.category === activeTab);
 
   const visibleVideos = filteredVideos.slice(0, showCount);
@@ -94,109 +92,116 @@ const MusicPage = () => {
           ))}
         </motion.div>
 
-        {/* Featured Video Player */}
-        {activeTab !== 'spotify' && (
-          <motion.div className="music-featured" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-            <div className="featured-player">
-              <iframe
-                src={`https://www.youtube.com/embed/${featuredVideo}?rel=0`}
-                title={featured?.title || 'Featured Video'}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                loading="lazy"
-              />
-            </div>
-            <div className="featured-info">
-              <h3 className="featured-title">{featured?.title || 'Featured Track'}</h3>
-              <p className="featured-artist">{featured?.artist || ''}</p>
-            </div>
-
-            {/* Horizontal Carousel */}
-            <div className="carousel-wrapper">
-              <button className="carousel-nav carousel-prev" onClick={() => scrollCarousel(-1)} aria-label="Previous videos"><FaChevronLeft /></button>
-              <div className="carousel-track" ref={carouselRef}>
-                {youtubeVideos.slice(0, 10).map(video => (
-                  <div
-                    key={video.id}
-                    className={`carousel-thumb ${featuredVideo === video.id ? 'active' : ''}`}
-                    onClick={() => setFeaturedVideo(video.id)}
-                  >
-                    <img src={getThumbnail(video.id)} alt={video.title} loading="lazy" />
-                    <span className="carousel-thumb-title">{video.title}</span>
-                    {featuredVideo === video.id && <div className="carousel-playing-indicator" aria-label="Now playing"><span /><span /><span /></div>}
-                  </div>
-                ))}
-              </div>
-              <button className="carousel-nav carousel-next" onClick={() => scrollCarousel(1)} aria-label="More videos"><FaChevronRight /></button>
-            </div>
-          </motion.div>
-        )}
-
-        {/* Spotify Section */}
-        {(activeTab === 'all' || activeTab === 'spotify') && (
-          <motion.div className="music-spotify-section" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
-            <h3 className="music-section-label"><FaSpotify /> On Spotify</h3>
+        {activeTab === 'spotify' ? (
+          <motion.div className="music-spotify" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+            <h3 className="music-section-label"><FaSpotify /> Spotify Tracks</h3>
             <div className="spotify-grid">
-              {spotifyTracks.map(track => (
-                <div className="spotify-embed" key={track.id}>
-                  <iframe
-                    src={`https://open.spotify.com/embed/track/${track.id}?utm_source=generator&theme=0`}
-                    width="100%" height="152" frameBorder="0"
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    loading="lazy" title={track.title}
-                  />
-                </div>
+              {spotifyTracks.map((track, i) => (
+                <motion.div
+                  key={track.id}
+                  className="spotify-embed-wrapper"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.1, duration: 0.4 }}
+                >
+                  <iframe 
+                    style={{ borderRadius: '12px' }} 
+                    src={`https://open.spotify.com/embed/track/${track.id}?theme=0`} 
+                    width="100%" 
+                    height="152" 
+                    frameBorder="0" 
+                    allowFullScreen="" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy"
+                  ></iframe>
+                </motion.div>
               ))}
             </div>
           </motion.div>
-        )}
-
-        {/* Video Grid */}
-        {activeTab !== 'spotify' && (
+        ) : (
           <>
-            <h3 className="music-section-label"><FaYoutube /> Music Videos</h3>
-            <motion.div className="music-grid" layout>
-              <AnimatePresence mode="popLayout">
-                {visibleVideos.map((video, i) => (
-                  <motion.div
-                    key={video.id}
-                    className="music-card"
-                    layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ delay: i * 0.04, duration: 0.4 }}
-                    whileHover={{ y: -6 }}
-                    onClick={() => setSelectedVideo(video)}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`Play ${video.title}`}
-                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedVideo(video); } }}
-                  >
-                    <div className="music-card-thumb">
+            {/* Featured Video Player */}
+            <motion.div className="music-featured" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+              <div className="featured-player">
+                <iframe
+                  src={`https://www.youtube.com/embed/${featuredVideo}?rel=0`}
+                  title={featured?.title || 'Featured Video'}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  loading="lazy"
+                />
+              </div>
+              <div className="featured-info">
+                <h3 className="featured-title">{featured?.title || 'Featured Track'}</h3>
+                <p className="featured-artist">{featured?.artist || ''}</p>
+              </div>
+
+              {/* Horizontal Carousel */}
+              <div className="carousel-wrapper">
+                <button className="carousel-nav carousel-prev" onClick={() => scrollCarousel(-1)} aria-label="Previous videos"><FaChevronLeft /></button>
+                <div className="carousel-track" ref={carouselRef}>
+                  {youtubeVideos.slice(0, 10).map(video => (
+                    <div
+                      key={video.id}
+                      className={`carousel-thumb ${featuredVideo === video.id ? 'active' : ''}`}
+                      onClick={() => setFeaturedVideo(video.id)}
+                    >
                       <img src={getThumbnail(video.id)} alt={video.title} loading="lazy" />
-                      <div className="music-card-overlay">
-                        <FaPlay className="music-card-play" />
-                      </div>
-                      <div className="music-card-badge" aria-hidden="true"><FaYoutube /></div>
+                      <span className="carousel-thumb-title">{video.title}</span>
+                      {featuredVideo === video.id && <div className="carousel-playing-indicator" aria-label="Now playing"><span /><span /><span /></div>}
                     </div>
-                    <div className="music-card-info">
-                      <h4 className="music-card-title">{video.title}</h4>
-                      <p className="music-card-artist">{video.artist}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+                  ))}
+                </div>
+                <button className="carousel-nav carousel-next" onClick={() => scrollCarousel(1)} aria-label="More videos"><FaChevronRight /></button>
+              </div>
             </motion.div>
 
-            {showCount < filteredVideos.length && (
-              <div className="music-load-more">
-                <button className="btn btn-outline" onClick={() => setShowCount(s => s + 9)}>
-                  Load More ({filteredVideos.length - showCount} remaining)
-                </button>
-              </div>
-            )}
+            {/* Video Grid */}
+            <>
+              <h3 className="music-section-label"><FaYoutube /> Music Videos</h3>
+              <motion.div className="music-grid" layout>
+                <AnimatePresence mode="popLayout">
+                  {visibleVideos.map((video, i) => (
+                    <motion.div
+                      key={video.id}
+                      className="music-card"
+                      layout
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ delay: i * 0.04, duration: 0.4 }}
+                      whileHover={{ y: -6 }}
+                      onClick={() => setSelectedVideo(video)}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Play ${video.title}`}
+                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedVideo(video); } }}
+                    >
+                      <div className="music-card-thumb">
+                        <img src={getThumbnail(video.id)} alt={video.title} loading="lazy" />
+                        <div className="music-card-overlay">
+                          <FaPlay className="music-card-play" />
+                        </div>
+                        <div className="music-card-badge" aria-hidden="true"><FaYoutube /></div>
+                      </div>
+                      <div className="music-card-info">
+                        <h4 className="music-card-title">{video.title}</h4>
+                        <p className="music-card-artist">{video.artist}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </motion.div>
+
+              {showCount < filteredVideos.length && (
+                <div className="music-load-more">
+                  <button className="btn btn-outline" onClick={() => setShowCount(s => s + 9)}>
+                    Load More ({filteredVideos.length - showCount} remaining)
+                  </button>
+                </div>
+              )}
+            </>
           </>
         )}
 

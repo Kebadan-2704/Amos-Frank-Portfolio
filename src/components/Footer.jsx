@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
-import { FaHeart, FaYoutube, FaSpotify, FaInstagram, FaMusic } from 'react-icons/fa';
+import { FaHeart, FaInstagram, FaMusic, FaKeyboard } from 'react-icons/fa';
 import { artistInfo } from '../data/tracks';
 import './Footer.css';
 
@@ -27,9 +27,8 @@ const Footer = () => {
   ];
 
   const externalLinks = [
-    { label: 'YouTube', href: artistInfo.social.youtube },
-    { label: 'Spotify', href: artistInfo.social.spotify },
     { label: 'Instagram', href: artistInfo.social.instagram },
+    { label: 'Musik Hub (Classes)', href: artistInfo.social.musikHub },
   ];
 
   return (
@@ -39,9 +38,9 @@ const Footer = () => {
         <motion.div className="footer-grid" variants={container} initial="hidden" animate={isInView ? 'visible' : 'hidden'}>
           <motion.div className="footer-brand" variants={item}>
             <div className="footer-logo">
-              <FaMusic className="footer-logo-icon" aria-hidden="true" />
+              <FaKeyboard className="footer-logo-icon" aria-hidden="true" />
               <div>
-                <span className="footer-logo-name">FRANK <span className="text-accent">ANNA</span></span>
+                <span className="footer-logo-name">AMOS <span className="text-accent">FRANK</span></span>
                 <span className="footer-logo-tagline">The Music Experience</span>
               </div>
             </div>
@@ -50,9 +49,8 @@ const Footer = () => {
               tuned for the latest releases and performances.
             </p>
             <div className="footer-socials">
-              <motion.a href={artistInfo.social.youtube} className="footer-social" aria-label="YouTube" target="_blank" rel="noreferrer" whileHover={{ y: -4, scale: 1.1 }}><FaYoutube /></motion.a>
-              <motion.a href={artistInfo.social.spotify} className="footer-social" aria-label="Spotify" target="_blank" rel="noreferrer" whileHover={{ y: -4, scale: 1.1 }}><FaSpotify /></motion.a>
               <motion.a href={artistInfo.social.instagram} className="footer-social" aria-label="Instagram" target="_blank" rel="noreferrer" whileHover={{ y: -4, scale: 1.1 }}><FaInstagram /></motion.a>
+              <motion.a href={artistInfo.social.musikHub} className="footer-social" aria-label="Musik Hub" target="_blank" rel="noreferrer" whileHover={{ y: -4, scale: 1.1 }}><FaMusic /></motion.a>
             </div>
           </motion.div>
 
@@ -72,7 +70,7 @@ const Footer = () => {
               <p>{artistInfo.contact.phone}</p>
               <p>{artistInfo.contact.location}</p>
             </div>
-            <h4 className="footer-col-title" style={{ marginTop: '20px' }}>Listen On</h4>
+            <h4 className="footer-col-title" style={{ marginTop: '20px' }}>Follow & Learn</h4>
             <ul className="footer-quick-links">
               {externalLinks.map(link => (
                 <li key={link.label}><a href={link.href} target="_blank" rel="noreferrer">{link.label}</a></li>

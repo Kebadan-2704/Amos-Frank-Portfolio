@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { FaUser, FaEnvelope, FaPhone, FaCommentDots, FaPaperPlane, FaMapMarkerAlt, FaYoutube, FaSpotify, FaInstagram, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaPhone, FaCommentDots, FaPaperPlane, FaMapMarkerAlt, FaInstagram, FaMusic, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 import { artistInfo } from '../data/tracks';
 import './Contact.css';
 
@@ -100,7 +100,7 @@ const Contact = () => {
           <motion.p className="section-subtitle" variants={item}>Get In Touch</motion.p>
           <motion.h2 className="section-title" variants={item}>Contact <span className="accent">Me</span></motion.h2>
           <motion.p className="section-description" variants={item}>
-            Have a collaboration idea, booking inquiry, or just want to say hello? Drop a message!
+            Have a collaboration idea, booking inquiry, or want to learn music? Drop a message!
           </motion.p>
         </motion.div>
 
@@ -109,7 +109,7 @@ const Contact = () => {
           <motion.div className="contact-info" variants={item}>
             <h3 className="contact-info-title">Let's Create <span className="text-accent">Together</span></h3>
             <p className="contact-info-desc">
-              Whether it's a collaboration, live performance, or any musical project — I'm all ears. Let's make something extraordinary.
+              Whether it's a collaboration, live performance, music production, or learning an instrument — I'm all ears. Let's make something extraordinary.
             </p>
 
             <div className="contact-info-items">
@@ -130,10 +130,25 @@ const Contact = () => {
             </div>
 
             <div className="contact-socials">
-              <motion.a href={artistInfo.social.youtube} className="contact-social-link youtube" target="_blank" rel="noreferrer" aria-label="YouTube" whileHover={{ y: -5, scale: 1.1 }} whileTap={{ scale: 0.9 }}><FaYoutube /></motion.a>
-              <motion.a href={artistInfo.social.spotify} className="contact-social-link spotify" target="_blank" rel="noreferrer" aria-label="Spotify" whileHover={{ y: -5, scale: 1.1 }} whileTap={{ scale: 0.9 }}><FaSpotify /></motion.a>
               <motion.a href={artistInfo.social.instagram} className="contact-social-link instagram" target="_blank" rel="noreferrer" aria-label="Instagram" whileHover={{ y: -5, scale: 1.1 }} whileTap={{ scale: 0.9 }}><FaInstagram /></motion.a>
+              <motion.a href={artistInfo.social.musikHub} className="contact-social-link musik-hub" target="_blank" rel="noreferrer" aria-label="Musik Hub Classes" whileHover={{ y: -5, scale: 1.1 }} whileTap={{ scale: 0.9 }}><FaMusic /></motion.a>
             </div>
+
+            {/* Musik Hub CTA */}
+            <motion.a
+              href={artistInfo.social.musikHub}
+              target="_blank"
+              rel="noreferrer"
+              className="contact-musik-hub-cta"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <FaMusic className="musik-hub-icon" />
+              <div>
+                <span className="musik-hub-title">Learn Music at Musik Hub</span>
+                <span className="musik-hub-desc">Keyboard, Bass Guitar & Music Production classes</span>
+              </div>
+            </motion.a>
 
             {/* Music waveform decoration */}
             <div className="contact-waveform" aria-hidden="true">

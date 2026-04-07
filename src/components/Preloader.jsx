@@ -33,11 +33,13 @@ const Preloader = ({ onComplete }) => {
           {/* Animated background grid */}
           <div className="preloader-grid-bg" />
           
-          {/* Pulsing rings */}
-          <div className="preloader-rings">
-            <motion.div className="preloader-ring preloader-ring-1" animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0, 0.3] }} transition={{ duration: 2, repeat: Infinity }} />
-            <motion.div className="preloader-ring preloader-ring-2" animate={{ scale: [1, 1.8, 1], opacity: [0.2, 0, 0.2] }} transition={{ duration: 2.5, repeat: Infinity, delay: 0.3 }} />
-            <motion.div className="preloader-ring preloader-ring-3" animate={{ scale: [1, 2.2, 1], opacity: [0.1, 0, 0.1] }} transition={{ duration: 3, repeat: Infinity, delay: 0.6 }} />
+          {/* Pulsing rings and circular image */}
+          <div className="preloader-avatar-container">
+            <motion.div className="preloader-spin-ring preloader-ring-1" animate={{ rotate: 360 }} transition={{ duration: 8, repeat: Infinity, ease: 'linear' }} />
+            <motion.div className="preloader-spin-ring preloader-ring-2" animate={{ rotate: -360 }} transition={{ duration: 12, repeat: Infinity, ease: 'linear' }} />
+            <motion.div className="preloader-avatar-wrapper" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut" }}>
+              <img src="/amos-hero.jpg" className="preloader-avatar" alt="Amos Frank" />
+            </motion.div>
           </div>
 
           <div className="preloader-content">
@@ -53,19 +55,9 @@ const Preloader = ({ onComplete }) => {
               ))}
             </div>
 
-            {/* Name with letter-by-letter reveal */}
-            <motion.div className="preloader-name-wrapper">
-              {'AMOS FRANK'.split('').map((letter, i) => (
-                <motion.span
-                  key={i}
-                  className={`preloader-letter ${letter === ' ' ? 'preloader-space' : ''}`}
-                  initial={{ opacity: 0, y: 50, rotateX: -90 }}
-                  animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                  transition={{ delay: 0.1 + i * 0.06, duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
-                >
-                  {letter === ' ' ? '\u00A0' : letter}
-                </motion.span>
-              ))}
+            {/* Name */}
+            <motion.div className="preloader-name-wrapper" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.8 }}>
+              <h1 className="preloader-name">AMOS <span className="logo-accent">FRANK</span></h1>
             </motion.div>
 
             <motion.p

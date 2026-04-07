@@ -52,7 +52,10 @@ const Navbar = () => {
     <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`} role="navigation" aria-label="Main navigation">
       <div className="container navbar-container">
         <Link to="/" className="navbar-logo" aria-label="Amos Frank - Home">
-          <span className="logo-text">AMOS <span className="logo-accent">FRANK</span></span>
+          <div className="navbar-logo-circle">
+            <img src="/amos-hero.jpg" alt="Amos" className="navbar-logo-face" />
+          </div>
+          <span className="logo-text-reveal">AMOS <span className="logo-accent">FRANK</span></span>
         </Link>
 
         <div className={`navbar-links ${mobileOpen ? 'open' : ''}`} role="menubar">

@@ -3,9 +3,9 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
 import { TypeAnimation } from 'react-type-animation';
-import { FaYoutube, FaSpotify, FaInstagram, FaPlay, FaChevronDown, FaHeadphones } from 'react-icons/fa';
+import { FaInstagram, FaPlay, FaChevronDown, FaHeadphones, FaMusic } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { artistInfo, spotifyTracks } from '../data/tracks';
+import { artistInfo } from '../data/tracks';
 import './Hero.css';
 
 const Hero = () => {
@@ -62,7 +62,7 @@ const Hero = () => {
           </motion.div>
 
           <div className="hero-title" aria-label="I am Amos Frank">
-            <motion.span className="hero-title-line" variants={textLine}>I AM</motion.span>
+            <motion.span className="hero-title-line" variants={textLine}>I'm</motion.span>
             <motion.div className="hero-title-overflow" variants={textLine}>
               <span className="hero-title-name">AMOS</span>
             </motion.div>
@@ -72,15 +72,15 @@ const Hero = () => {
           </div>
 
           <motion.div className="hero-typed-wrapper" variants={textLine}>
-            <span className="hero-typed-label">I am a </span>
+            <span className="hero-typed-label">I'm a </span>
             <TypeAnimation
-              sequence={['Musician', 2000, 'Violinist', 2000, 'Singer', 2000, 'Producer', 2000, 'Performer', 2000]}
+              sequence={['Keyboardist', 2000, 'Guitarist', 2000, 'Bass Guitarist', 2000, 'Music Producer', 2000, 'Performer', 2000, 'Teacher', 2000]}
               wrapper="span" className="hero-typed-text" speed={50} repeat={Infinity}
             />
           </motion.div>
 
           <motion.p className="hero-description" variants={textLine}>
-            Crafting melodies that move souls. Every note tells a story, every beat carries a message.
+            Crafting melodies that move souls — spanning keyboards, guitars, and production. Every note tells a story, every beat carries a message.
           </motion.p>
 
           <motion.div className="hero-buttons" variants={textLine}>
@@ -89,9 +89,8 @@ const Hero = () => {
           </motion.div>
 
           <motion.div className="hero-socials" variants={textLine}>
-            <a href={artistInfo.social.youtube} className="hero-social-link" aria-label="YouTube" target="_blank" rel="noreferrer"><FaYoutube /></a>
-            <a href={artistInfo.social.spotify} className="hero-social-link" aria-label="Spotify" target="_blank" rel="noreferrer"><FaSpotify /></a>
             <a href={artistInfo.social.instagram} className="hero-social-link" aria-label="Instagram" target="_blank" rel="noreferrer"><FaInstagram /></a>
+            <a href={artistInfo.social.musikHub} className="hero-social-link" aria-label="Musik Hub" target="_blank" rel="noreferrer"><FaMusic /></a>
           </motion.div>
         </motion.div>
 
@@ -105,7 +104,7 @@ const Hero = () => {
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.4 }}
             >
-              <img src="/artist-hero.png" alt="Amos Frank - Musician & Violinist" className="hero-image" />
+              <img src={artistInfo.photos.hero} alt="Amos Frank - Keyboardist & Music Producer" className="hero-image" />
             </motion.div>
             {/* Floating music notes */}
             {['♪', '♫', '♬', '🎵', '♪'].map((note, i) => (
@@ -128,19 +127,22 @@ const Hero = () => {
             ))}
           </motion.div>
 
-          {/* Spotify Latest Release */}
+          {/* Photo gallery mini-strip */}
           <motion.div
-            className="hero-spotify-embed"
+            className="hero-photo-strip"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.6 }}
           >
-            <iframe
-              src={`https://open.spotify.com/embed/track/${spotifyTracks[0].id}?utm_source=generator&theme=0`}
-              width="100%" height="80" frameBorder="0"
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy" title="Latest Release" style={{ borderRadius: '12px' }}
-            />
+            <div className="hero-strip-item">
+              <img src={artistInfo.photos.keys} alt="Amos on keys" loading="lazy" />
+            </div>
+            <div className="hero-strip-item">
+              <img src={artistInfo.photos.bass} alt="Amos on bass" loading="lazy" />
+            </div>
+            <div className="hero-strip-item">
+              <img src={artistInfo.photos.about} alt="Amos on stage" loading="lazy" />
+            </div>
           </motion.div>
         </motion.div>
       </motion.div>

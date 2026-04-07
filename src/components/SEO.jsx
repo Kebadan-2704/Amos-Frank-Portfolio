@@ -4,23 +4,16 @@ import { artistInfo } from '../data/tracks';
 const SEO = () => {
   const ldJson = {
     '@context': 'https://schema.org',
-    '@type': 'MusicGroup',
+    '@type': 'Person',
     name: artistInfo.name,
     description: artistInfo.bio,
     url: window.location.origin,
     sameAs: [
-      artistInfo.social.youtube,
-      artistInfo.social.spotify,
       artistInfo.social.instagram,
+      artistInfo.social.musikHub,
     ],
-    genre: 'Independent Music, Classical Fusion',
-    member: [
-      {
-        '@type': 'Person',
-        name: artistInfo.name,
-        roleName: 'Violinist, Producer, Performer',
-      },
-    ],
+    jobTitle: 'Musician, Music Producer, Educator',
+    knowsAbout: ['Keyboard', 'Guitar', 'Bass Guitar', 'Music Production'],
   };
 
   return (
@@ -35,14 +28,14 @@ const SEO = () => {
       <meta property="og:url" content={window.location.origin} />
       <meta property="og:title" content={`${artistInfo.name} | ${artistInfo.tagline}`} />
       <meta property="og:description" content={artistInfo.bio} />
-      <meta property="og:image" content={`${window.location.origin}/artist-hero.png`} />
+      <meta property="og:image" content={`${window.location.origin}/amos-hero.jpg`} />
 
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={window.location.origin} />
       <meta property="twitter:title" content={`${artistInfo.name} | ${artistInfo.tagline}`} />
       <meta property="twitter:description" content={artistInfo.bio} />
-      <meta property="twitter:image" content={`${window.location.origin}/artist-hero.png`} />
+      <meta property="twitter:image" content={`${window.location.origin}/amos-hero.jpg`} />
 
       {/* JSON-LD Structured Data */}
       <script type="application/ld+json">

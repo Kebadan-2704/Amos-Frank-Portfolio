@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { FaMapMarkerAlt, FaEnvelope, FaGuitar, FaArrowRight } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaEnvelope, FaKeyboard, FaArrowRight, FaGuitar, FaPhone } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { artistInfo } from '../data/tracks';
 import './About.css';
@@ -35,25 +35,38 @@ const About = () => {
         </motion.div>
 
         <motion.div className="about-grid" variants={container} initial="hidden" animate={isInView ? 'visible' : 'hidden'}>
-          {/* Image with parallax — uses dedicated about photo */}
+          {/* Image with parallax & creative overlapping layout */}
           <motion.div className="about-image-col" variants={item}>
-            <motion.div className="about-image-container" style={{ y: imageY }}>
-              <div className="about-image-frame">
-                <img src="/artist-about.png" alt="Amos Frank performing live" className="about-image" />
-                <div className="about-image-overlay" />
-              </div>
+            <div className="about-gallery-creative">
+              <motion.div className="about-photo-main" style={{ y: imageY }}>
+                <div className="about-image-frame">
+                  <img src={artistInfo.photos.about} alt="Amos Frank performing live on stage" className="about-image" />
+                  <div className="about-image-overlay" />
+                </div>
+              </motion.div>
+
+              <motion.div 
+                className="about-photo-secondary"
+                animate={{ y: [-15, 15, -15], rotateZ: [-4, 4, -4] }}
+                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <div className="about-image-frame about-image-frame-small">
+                  <img src={artistInfo.photos.keys} alt="Amos Frank at the keyboard" className="about-image" />
+                </div>
+              </motion.div>
+
               {/* Experience badge */}
               <motion.div
                 className="about-exp-badge"
                 whileHover={{ scale: 1.05 }}
-                animate={{ y: [-5, 5, -5] }}
-                transition={{ duration: 3, repeat: Infinity }}
+                animate={{ y: [-8, 8, -8] }}
+                transition={{ duration: 4, repeat: Infinity }}
               >
                 <span className="about-exp-number">{artistInfo.stats.yearsActive}+</span>
                 <span className="about-exp-label">Years of Music</span>
               </motion.div>
-              <div className="about-dots-pattern" aria-hidden="true" />
-            </motion.div>
+            </div>
+            <div className="about-dots-pattern" aria-hidden="true" />
           </motion.div>
 
           {/* Content */}
@@ -61,9 +74,21 @@ const About = () => {
             <motion.h3 className="about-name" variants={textReveal}>
               I'm <span className="text-accent">Amos Frank</span>
             </motion.h3>
-            <motion.p className="about-role" variants={item}><FaGuitar /> Musician & Violinist</motion.p>
+            <motion.p className="about-role" variants={item}>
+              <FaKeyboard /> Keyboardist, Guitarist & Music Producer
+            </motion.p>
             <motion.p className="about-bio" variants={textReveal}>{artistInfo.bio}</motion.p>
             <motion.p className="about-bio" variants={textReveal}>{artistInfo.bioExtended}</motion.p>
+
+            {/* Instruments & Skills */}
+            <motion.div className="about-skills" variants={container}>
+              <motion.div className="about-skill-tag" variants={item}><FaKeyboard /> Keyboard</motion.div>
+              <motion.div className="about-skill-tag" variants={item}><FaGuitar /> Guitar</motion.div>
+              <motion.div className="about-skill-tag" variants={item}><FaGuitar /> Bass Guitar</motion.div>
+              <motion.div className="about-skill-tag" variants={item}>🎛️ Music Production</motion.div>
+              <motion.div className="about-skill-tag" variants={item}>🎤 Performer</motion.div>
+              <motion.div className="about-skill-tag" variants={item}>📚 Teacher</motion.div>
+            </motion.div>
 
             <motion.div className="about-info-grid" variants={container}>
               <motion.div className="about-info-item" variants={item} whileHover={{ x: 6, borderColor: 'rgba(229,9,20,0.2)' }}>
@@ -71,6 +96,13 @@ const About = () => {
                 <div>
                   <span className="about-info-label">Email</span>
                   <span className="about-info-value">{artistInfo.contact.email}</span>
+                </div>
+              </motion.div>
+              <motion.div className="about-info-item" variants={item} whileHover={{ x: 6, borderColor: 'rgba(229,9,20,0.2)' }}>
+                <FaPhone className="about-info-icon" />
+                <div>
+                  <span className="about-info-label">Phone</span>
+                  <span className="about-info-value">{artistInfo.contact.phone}</span>
                 </div>
               </motion.div>
               <motion.div className="about-info-item" variants={item} whileHover={{ x: 6, borderColor: 'rgba(229,9,20,0.2)' }}>
