@@ -6,7 +6,7 @@ import { loadTextShape } from '@tsparticles/shape-text';
 import { TypeAnimation } from 'react-type-animation';
 import { FaInstagram, FaPlay, FaChevronDown, FaHeadphones, FaMusic } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { artistInfo } from '../data/tracks';
+import { artistInfo, spotifyTracks } from '../data/tracks';
 import './Hero.css';
 
 const Hero = () => {
@@ -153,22 +153,24 @@ const Hero = () => {
             ))}
           </motion.div>
 
-          {/* Photo gallery mini-strip */}
+          {/* Spotify playable embed */}
           <motion.div
-            className="hero-photo-strip"
+            className="hero-spotify-strip"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.6 }}
+            style={{ width: '100%', maxWidth: '340px' }}
           >
-            <div className="hero-strip-item">
-              <img src={artistInfo.photos.keys} alt="Amos on keys" loading="lazy" />
-            </div>
-            <div className="hero-strip-item">
-              <img src={artistInfo.photos.bass} alt="Amos on bass" loading="lazy" />
-            </div>
-            <div className="hero-strip-item">
-              <img src={artistInfo.photos.about} alt="Amos on stage" loading="lazy" />
-            </div>
+            <iframe 
+              style={{ borderRadius: '12px' }} 
+              src={`https://open.spotify.com/embed/track/${spotifyTracks[0].id}?utm_source=generator&theme=0`} 
+              width="100%" 
+              height="80" 
+              frameBorder="0" 
+              allowFullScreen="" 
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+              loading="lazy"
+            ></iframe>
           </motion.div>
         </motion.div>
       </motion.div>
