@@ -20,8 +20,10 @@
 /* Social */
 .contact-socials { display: flex; gap: 12px; margin-top: 4px; }
 .contact-social-link { width: 48px; height: 48px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; background: var(--bg-tertiary); color: var(--text-secondary); border: 1px solid rgba(255,255,255,0.04); transition: all var(--transition-medium); text-decoration: none; }
-.contact-social-link.instagram:hover { background: rgba(225,48,108,0.12); border-color: #e1306c; color: #e1306c; box-shadow: 0 8px 25px rgba(225,48,108,0.15); }
-.contact-social-link.musik-hub:hover { background: rgba(229,9,20,0.12); border-color: var(--accent-primary); color: var(--accent-primary); box-shadow: 0 8px 25px rgba(229,9,20,0.15); }
+@media (hover: hover) and (pointer: fine) {
+  .contact-social-link.instagram:hover { background: rgba(225,48,108,0.12); border-color: #e1306c; color: #e1306c; box-shadow: 0 8px 25px rgba(225,48,108,0.15); }
+  .contact-social-link.musik-hub:hover { background: rgba(229,9,20,0.12); border-color: var(--accent-primary); color: var(--accent-primary); box-shadow: 0 8px 25px rgba(229,9,20,0.15); }
+}
 
 /* Musik Hub CTA */
 .contact-musik-hub-cta {
@@ -30,10 +32,12 @@
   border: 1px solid rgba(229,9,20,0.15); border-radius: var(--radius-md);
   text-decoration: none; color: inherit; transition: all var(--transition-medium);
 }
-.contact-musik-hub-cta:hover {
-  background: linear-gradient(135deg, rgba(229,9,20,0.12) 0%, rgba(229,9,20,0.04) 100%);
-  border-color: rgba(229,9,20,0.3); transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(229,9,20,0.12); color: inherit;
+@media (hover: hover) and (pointer: fine) {
+  .contact-musik-hub-cta:hover {
+    background: linear-gradient(135deg, rgba(229,9,20,0.12) 0%, rgba(229,9,20,0.04) 100%);
+    border-color: rgba(229,9,20,0.3); transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(229,9,20,0.12); color: inherit;
+  }
 }
 .musik-hub-icon { font-size: 1.6rem; color: var(--accent-primary); flex-shrink: 0; }
 .musik-hub-title { display: block; font-size: 0.95rem; font-weight: 600; color: var(--text-primary); }
@@ -102,26 +106,30 @@
   border-color: rgba(124,58,237,0.06);
   color: var(--text-secondary);
 }
-[data-theme="light"] .contact-social-link.instagram:hover {
-  background: rgba(225,48,108,0.06);
-  border-color: #e1306c;
-  color: #e1306c;
-  box-shadow: 0 8px 25px rgba(225,48,108,0.1);
-}
-[data-theme="light"] .contact-social-link.musik-hub:hover {
-  background: rgba(124,58,237,0.06);
-  border-color: #7C3AED;
-  color: #7C3AED;
-  box-shadow: 0 8px 25px rgba(124,58,237,0.1);
+@media (hover: hover) and (pointer: fine) {
+  [data-theme="light"] .contact-social-link.instagram:hover {
+    background: rgba(225,48,108,0.06);
+    border-color: #e1306c;
+    color: #e1306c;
+    box-shadow: 0 8px 25px rgba(225,48,108,0.1);
+  }
+  [data-theme="light"] .contact-social-link.musik-hub:hover {
+    background: rgba(124,58,237,0.06);
+    border-color: #7C3AED;
+    color: #7C3AED;
+    box-shadow: 0 8px 25px rgba(124,58,237,0.1);
+  }
 }
 [data-theme="light"] .contact-musik-hub-cta {
   background: linear-gradient(135deg, rgba(124,58,237,0.04) 0%, rgba(236,72,153,0.02) 100%);
   border-color: rgba(124,58,237,0.12);
 }
-[data-theme="light"] .contact-musik-hub-cta:hover {
-  background: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(236,72,153,0.04) 100%);
-  border-color: rgba(124,58,237,0.25);
-  box-shadow: 0 12px 30px rgba(124,58,237,0.08);
+@media (hover: hover) and (pointer: fine) {
+  [data-theme="light"] .contact-musik-hub-cta:hover {
+    background: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(236,72,153,0.04) 100%);
+    border-color: rgba(124,58,237,0.25);
+    box-shadow: 0 12px 30px rgba(124,58,237,0.08);
+  }
 }
 [data-theme="light"] .musik-hub-icon {
   color: #7C3AED;
@@ -163,3 +171,50 @@
   background: linear-gradient(90deg, #7C3AED, #EC4899, #F97316);
 }
 
+/* WhatsApp Social Link */
+@media (hover: hover) and (pointer: fine) {
+  .contact-social-link.whatsapp:hover {
+    background: rgba(37, 211, 102, 0.12);
+    border-color: #25d366;
+    color: #25d366;
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.15);
+  }
+}
+[data-theme="light"] .contact-social-link.whatsapp:hover {
+  background: rgba(37, 211, 102, 0.06);
+}
+
+/* Floating WhatsApp CTA */
+.whatsapp-float {
+  position: fixed;
+  bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+  right: 30px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #25d366;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  z-index: var(--z-dropdown);
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  text-decoration: none;
+  border: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .whatsapp-float:hover {
+    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+    color: white;
+  }
+}
+@media (max-width: 480px) {
+  .whatsapp-float {
+    bottom: calc(75px + env(safe-area-inset-bottom, 0px));
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 1.4rem;
+  }
+}

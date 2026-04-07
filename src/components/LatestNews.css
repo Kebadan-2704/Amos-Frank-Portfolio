@@ -1,0 +1,114 @@
+.latest-news {
+  background: var(--bg-primary);
+  position: relative;
+}
+
+.news-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+}
+.news-timeline::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent-primary), transparent);
+  opacity: 0.15;
+}
+
+.news-item {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  position: relative;
+}
+
+.news-date {
+  flex-shrink: 0;
+  width: 38px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
+}
+.news-date svg {
+  color: var(--accent-primary);
+  font-size: 0.85rem;
+}
+
+.news-card {
+  flex: 1;
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  align-items: flex-start;
+}
+
+.news-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.news-icon-release {
+  background: rgba(30, 215, 96, 0.1);
+  color: #1ed760;
+}
+.news-icon-video {
+  background: rgba(255, 0, 0, 0.08);
+  color: #ff0000;
+}
+.news-icon-announcement {
+  background: rgba(229, 9, 20, 0.08);
+  color: var(--accent-primary);
+}
+
+.news-body { flex: 1; }
+.news-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.news-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.news-cta {
+  text-align: center;
+  margin-top: 36px;
+}
+
+@media (max-width: 768px) {
+  .news-timeline::before { left: 14px; }
+  .news-card { padding: 16px; flex-direction: column; gap: 12px; }
+  .news-date { width: 30px; }
+}
+
+/* ========== LIGHT THEME ========== */
+[data-theme="light"] .news-timeline::before {
+  background: linear-gradient(180deg, #7C3AED, transparent);
+}
+[data-theme="light"] .news-date svg { color: #7C3AED; }
+[data-theme="light"] .news-icon-announcement {
+  background: rgba(124,58,237,0.06);
+  color: #7C3AED;
+}

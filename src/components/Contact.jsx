@@ -1,7 +1,8 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useMemo } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { FaUser, FaEnvelope, FaPhone, FaCommentDots, FaPaperPlane, FaMapMarkerAlt, FaInstagram, FaMusic, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaPhone, FaCommentDots, FaPaperPlane, FaMapMarkerAlt, FaInstagram, FaMusic, FaCheckCircle, FaExclamationTriangle, FaWhatsapp } from 'react-icons/fa';
 import { artistInfo } from '../data/tracks';
+import useIsHoverDevice from '../hooks/useIsHoverDevice';
 import './Contact.css';
 
 // Web3Forms — Free, no signup. Get your key at https://web3forms.com (just enter your email)
@@ -13,6 +14,16 @@ const Contact = () => {
   const [submitStatus, setSubmitStatus] = useState(null); // null | 'success' | 'error'
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-60px' });
+  const isHover = useIsHoverDevice();
+
+  // Memoize waveform random values to prevent jitter on re-render (Bug 5 fix)
+  const waveValues = useMemo(() =>
+    [...Array(20)].map((_, i) => ({
+      heightMax: 8 + Math.random() * 18,
+      duration: 0.8 + Math.random() * 0.4,
+      delay: i * 0.05,
+    }))
+  , []);
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -31,7 +42,6 @@ const Contact = () => {
 
     try {
       if (WEB3FORMS_KEY) {
-        // Web3Forms — just a simple POST request, that's it!
         const response = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -54,7 +64,6 @@ const Contact = () => {
           setSubmitStatus('error');
         }
       } else {
-        // Fallback: open mailto when Web3Forms key isn't set
         const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`);
         const body = encodeURIComponent(
           `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`
@@ -96,6 +105,8 @@ const Contact = () => {
     return '#';
   };
 
+  const whatsappNumber = artistInfo.contact.phone.replace(/[^0-9]/g, '');
+
   return (
     <section id="contact" className="contact section">
       {/* Background decoration */}
@@ -128,7 +139,7 @@ const Contact = () => {
                   key={index}
                   className="contact-info-item"
                   variants={item}
-                  whileHover={{ x: 6, borderColor: 'rgba(229,9,20,0.15)' }}
+                  whileHover={isHover ? { x: 6, borderColor: 'rgba(229,9,20,0.15)' } : undefined}
                 >
                   <div className="contact-info-icon"><info.icon /></div>
                   <div>
@@ -140,8 +151,9 @@ const Contact = () => {
             </div>
 
             <div className="contact-socials">
-              <motion.a href={artistInfo.social.instagram} className="contact-social-link instagram" target="_blank" rel="noreferrer" aria-label="Instagram" whileHover={{ y: -5, scale: 1.1 }} whileTap={{ scale: 0.9 }}><FaInstagram /></motion.a>
-              <motion.a href={artistInfo.social.musikHub} className="contact-social-link musik-hub" target="_blank" rel="noreferrer" aria-label="Musik Hub Classes" whileHover={{ y: -5, scale: 1.1 }} whileTap={{ scale: 0.9 }}><FaMusic /></motion.a>
+              <motion.a href={artistInfo.social.instagram} className="contact-social-link instagram" target="_blank" rel="noreferrer" aria-label="Instagram" whileHover={isHover ? { y: -5, scale: 1.1 } : undefined} whileTap={{ scale: 0.9 }}><FaInstagram /></motion.a>
+              <motion.a href={artistInfo.social.musikHub} className="contact-social-link musik-hub" target="_blank" rel="noreferrer" aria-label="Musik Hub Classes" whileHover={isHover ? { y: -5, scale: 1.1 } : undefined} whileTap={{ scale: 0.9 }}><FaMusic /></motion.a>
+              <motion.a href={`https://wa.me/${whatsappNumber}`} className="contact-social-link whatsapp" target="_blank" rel="noreferrer" aria-label="WhatsApp" whileHover={isHover ? { y: -5, scale: 1.1 } : undefined} whileTap={{ scale: 0.9 }}><FaWhatsapp /></motion.a>
             </div>
 
             {/* Musik Hub CTA */}
@@ -150,7 +162,7 @@ const Contact = () => {
               target="_blank"
               rel="noreferrer"
               className="contact-musik-hub-cta"
-              whileHover={{ scale: 1.02 }}
+              whileHover={isHover ? { scale: 1.02 } : undefined}
               whileTap={{ scale: 0.98 }}
             >
               <FaMusic className="musik-hub-icon" />
@@ -162,12 +174,12 @@ const Contact = () => {
 
             {/* Music waveform decoration */}
             <div className="contact-waveform" aria-hidden="true">
-              {[...Array(20)].map((_, i) => (
+              {waveValues.map((wv, i) => (
                 <motion.div
                   key={i}
                   className="contact-wave-bar"
-                  animate={{ height: [3, 8 + Math.random() * 18, 3] }}
-                  transition={{ duration: 0.8 + Math.random() * 0.4, repeat: Infinity, delay: i * 0.05 }}
+                  animate={{ height: [3, wv.heightMax, 3] }}
+                  transition={{ duration: wv.duration, repeat: Infinity, delay: wv.delay }}
                 />
               ))}
             </div>
@@ -210,7 +222,7 @@ const Contact = () => {
             <motion.button
               type="submit" className="btn btn-primary contact-submit-btn"
               disabled={isSubmitting}
-              whileHover={{ scale: 1.01, boxShadow: '0 12px 35px rgba(229,9,20,0.4)' }}
+              whileHover={isHover ? { scale: 1.01, boxShadow: '0 12px 35px rgba(229,9,20,0.4)' } : undefined}
               whileTap={{ scale: 0.98 }}
             >
               {isSubmitting ? (
@@ -226,6 +238,22 @@ const Contact = () => {
           </motion.form>
         </motion.div>
       </div>
+
+      {/* Floating WhatsApp Button */}
+      <motion.a
+        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hi Amos! I visited your portfolio and would like to connect.')}`}
+        target="_blank"
+        rel="noreferrer"
+        className="whatsapp-float"
+        aria-label="Chat on WhatsApp"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 1, duration: 0.4, type: 'spring' }}
+        whileHover={isHover ? { scale: 1.1 } : undefined}
+        whileTap={{ scale: 0.9 }}
+      >
+        <FaWhatsapp />
+      </motion.a>
     </section>
   );
 };

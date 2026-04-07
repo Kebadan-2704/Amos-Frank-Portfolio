@@ -1,0 +1,67 @@
+.lazy-youtube {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  background: #000;
+  display: block;
+  overflow: hidden;
+}
+
+.lazy-youtube-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease, filter 0.4s ease;
+}
+
+.lazy-youtube-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  transition: background 0.3s ease;
+}
+
+.lazy-youtube-play {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba(229, 9, 20, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(229, 9, 20, 0.4);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lazy-youtube:hover .lazy-youtube-thumb {
+    transform: scale(1.05);
+    filter: brightness(0.8);
+  }
+  .lazy-youtube:hover .lazy-youtube-play {
+    transform: scale(1.15);
+    box-shadow: 0 8px 30px rgba(229, 9, 20, 0.6);
+  }
+  .lazy-youtube:hover .lazy-youtube-overlay {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+
+[data-theme="light"] .lazy-youtube-play {
+  background: rgba(124, 58, 237, 0.9);
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+}
+@media (hover: hover) and (pointer: fine) {
+  [data-theme="light"] .lazy-youtube:hover .lazy-youtube-play {
+    box-shadow: 0 8px 30px rgba(124, 58, 237, 0.5);
+  }
+}

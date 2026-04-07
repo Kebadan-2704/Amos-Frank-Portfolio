@@ -1,10 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Preloader.css';
 
 const Preloader = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
-  const [phase, setPhase] = useState('loading'); // loading -> reveal -> exit
+  const [phase, setPhase] = useState('loading');
+
+  // Memoize random values to prevent jitter on re-render
+  const barValues = useMemo(() => [...Array(5)].map((_, i) => ({
+    maxH: 25 + Math.random() * 35,
+    dur: 0.5 + Math.random() * 0.3,
+    del: i * 0.08,
+  })), []);
+
+  const particleValues = useMemo(() => [...Array(12)].map((_, i) => ({
+    startX: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
+    startY: (typeof window !== 'undefined' ? window.innerHeight : 800) + 50,
+    scale: Math.random() * 0.5 + 0.5,
+    rotate: 180 + Math.random() * 180,
+    driftX: Math.random() * 100 - 50,
+    dur: 2.5 + Math.random() * 2,
+    del: i * 0.3,
+  })), []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -45,12 +62,12 @@ const Preloader = ({ onComplete }) => {
           <div className="preloader-content">
             {/* Equalizer bars */}
             <div className="preloader-bars">
-              {[...Array(5)].map((_, i) => (
+              {barValues.map((bv, i) => (
                 <motion.div
                   key={i}
                   className="preloader-bar"
-                  animate={{ height: [4, 25 + Math.random() * 35, 4] }}
-                  transition={{ duration: 0.5 + Math.random() * 0.3, repeat: Infinity, delay: i * 0.08, ease: 'easeInOut' }}
+                  animate={{ height: [4, bv.maxH, 4] }}
+                  transition={{ duration: bv.dur, repeat: Infinity, delay: bv.del, ease: 'easeInOut' }}
                 />
               ))}
             </div>
@@ -90,26 +107,26 @@ const Preloader = ({ onComplete }) => {
           </div>
 
           {/* Floating particles */}
-          {[...Array(12)].map((_, i) => (
+          {particleValues.map((pv, i) => (
             <motion.div
               key={i}
               className="preloader-particle"
               initial={{
-                x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
-                y: (typeof window !== 'undefined' ? window.innerHeight : 800) + 50,
+                x: pv.startX,
+                y: pv.startY,
                 opacity: 0,
-                scale: Math.random() * 0.5 + 0.5,
+                scale: pv.scale,
               }}
               animate={{
                 y: -50,
                 opacity: [0, 0.6, 0],
-                rotate: [0, 180 + Math.random() * 180],
-                x: `+=${Math.random() * 100 - 50}`,
+                rotate: [0, pv.rotate],
+                x: `+=${pv.driftX}`,
               }}
               transition={{
-                duration: 2.5 + Math.random() * 2,
+                duration: pv.dur,
                 repeat: Infinity,
-                delay: i * 0.3,
+                delay: pv.del,
                 ease: 'linear',
               }}
             >

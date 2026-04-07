@@ -8,7 +8,7 @@
 .hero-left { display: flex; flex-direction: column; gap: 18px; }
 
 /* Badge */
-.hero-badge { display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px; background: rgba(229,9,20,0.08); border: 1px solid rgba(229,9,20,0.15); border-radius: 50px; font-size: 0.78rem; font-weight: 500; color: var(--accent-primary); width: fit-content; backdrop-filter: blur(10px); }
+.hero-badge { display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px; background: rgba(229,9,20,0.08); border: 1px solid rgba(229,9,20,0.15); border-radius: 50px; font-size: 0.78rem; font-weight: 500; color: var(--accent-primary); width: fit-content; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 .badge-dot { width: 8px; height: 8px; background: var(--accent-primary); border-radius: 50%; animation: pulse-glow 2s ease-in-out infinite; box-shadow: 0 0 10px var(--accent-primary); }
 
 /* Title with overflow clip for reveal */
@@ -23,6 +23,28 @@
 .hero-typed-label { color: var(--text-secondary); font-weight: 400; }
 .hero-typed-text { color: var(--accent-primary); font-weight: 700; font-family: var(--font-heading); }
 
+.hero-badge span { font-size: 0.82rem; color: var(--text-secondary); font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; }
+
+/* Mini Equalizer Visualizer in badge (Feature 13) */
+.hero-badge-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  margin-left: 8px;
+}
+.hero-badge-eq-bar {
+  width: 3px;
+  background: var(--accent-primary);
+  border-radius: 1px;
+  animation: eq-bounce var(--eq-dur, 0.6s) ease-in-out infinite alternate;
+  animation-delay: var(--eq-delay, 0s);
+}
+@keyframes eq-bounce {
+  0% { height: 3px; }
+  100% { height: var(--eq-h, 12px); }
+}
+
 .hero-description { font-size: 1rem; color: var(--text-secondary); line-height: 1.7; max-width: 460px; }
 
 /* Buttons */
@@ -32,7 +54,9 @@
 /* Social links */
 .hero-socials { display: flex; gap: 14px; margin-top: 10px; }
 .hero-social-link { width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: var(--text-secondary); font-size: 1.15rem; transition: all var(--transition-medium); }
-.hero-social-link:hover { background: rgba(229,9,20,0.12); border-color: rgba(229,9,20,0.4); color: var(--accent-primary); transform: translateY(-4px) scale(1.1); box-shadow: 0 8px 25px rgba(229,9,20,0.2); }
+@media (hover: hover) and (pointer: fine) {
+  .hero-social-link:hover { background: rgba(229,9,20,0.12); border-color: rgba(229,9,20,0.4); color: var(--accent-primary); transform: translateY(-4px) scale(1.1); box-shadow: 0 8px 25px rgba(229,9,20,0.2); }
+}
 
 /* Right - Image */
 .hero-right { display: flex; flex-direction: column; align-items: center; gap: 40px; }
@@ -43,7 +67,9 @@
 .hero-ring-2 { inset: -22px; border-color: rgba(229,9,20,0.06); animation-duration: 35s; animation-direction: reverse; border-style: dashed; }
 .hero-image-wrapper { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; border: 2px solid rgba(229,9,20,0.25); box-shadow: 0 0 50px rgba(229,9,20,0.1), inset 0 0 50px rgba(0,0,0,0.5); position: relative; z-index: 2; }
 .hero-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-.hero-image-wrapper:hover .hero-image { transform: scale(1.05); }
+@media (hover: hover) and (pointer: fine) {
+  .hero-image-wrapper:hover .hero-image { transform: scale(1.05); }
+}
 
 /* Spotify Carousel */
 .hero-spotify-strip {
@@ -80,9 +106,11 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.hero-spotify-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(229, 9, 20, 0.15); /* Vibrant hover shadow */
+@media (hover: hover) and (pointer: fine) {
+  .hero-spotify-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(229, 9, 20, 0.15); /* Vibrant hover shadow */
+  }
 }
 
 .spotify-iframe {
@@ -99,8 +127,10 @@
   box-shadow: 0 10px 40px rgba(124, 58, 237, 0.1);
   background: #ffffff;
 }
-[data-theme="light"] .hero-spotify-item:hover {
-  box-shadow: 0 15px 50px rgba(124, 58, 237, 0.2);
+@media (hover: hover) and (pointer: fine) {
+  [data-theme="light"] .hero-spotify-item:hover {
+    box-shadow: 0 15px 50px rgba(124, 58, 237, 0.2);
+  }
 }
 
 /* ========== RESPONSIVE ========== */
@@ -181,11 +211,13 @@
   border-color: rgba(124,58,237,0.1);
   color: var(--text-secondary);
 }
-[data-theme="light"] .hero-social-link:hover {
-  background: rgba(124,58,237,0.1);
-  border-color: rgba(124,58,237,0.3);
-  color: #7C3AED;
-  box-shadow: 0 8px 25px rgba(124,58,237,0.12);
+@media (hover: hover) and (pointer: fine) {
+  [data-theme="light"] .hero-social-link:hover {
+    background: rgba(124,58,237,0.1);
+    border-color: rgba(124,58,237,0.3);
+    color: #7C3AED;
+    box-shadow: 0 8px 25px rgba(124,58,237,0.12);
+  }
 }
 [data-theme="light"] .hero-strip-item {
   border-color: rgba(124,58,237,0.1);

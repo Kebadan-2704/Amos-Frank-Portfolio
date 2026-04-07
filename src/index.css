@@ -132,6 +132,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth theme transition animation (Feature 12) */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, fill 0.5s ease !important;
 }
 
 html {
@@ -179,7 +188,7 @@ body::after {
   content: '';
   position: fixed;
   inset: 0;
-  z-index: 9998;
+  z-index: 100;
   pointer-events: none;
   opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
@@ -302,10 +311,12 @@ h1, h2, h3, h4, h5, h6 {
   transition: all var(--transition-medium);
 }
 
-.glass-card:hover {
-  border-color: var(--glass-border-hover);
-  box-shadow: var(--glass-shadow), var(--shadow-glow);
-  transform: translateY(-4px);
+@media (hover: hover) and (pointer: fine) {
+  .glass-card:hover {
+    border-color: var(--glass-border-hover);
+    box-shadow: var(--glass-shadow), var(--shadow-glow);
+    transform: translateY(-4px);
+  }
 }
 
 /* ---- Buttons ---- */
@@ -343,10 +354,12 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
 }
 
-.btn-primary:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 8px 30px rgba(229, 9, 20, 0.55), 0 0 60px rgba(229, 9, 20, 0.15);
-  color: white;
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 30px rgba(229, 9, 20, 0.55), 0 0 60px rgba(229, 9, 20, 0.15);
+    color: white;
+  }
 }
 
 .btn-primary:active {
@@ -372,12 +385,14 @@ h1, h2, h3, h4, h5, h6 {
   transition: opacity var(--transition-medium);
 }
 
-.btn-outline:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(229, 9, 20, 0.4);
-  transform: translateY(-3px);
-  color: var(--text-primary);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+@media (hover: hover) and (pointer: fine) {
+  .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(229, 9, 20, 0.4);
+    transform: translateY(-3px);
+    color: var(--text-primary);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
 }
 
 .btn-outline:hover::after {
@@ -649,3 +664,8 @@ button:focus-visible {
   outline-color: #7C3AED;
 }
 
+/* Shimmer animation for skeleton loaders (Feature 6) */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

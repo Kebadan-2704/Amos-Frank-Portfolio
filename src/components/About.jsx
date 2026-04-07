@@ -1,8 +1,9 @@
 import { useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { FaMapMarkerAlt, FaEnvelope, FaKeyboard, FaArrowRight, FaGuitar, FaPhone } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaEnvelope, FaKeyboard, FaArrowRight, FaGuitar, FaPhone, FaDownload } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { artistInfo } from '../data/tracks';
+import useIsHoverDevice from '../hooks/useIsHoverDevice';
 import './About.css';
 
 const About = () => {
@@ -10,6 +11,7 @@ const About = () => {
   const isInView = useInView(ref, { once: true, margin: '-60px' });
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
   const imageY = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const isHover = useIsHoverDevice();
 
   const container = {
     hidden: { opacity: 0 },
@@ -75,6 +77,7 @@ const About = () => {
               I'm <span className="text-accent">Amos Frank</span>
             </motion.h3>
             <motion.p className="about-role" variants={item}>
+              {artistInfo.tagline}
             </motion.p>
             <motion.p className="about-bio" variants={textReveal}>{artistInfo.bio}</motion.p>
             <motion.p className="about-bio" variants={textReveal}>{artistInfo.bioExtended}</motion.p>
@@ -82,14 +85,14 @@ const About = () => {
             {/* Instruments & Skills Removed for formality */}
 
             <motion.div className="about-info-grid" variants={container}>
-              <motion.div className="about-info-item" variants={item} whileHover={{ x: 6, borderColor: 'rgba(229,9,20,0.2)' }}>
+              <motion.div className="about-info-item" variants={item} whileHover={isHover ? { x: 6, borderColor: 'rgba(229,9,20,0.2)' } : undefined}>
                 <FaEnvelope className="about-info-icon" />
                 <div>
                   <span className="about-info-label">Email</span>
                   <span className="about-info-value">{artistInfo.contact.email}</span>
                 </div>
               </motion.div>
-              <motion.div className="about-info-item" variants={item} whileHover={{ x: 6, borderColor: 'rgba(229,9,20,0.2)' }}>
+              <motion.div className="about-info-item" variants={item} whileHover={isHover ? { x: 6, borderColor: 'rgba(229,9,20,0.2)' } : undefined}>
                 <FaPhone className="about-info-icon" />
                 <div>
                   <span className="about-info-label">Phone</span>
@@ -105,10 +108,13 @@ const About = () => {
               </motion.div>
             </motion.div>
 
-            <motion.div variants={item}>
+            <motion.div variants={item} style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
               <Link to="/music" className="btn btn-primary about-cta-btn">
                 Explore My Music <FaArrowRight />
               </Link>
+              <a href="/amos-frank-epk.pdf" download className="btn btn-outline about-cta-btn">
+                <FaDownload /> Download EPK
+              </a>
             </motion.div>
           </motion.div>
         </motion.div>

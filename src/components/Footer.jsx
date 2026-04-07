@@ -1,14 +1,16 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
-import { FaHeart, FaInstagram, FaMusic, FaKeyboard } from 'react-icons/fa';
+import { FaHeart, FaInstagram, FaMusic } from 'react-icons/fa';
 import { artistInfo } from '../data/tracks';
+import useIsHoverDevice from '../hooks/useIsHoverDevice';
 import './Footer.css';
 
 const Footer = () => {
   const year = new Date().getFullYear();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-40px' });
+  const isHover = useIsHoverDevice();
 
   const container = {
     hidden: { opacity: 0 },
@@ -49,8 +51,8 @@ const Footer = () => {
               tuned for the latest releases and performances.
             </p>
             <div className="footer-socials">
-              <motion.a href={artistInfo.social.instagram} className="footer-social" aria-label="Instagram" target="_blank" rel="noreferrer" whileHover={{ y: -4, scale: 1.1 }}><FaInstagram /></motion.a>
-              <motion.a href={artistInfo.social.musikHub} className="footer-social" aria-label="Musik Hub" target="_blank" rel="noreferrer" whileHover={{ y: -4, scale: 1.1 }}><FaMusic /></motion.a>
+              <motion.a href={artistInfo.social.instagram} className="footer-social" aria-label="Instagram" target="_blank" rel="noreferrer" whileHover={isHover ? { y: -4, scale: 1.1 } : undefined}><FaInstagram /></motion.a>
+              <motion.a href={artistInfo.social.musikHub} className="footer-social" aria-label="Musik Hub" target="_blank" rel="noreferrer" whileHover={isHover ? { y: -4, scale: 1.1 } : undefined}><FaMusic /></motion.a>
             </div>
           </motion.div>
 

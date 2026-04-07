@@ -1,13 +1,17 @@
 import Hero from '../components/Hero';
 import About from '../components/About';
 import Stats from '../components/Stats';
+import Testimonials from '../components/Testimonials';
+import LatestNews from '../components/LatestNews';
 
-const HomePage = () => {
+const HomePage = ({ theme }) => {
   return (
     <>
-      <Hero />
+      <Hero theme={theme} />
       <About />
       <Stats />
+      <Testimonials />
+      <LatestNews />
     </>
   );
 };

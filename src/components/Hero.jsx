@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
@@ -7,13 +7,15 @@ import { TypeAnimation } from 'react-type-animation';
 import { FaInstagram, FaPlay, FaChevronDown, FaHeadphones, FaMusic } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { artistInfo, spotifyTracks } from '../data/tracks';
+import useIsHoverDevice from '../hooks/useIsHoverDevice';
 import './Hero.css';
 
-const Hero = () => {
+const Hero = ({ theme }) => {
   const [particlesReady, setParticlesReady] = useState(false);
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 600], [0, 150]);
   const imageScale = useTransform(scrollY, [0, 500], [1, 1.15]);
+  const isHover = useIsHoverDevice();
 
   useEffect(() => {
     initParticlesEngine(async (engine) => { 
@@ -22,48 +24,50 @@ const Hero = () => {
     }).then(() => setParticlesReady(true));
   }, []);
 
-  // Detect current theme for particle colors
-  const isLight = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
-  const particleColors = isLight
-    ? ['#7C3AED', '#EC4899', '#F97316']
-    : ['#e50914', '#ff1a1a', '#ff4444'];
-  const particleLinkColor = isLight ? '#7C3AED' : '#e50914';
-  const particleLinkOpacity = isLight ? 0.15 : 0.1;
-  const particleSize = isLight ? { min: 8, max: 18 } : { min: 6, max: 14 };
+  // Theme-aware particle options, recalculated when theme changes
+  const isLight = theme === 'light';
+  const particlesOptions = useMemo(() => {
+    const colors = isLight
+      ? ['#7C3AED', '#EC4899', '#F97316']
+      : ['#e50914', '#ff1a1a', '#ff4444'];
+    const linkColor = isLight ? '#7C3AED' : '#e50914';
+    const linkOpacity = isLight ? 0.15 : 0.1;
+    const size = isLight ? { min: 8, max: 18 } : { min: 6, max: 14 };
 
-  const particlesOptions = {
-    fullScreen: false,
-    background: { color: { value: 'transparent' } },
-    fpsLimit: 60,
-    particles: {
-      color: { value: particleColors },
-      links: { color: particleLinkColor, distance: 140, enable: true, opacity: particleLinkOpacity, width: 1 },
-      move: { enable: true, speed: 1.0, direction: 'none', random: true, outModes: { default: 'bounce' } },
-      number: { value: 55, density: { enable: true, area: 900 } },
-      opacity: { value: { min: 0.15, max: 0.45 } },
-      shape: { 
-        type: ['char', 'character'], 
-        options: {
-          character: [
-            { value: '♪', font: 'Arial', weight: 'bold' },
-            { value: '♫', font: 'Arial', weight: 'bold' },
-            { value: '♬', font: 'Arial', weight: 'bold' }
-          ],
-          char: [
-            { value: '♪', font: 'Arial', weight: 'bold' },
-            { value: '♫', font: 'Arial', weight: 'bold' },
-            { value: '♬', font: 'Arial', weight: 'bold' }
-          ]
-        }
+    return {
+      fullScreen: false,
+      background: { color: { value: 'transparent' } },
+      fpsLimit: 60,
+      particles: {
+        color: { value: colors },
+        links: { color: linkColor, distance: 140, enable: true, opacity: linkOpacity, width: 1 },
+        move: { enable: true, speed: 1.0, direction: 'none', random: true, outModes: { default: 'bounce' } },
+        number: { value: 55, density: { enable: true, area: 900 } },
+        opacity: { value: { min: 0.15, max: 0.45 } },
+        shape: { 
+          type: ['char', 'character'], 
+          options: {
+            character: [
+              { value: '♪', font: 'Arial', weight: 'bold' },
+              { value: '♫', font: 'Arial', weight: 'bold' },
+              { value: '♬', font: 'Arial', weight: 'bold' }
+            ],
+            char: [
+              { value: '♪', font: 'Arial', weight: 'bold' },
+              { value: '♫', font: 'Arial', weight: 'bold' },
+              { value: '♬', font: 'Arial', weight: 'bold' }
+            ]
+          }
+        },
+        size: { value: size },
       },
-      size: { value: particleSize },
-    },
-    interactivity: {
-      events: { onHover: { enable: true, mode: 'grab' } },
-      modes: { grab: { distance: 160, links: { opacity: 0.3 } } },
-    },
-    detectRetina: true,
-  };
+      interactivity: {
+        events: { onHover: { enable: true, mode: 'grab' } },
+        modes: { grab: { distance: 160, links: { opacity: 0.3 } } },
+      },
+      detectRetina: true,
+    };
+  }, [isLight]);
 
   // Stagger animation for text lines
   const textContainer = {
@@ -77,7 +81,8 @@ const Hero = () => {
 
   return (
     <section id="home" className="hero">
-      {particlesReady && <Particles id="hero-particles" className="hero-particles" options={particlesOptions} />}
+      {/* Key on theme forces particles to reinit with correct colors (Bug 1 fix) */}
+      {particlesReady && <Particles key={theme} id="hero-particles" className="hero-particles" options={particlesOptions} />}
       <div className="hero-gradient-overlay" />
 
       <motion.div className="hero-content container" style={{ y: heroY }}>
@@ -85,6 +90,11 @@ const Hero = () => {
           <motion.div className="hero-badge" variants={textLine}>
             <span className="badge-dot" />
             <span>Available for Collaborations</span>
+            <div className="hero-badge-eq" aria-hidden="true">
+              {[10, 14, 8, 12, 6].map((h, i) => (
+                <div key={i} className="hero-badge-eq-bar" style={{ '--eq-h': `${h}px`, '--eq-dur': `${0.4 + i * 0.1}s`, '--eq-delay': `${i * 0.08}s` }} />
+              ))}
+            </div>
           </motion.div>
 
           <div className="hero-title" aria-label="I am Amos Frank">
@@ -127,7 +137,7 @@ const Hero = () => {
             <div className="hero-image-ring hero-ring-2" />
             <motion.div
               className="hero-image-wrapper"
-              whileHover={{ scale: 1.03 }}
+              whileHover={isHover ? { scale: 1.03 } : undefined}
               transition={{ duration: 0.4 }}
             >
               <img src={artistInfo.photos.hero} alt="Amos Frank - Keyboardist & Music Producer" className="hero-image" />
@@ -171,6 +181,7 @@ const Hero = () => {
                   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
                   loading="lazy"
                   className="spotify-iframe"
+                  title={track.title}
                 ></iframe>
               </div>
             ))}

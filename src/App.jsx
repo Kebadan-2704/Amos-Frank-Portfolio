@@ -16,6 +16,7 @@ const HomePage = lazy(() => import('./pages/HomePage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const MusicPageRoute = lazy(() => import('./pages/MusicPageRoute'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 const ScrollToTopOnNav = () => {
   const { pathname } = useLocation();
@@ -29,13 +30,16 @@ const pageVariants = {
   exit: { opacity: 0, y: -20, transition: { duration: 0.3 } },
 };
 
-// Minimal fallback while lazy chunks load
+// Shimmer skeleton fallback while lazy chunks load (Feature 6)
 const PageFallback = () => (
   <div style={{
     minHeight: '60vh',
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: '20px',
+    padding: '40px 24px',
   }}>
     <div style={{
       width: 32, height: 32,
@@ -44,18 +48,32 @@ const PageFallback = () => (
       borderRadius: '50%',
       animation: 'spin-slow 0.6s linear infinite',
     }} />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', maxWidth: '600px' }}>
+      {[200, 400, 300].map((w, i) => (
+        <div key={i} className="shimmer-line" style={{
+          height: i === 0 ? '24px' : '14px',
+          width: `${w}px`,
+          maxWidth: '100%',
+          borderRadius: '6px',
+          background: 'linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-tertiary) 50%, var(--bg-secondary) 75%)',
+          backgroundSize: '200% 100%',
+          animation: 'shimmer 1.5s infinite ease-in-out',
+        }} />
+      ))}
+    </div>
   </div>
 );
 
-const AnimatedRoutes = () => {
+const AnimatedRoutes = ({ theme }) => {
   const location = useLocation();
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Suspense fallback={<PageFallback />}><HomePage /></Suspense></motion.div>} />
+        <Route path="/" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Suspense fallback={<PageFallback />}><HomePage theme={theme} /></Suspense></motion.div>} />
         <Route path="/about" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Suspense fallback={<PageFallback />}><AboutPage /></Suspense></motion.div>} />
         <Route path="/music" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Suspense fallback={<PageFallback />}><MusicPageRoute /></Suspense></motion.div>} />
         <Route path="/contact" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Suspense fallback={<PageFallback />}><ContactPage /></Suspense></motion.div>} />
+        <Route path="*" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Suspense fallback={<PageFallback />}><NotFoundPage /></Suspense></motion.div>} />
       </Routes>
     </AnimatePresence>
   );
@@ -94,9 +112,18 @@ function App() {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', theme === 'dark' ? '#0a0a0a' : '#fffbf5');
+    }
   }, [theme]);
 
   const toggleTheme = () => {
+    // Smooth theme transition (Feature 12)
+    const root = document.documentElement;
+    root.classList.add('theme-transitioning');
+    setTimeout(() => root.classList.remove('theme-transitioning'), 600);
+
     setTheme(prev => {
       const newTheme = prev === 'dark' ? 'light' : 'dark';
       localStorage.setItem('theme', newTheme);
@@ -117,9 +144,9 @@ function App() {
   return (
     <HelmetProvider>
       <ErrorBoundary>
-        <SEO />
         <AnimatedFavicon />
         <Router>
+        <SEO />
         {/* Skip to content link for keyboard/screen-reader users */}
         <a href="#main-content" className="skip-link" style={{
           position: 'absolute', top: '-100%', left: '16px',
@@ -137,7 +164,7 @@ function App() {
           <CustomCursor />
           <Navbar theme={theme} toggleTheme={toggleTheme} />
           <main id="main-content">
-            <AnimatedRoutes />
+            <AnimatedRoutes theme={theme} />
           </main>
           <Footer />
           <ScrollToTop />

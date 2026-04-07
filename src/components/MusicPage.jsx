@@ -2,6 +2,8 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { FaPlay, FaTimes, FaYoutube, FaChevronLeft, FaChevronRight, FaMusic, FaCompactDisc, FaSpotify } from 'react-icons/fa';
 import { youtubeVideos, spotifyTracks, getThumbnail, featuredVideoId } from '../data/tracks';
+import useIsHoverDevice from '../hooks/useIsHoverDevice';
+import LazyYouTube from './LazyYouTube';
 import './MusicPage.css';
 
 const categories = [
@@ -20,6 +22,7 @@ const MusicPage = () => {
   const closeButtonRef = useRef(null);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
+  const isHover = useIsHoverDevice();
 
   const filteredVideos = activeTab === 'all'
     ? youtubeVideos
@@ -61,7 +64,7 @@ const MusicPage = () => {
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = '';
     };
   }, [selectedVideo, closeModal]);
 
@@ -121,13 +124,11 @@ const MusicPage = () => {
             {/* Featured Video Player */}
             <motion.div className="music-featured" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
               <div className="featured-player">
-                <iframe
-                  src={`https://www.youtube.com/embed/${featuredVideo}?rel=0`}
+                <LazyYouTube
+                  key={featuredVideo}
+                  videoId={featuredVideo}
                   title={featured?.title || 'Featured Video'}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  loading="lazy"
+                  autoplay={false}
                 />
               </div>
               <div className="featured-info">
@@ -169,7 +170,7 @@ const MusicPage = () => {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}
                       transition={{ delay: i * 0.04, duration: 0.4 }}
-                      whileHover={{ y: -6 }}
+                      whileHover={isHover ? { y: -6 } : undefined}
                       onClick={() => setSelectedVideo(video)}
                       role="button"
                       tabIndex={0}
