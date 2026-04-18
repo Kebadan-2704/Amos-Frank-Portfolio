@@ -186,10 +186,16 @@ const Contact = () => {
           </motion.div>
 
           {/* Right - Form */}
-          <motion.form className="contact-form glass-card" variants={item} onSubmit={handleSubmit}>
+          <motion.form className="contact-form glass-card" variants={item} onSubmit={handleSubmit} noValidate>
             {/* Decorative corner accents */}
             <div className="form-corner form-corner-tl" aria-hidden="true" />
             <div className="form-corner form-corner-br" aria-hidden="true" />
+
+            {/* ARIA Live Region for Screen Readers */}
+            <div aria-live="polite" className="sr-only">
+              {submitStatus === 'success' && 'Your message was successfully sent!'}
+              {submitStatus === 'error' && 'There was an error sending your message. Please check your inputs and try again.'}
+            </div>
 
             {[
               { icon: FaUser, name: 'name', type: 'text', placeholder: 'Your Name', required: true },
@@ -203,6 +209,7 @@ const Contact = () => {
                   value={formData[field.name]} onChange={handleChange}
                   required={field.required} id={`contact-${field.name}`}
                   aria-label={field.placeholder}
+                  aria-invalid={field.name === 'email' && submitStatus === 'error' ? 'true' : 'false'}
                 />
                 <div className="input-focus-bar" />
               </div>
@@ -224,15 +231,16 @@ const Contact = () => {
               disabled={isSubmitting}
               whileHover={isHover ? { scale: 1.01, boxShadow: '0 12px 35px rgba(229,9,20,0.4)' } : undefined}
               whileTap={{ scale: 0.98 }}
+              aria-disabled={isSubmitting}
             >
               {isSubmitting ? (
-                <span className="contact-spinner" />
+                <span className="contact-spinner" aria-label="Sending message..." />
               ) : submitStatus === 'success' ? (
-                <><FaCheckCircle /> Message Sent!</>
+                <><FaCheckCircle aria-hidden="true" /> Message Sent!</>
               ) : submitStatus === 'error' ? (
-                <><FaExclamationTriangle /> Failed — Try Again</>
+                <><FaExclamationTriangle aria-hidden="true" /> Failed — Try Again</>
               ) : (
-                <><FaPaperPlane /> Send Message</>
+                <><FaPaperPlane aria-hidden="true" /> Send Message</>
               )}
             </motion.button>
           </motion.form>

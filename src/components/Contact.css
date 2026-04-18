@@ -60,7 +60,7 @@
 .contact-form-group input, .contact-form-group textarea {
   width: 100%; padding: 15px 15px 15px 46px; background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-md);
-  color: var(--text-primary); font-size: 0.92rem; transition: all var(--transition-medium); resize: vertical;
+  color: var(--text-primary); font-size: 0.92rem; transition: all var(--transition-medium); resize: none;
 }
 .contact-form-group input::placeholder, .contact-form-group textarea::placeholder { color: var(--text-muted); }
 .contact-form-group input:focus, .contact-form-group textarea:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(229,9,20,0.08); background: rgba(255,255,255,0.03); }
@@ -192,21 +192,26 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: #25d366;
+  background: linear-gradient(135deg, #25d366, #1da851);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.6rem;
   z-index: var(--z-dropdown);
-  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
   text-decoration: none;
-  border: none;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.whatsapp-float svg {
+  margin-top: 1px;
+  margin-left: 2px;
 }
 @media (hover: hover) and (pointer: fine) {
   .whatsapp-float:hover {
-    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.6);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.35);
     color: white;
+    transform: translateY(-2px);
   }
 }
 @media (max-width: 480px) {

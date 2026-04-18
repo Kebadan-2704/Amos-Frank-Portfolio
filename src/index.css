@@ -274,7 +274,7 @@ h1, h2, h3, h4, h5, h6 {
 .section-subtitle::after {
   content: '';
   width: 30px;
-  height: 1px;
+  height: 2px;
   background: var(--accent-primary);
 }
 
@@ -431,15 +431,17 @@ h1, h2, h3, h4, h5, h6 {
   background-clip: text;
 }
 
-/* ---- Page Wrappers ---- */
-.page-wrapper {
-  padding-top: 40px;
-}
-
-@media (max-width: 768px) {
-  .page-wrapper {
-    padding-top: 20px;
-  }
+/* ---- Screen Reader Only (A11y) ---- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 /* ---- Focus Styles (Accessibility) ---- */

@@ -24,6 +24,13 @@ const MusicPage = () => {
   const isInView = useInView(ref, { once: true, margin: '-50px' });
   const isHover = useIsHoverDevice();
 
+  // Delay Spotify iframe renders to prevent GPU compositor crash during route transition
+  const [showIframes, setShowIframes] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setShowIframes(true), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
   const filteredVideos = activeTab === 'all'
     ? youtubeVideos
     : youtubeVideos.filter(v => v.category === activeTab);
@@ -78,7 +85,7 @@ const MusicPage = () => {
           <p className="section-description">Dive into the complete collection of tracks, music videos, and collaborations.</p>
         </motion.div>
 
-        {/* Filter Tabs */}
+    {/* Filter Tabs */}
         <motion.div className="music-filters" role="tablist" aria-label="Filter music by category" initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2, duration: 0.5 }}>
           {categories.map(cat => (
             <button
@@ -98,24 +105,31 @@ const MusicPage = () => {
             <h3 className="music-section-label"><FaSpotify /> Spotify Tracks</h3>
             <div className="spotify-grid">
               {spotifyTracks.map((track, i) => (
-                <motion.div
+                <div
                   key={track.id}
                   className="spotify-embed-wrapper"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: i * 0.1, duration: 0.4 }}
+                  style={{ animation: `fadeUp 0.4s ease ${i * 0.1}s both`, minHeight: '152px', background: 'var(--bg-secondary)', borderRadius: '12px' }}
                 >
-                  <iframe 
-                    style={{ borderRadius: '12px' }} 
-                    src={`https://open.spotify.com/embed/track/${track.id}?theme=0`} 
-                    width="100%" 
-                    height="152" 
-                    frameBorder="0" 
-                    allowFullScreen="" 
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                    loading="lazy"
-                  ></iframe>
-                </motion.div>
+                  <a
+                    href={`https://open.spotify.com/track/${track.id}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ width: '100%', height: '100%', minHeight: '152px', borderRadius: '12px', display: 'flex', flexDirection: 'column', padding: '24px', textDecoration: 'none', background: 'var(--bg-elevated)', border: '1px solid rgba(255,255,255,0.08)', transition: 'all 0.3s ease', position: 'relative', overflow: 'hidden' }}
+                    className="custom-musicpage-card"
+                  >
+                    <FaSpotify style={{ color: '#1db954', fontSize: '32px', marginBottom: '16px' }} />
+                    <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                      <span style={{ color: 'var(--text-primary)', fontSize: '1.2rem', fontWeight: 700, marginBottom: '4px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{track.title}</span>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Amos Frank • Music Producer</span>
+                    </div>
+                    <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', gap: '8px', color: '#1db954', fontSize: '0.85rem', fontWeight: 600 }}>
+                      <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(29, 185, 84, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <FaPlay style={{ fontSize: '12px', marginLeft: '2px' }} />
+                      </div>
+                      Listen on Spotify
+                    </div>
+                  </a>
+                </div>
               ))}
             </div>
           </motion.div>

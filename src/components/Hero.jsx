@@ -4,13 +4,15 @@ import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
 import { loadTextShape } from '@tsparticles/shape-text';
 import { TypeAnimation } from 'react-type-animation';
-import { FaInstagram, FaPlay, FaChevronDown, FaHeadphones, FaMusic } from 'react-icons/fa';
+import { FaInstagram, FaPlay, FaChevronDown, FaHeadphones, FaMusic, FaSpotify } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { artistInfo, spotifyTracks } from '../data/tracks';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';
+import { useTheme } from '../context/ThemeContext';
 import './Hero.css';
 
-const Hero = ({ theme }) => {
+const Hero = () => {
+  const { theme } = useTheme();
   const [particlesReady, setParticlesReady] = useState(false);
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 600], [0, 150]);
@@ -65,14 +67,21 @@ const Hero = ({ theme }) => {
     visible: { opacity: 1, y: 0, skewY: 0, transition: { duration: 0.8, ease: [0.33, 1, 0.68, 1] } },
   };
 
+  // Delay iframe rendering to prevent Chromium GPU compositor crash during parent page transitions
+  const [showIframe, setShowIframe] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setShowIframe(true), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section id="home" className="hero">
       {/* Key on theme forces particles to reinit with correct colors (Bug 1 fix) */}
       {particlesReady && <Particles key={theme} id="hero-particles" className="hero-particles" options={particlesOptions} />}
       <div className="hero-gradient-overlay" />
 
-      <motion.div className="hero-content container" style={{ y: heroY }}>
-        <motion.div className="hero-left" variants={textContainer} initial="hidden" animate="visible">
+      <div className="hero-content container">
+        <motion.div className="hero-left" variants={textContainer} initial="hidden" animate="visible" style={{ y: heroY }}>
           <motion.div className="hero-badge" variants={textLine}>
             <span className="badge-dot" />
             <span>Available for Collaborations</span>
@@ -84,7 +93,7 @@ const Hero = ({ theme }) => {
           </motion.div>
 
           <div className="hero-title" aria-label="I am Amos Frank">
-            <motion.span className="hero-title-line" variants={textLine}>I'm</motion.span>
+            <motion.span className="hero-title-line" variants={textLine}>I AM</motion.span>
             <motion.div className="hero-title-overflow" variants={textLine}>
               <span className="hero-title-name">AMOS</span>
             </motion.div>
@@ -116,8 +125,14 @@ const Hero = ({ theme }) => {
           </motion.div>
         </motion.div>
 
-        <motion.div className="hero-right" initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5, duration: 1, ease: [0.33, 1, 0.68, 1] }}>
-          <motion.div className="hero-image-container" style={{ scale: imageScale }}>
+        <div className="hero-right">
+          <motion.div 
+            className="hero-image-container" 
+            style={{ y: heroY, scale: imageScale }}
+            initial={{ opacity: 0, scale: 0.85 }} 
+            animate={{ opacity: 1, scale: 1 }} 
+            transition={{ delay: 0.5, duration: 1, ease: [0.33, 1, 0.68, 1] }}
+          >
             <div className="hero-image-glow" />
             <div className="hero-image-ring hero-ring-1" />
             <div className="hero-image-ring hero-ring-2" />
@@ -149,25 +164,37 @@ const Hero = ({ theme }) => {
             ))}
           </motion.div>
 
-          {/* Spotify swipeable carousel */}
+          {/* Spotify swipeable carousel - STRICT RENDERER CRASH PROTECTION */}
           <div className="hero-spotify-strip">
             {spotifyTracks.slice(0, 3).map((track, idx) => (
-              <div className="hero-spotify-item" key={idx}>
-                <iframe 
-                  src={`https://open.spotify.com/embed/track/${track.id}?utm_source=generator&theme=0`} 
-                  width="100%" 
-                  height="80" 
-                  frameBorder="0" 
-                  allowFullScreen
-                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                  className="spotify-iframe"
-                  title={track.title}
-                ></iframe>
+              <div className="hero-spotify-item" key={idx} style={{ minHeight: '80px', background: 'var(--bg-card)' }}>
+                {showIframe ? (
+                  <a
+                    href={`https://open.spotify.com/track/${track.id}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ width: '100%', height: '80px', borderRadius: '12px', display: 'flex', alignItems: 'center', padding: '0 16px', textDecoration: 'none', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', gap: '14px', transition: 'all 0.3s ease' }}
+                    className="custom-spotify-card"
+                  >
+                    <div style={{ width: '48px', height: '48px', borderRadius: '6px', background: 'linear-gradient(135deg, #1db954, #121212)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <FaSpotify style={{ color: 'white', fontSize: '24px' }} />
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'hidden' }}>
+                      <span style={{ color: 'var(--text-primary)', fontSize: '0.9rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{track.title}</span>
+                      <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>Amos Frank • Spotify</span>
+                    </div>
+                    <div style={{ padding: '6px 14px', borderRadius: '50px', background: 'transparent', border: '1px solid #1db954', color: '#1db954', fontSize: '0.75rem', fontWeight: 600, flexShrink: 0 }}>
+                      PLAY
+                    </div>
+                  </a>
+                ) : (
+                  <div style={{ width: 32, height: 32, border: '3px solid rgba(229,9,20,0.2)', borderTopColor: '#e50914', borderRadius: '50%', animation: 'spin-slow 0.6s linear infinite', margin: '24px auto' }} />
+                )}
               </div>
             ))}
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 };

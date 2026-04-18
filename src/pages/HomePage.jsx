@@ -4,10 +4,10 @@ import Stats from '../components/Stats';
 import Testimonials from '../components/Testimonials';
 import LatestNews from '../components/LatestNews';
 
-const HomePage = ({ theme }) => {
+const HomePage = () => {
   return (
     <>
-      <Hero theme={theme} />
+      <Hero />
       <About />
       <Stats />
       <Testimonials />
