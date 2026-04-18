@@ -133,6 +133,11 @@
   }
 }
 
+@keyframes fadeUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
 /* ========== RESPONSIVE ========== */
 @media (max-width: 1024px) {
   .hero-content { grid-template-columns: 1fr; text-align: center; gap: 30px; }

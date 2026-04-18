@@ -28,14 +28,14 @@ const Preloader = ({ onComplete }) => {
       setProgress(prev => {
         if (prev >= 100) {
           clearInterval(timer);
-          setTimeout(() => setPhase('reveal'), 300);
-          setTimeout(() => setPhase('exit'), 1200);
-          setTimeout(() => onComplete(), 2000);
+          setTimeout(() => setPhase('reveal'), 50);
+          setTimeout(() => setPhase('exit'), 300);
+          setTimeout(() => onComplete(), 500);
           return 100;
         }
-        return prev + Math.random() * 12 + 3;
+        return prev + Math.random() * 20 + 8;
       });
-    }, 50);
+    }, 20);
     return () => clearInterval(timer);
   }, [onComplete]);
 

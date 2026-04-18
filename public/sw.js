@@ -48,6 +48,10 @@ self.addEventListener('fetch', (event) => {
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
           return response;
+        }).catch(() => {
+          // If network fails (e.g. offline), try returning cached again just in case, 
+          // or fail gracefully instead of breaking the entire image fetch promise.
+          return new Response('', { status: 404, statusText: 'Offline' });
         });
       })
     );

@@ -1,19 +1,32 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 import './CustomCursor.css';
 
 const CustomCursor = () => {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [hidden, setHidden] = useState(true);
+
+  // Use MotionValues for absolute performance - no React re-renders on mousemove
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+
+  // Spring configs for smooth following
+  const springConfigDot = { damping: 28, stiffness: 500, mass: 0.5 };
+  const springConfigRing = { damping: 15, stiffness: 150, mass: 0.8 };
+
+  const dotX = useSpring(cursorX, springConfigDot);
+  const dotY = useSpring(cursorY, springConfigDot);
+  const ringX = useSpring(cursorX, springConfigRing);
+  const ringY = useSpring(cursorY, springConfigRing);
 
   useEffect(() => {
     // Don't show on touch devices
     if ('ontouchstart' in window) return;
 
     const move = (e) => {
-      setPos({ x: e.clientX, y: e.clientY });
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
       setHidden(false);
     };
     const down = () => setClicked(true);
@@ -47,7 +60,7 @@ const CustomCursor = () => {
       document.removeEventListener('mouseenter', enter);
       observer.disconnect();
     };
-  }, []);
+  }, [cursorX, cursorY]);
 
   if ('ontouchstart' in window) return null;
 
@@ -55,13 +68,13 @@ const CustomCursor = () => {
     <>
       <motion.div
         className={`cursor-dot ${hidden ? 'hidden' : ''} ${clicked ? 'clicked' : ''}`}
-        animate={{ x: pos.x - 4, y: pos.y - 4, scale: clicked ? 0.5 : 1 }}
-        transition={{ type: 'spring', stiffness: 500, damping: 28, mass: 0.5 }}
+        style={{ x: dotX, y: dotY, translateX: '-50%', translateY: '-50%' }}
+        animate={{ scale: clicked ? 0.5 : 1 }}
       />
       <motion.div
         className={`cursor-ring ${hidden ? 'hidden' : ''} ${hovered ? 'hovered' : ''} ${clicked ? 'clicked' : ''}`}
-        animate={{ x: pos.x - 20, y: pos.y - 20, scale: hovered ? 1.8 : clicked ? 0.8 : 1 }}
-        transition={{ type: 'spring', stiffness: 150, damping: 15, mass: 0.8 }}
+        style={{ x: ringX, y: ringY, translateX: '-50%', translateY: '-50%' }}
+        animate={{ scale: hovered ? 1.8 : clicked ? 0.8 : 1 }}
       />
     </>
   );

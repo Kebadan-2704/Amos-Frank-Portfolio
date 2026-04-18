@@ -6,22 +6,22 @@ import './LatestNews.css';
 
 const newsItems = [
   {
-    date: '2026',
+    date: 'Recent Release',
     title: 'New Spotify Single — "Tere Saath"',
     description: 'Latest single now streaming on all platforms. A heartfelt worship track produced and performed by Amos Frank.',
     icon: <FaSpotify />,
     type: 'release',
   },
   {
-    date: '2025',
-    title: 'Arpudhamaana Naamame — Music Video',
+    date: 'Featured Video',
+    title: 'Arpudhamaana Naamame',
     description: 'Official music video with Benny John Joseph, featuring full production and keyboard arrangement by Amos.',
     icon: <FaYoutube />,
     type: 'video',
   },
   {
-    date: '2025',
-    title: 'Musik Hub — Now Enrolling',
+    date: 'Admissions Open',
+    title: 'Musik Hub — Join Now',
     description: 'Keyboard, Bass Guitar & Music Production classes now open for enrollment. Join the next batch of aspiring musicians.',
     icon: <FaMusic />,
     type: 'announcement',

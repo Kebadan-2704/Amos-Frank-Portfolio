@@ -159,8 +159,7 @@ function App() {
         </a>
 
         <ScrollToTopOnNav />
-        {loading && <Preloader onComplete={handlePreloaderComplete} />}
-        <div style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.6s ease' }}>
+        <div style={{ opacity: 1, transition: 'opacity 0.6s ease' }}>
           <CustomCursor />
           <Navbar theme={theme} toggleTheme={toggleTheme} />
           <main id="main-content">

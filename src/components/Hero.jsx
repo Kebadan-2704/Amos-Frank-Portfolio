@@ -32,7 +32,7 @@ const Hero = ({ theme }) => {
       : ['#e50914', '#ff1a1a', '#ff4444'];
     const linkColor = isLight ? '#7C3AED' : '#e50914';
     const linkOpacity = isLight ? 0.15 : 0.1;
-    const size = isLight ? { min: 8, max: 18 } : { min: 6, max: 14 };
+    const size = isLight ? { min: 2, max: 4 } : { min: 2, max: 4 };
 
     return {
       fullScreen: false,
@@ -42,23 +42,9 @@ const Hero = ({ theme }) => {
         color: { value: colors },
         links: { color: linkColor, distance: 140, enable: true, opacity: linkOpacity, width: 1 },
         move: { enable: true, speed: 1.0, direction: 'none', random: true, outModes: { default: 'bounce' } },
-        number: { value: 55, density: { enable: true, area: 900 } },
+        number: { value: 25, density: { enable: true, area: 900 } },
         opacity: { value: { min: 0.15, max: 0.45 } },
-        shape: { 
-          type: ['char', 'character'], 
-          options: {
-            character: [
-              { value: '♪', font: 'Arial', weight: 'bold' },
-              { value: '♫', font: 'Arial', weight: 'bold' },
-              { value: '♬', font: 'Arial', weight: 'bold' }
-            ],
-            char: [
-              { value: '♪', font: 'Arial', weight: 'bold' },
-              { value: '♫', font: 'Arial', weight: 'bold' },
-              { value: '♬', font: 'Arial', weight: 'bold' }
-            ]
-          }
-        },
+        shape: { type: 'circle' },
         size: { value: size },
       },
       interactivity: {
@@ -164,12 +150,7 @@ const Hero = ({ theme }) => {
           </motion.div>
 
           {/* Spotify swipeable carousel */}
-          <motion.div
-            className="hero-spotify-strip"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.6 }}
-          >
+          <div className="hero-spotify-strip">
             {spotifyTracks.slice(0, 3).map((track, idx) => (
               <div className="hero-spotify-item" key={idx}>
                 <iframe 
@@ -177,15 +158,14 @@ const Hero = ({ theme }) => {
                   width="100%" 
                   height="80" 
                   frameBorder="0" 
-                  allowFullScreen="" 
+                  allowFullScreen
                   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                  loading="lazy"
                   className="spotify-iframe"
                   title={track.title}
                 ></iframe>
               </div>
             ))}
-          </motion.div>
+          </div>
         </motion.div>
       </motion.div>
     </section>

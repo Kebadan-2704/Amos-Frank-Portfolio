@@ -18,10 +18,10 @@
 
 /* Carousel */
 .carousel-wrapper { position: relative; margin-top: 20px; padding: 0 44px; }
-.carousel-track { display: flex; gap: 14px; overflow-x: auto; scroll-behavior: smooth; padding: 8px 4px; scrollbar-width: none; }
+.carousel-track { display: flex; gap: 14px; overflow-x: auto; scroll-behavior: smooth; padding: 8px 4px; scrollbar-width: none; scroll-snap-type: x mandatory; }
 .carousel-track::-webkit-scrollbar { display: none; }
 
-.carousel-thumb { flex-shrink: 0; width: 160px; cursor: pointer; border-radius: var(--radius-md); overflow: hidden; border: 2px solid transparent; transition: all var(--transition-medium); position: relative; background: var(--bg-secondary); }
+.carousel-thumb { flex-shrink: 0; width: 160px; cursor: pointer; border-radius: var(--radius-md); overflow: hidden; border: 2px solid transparent; transition: all var(--transition-medium); position: relative; background: var(--bg-secondary); scroll-snap-align: start; }
 .carousel-thumb.active { border-color: var(--accent-primary); box-shadow: 0 0 15px rgba(229,9,20,0.3); }
 @media (hover: hover) and (pointer: fine) {
   .carousel-thumb:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-3px); }
@@ -83,7 +83,7 @@
   .music-grid { grid-template-columns: 1fr; } 
   .spotify-grid { grid-template-columns: 1fr; } 
   .carousel-thumb { width: 280px; height: 160px; scroll-snap-align: center; } 
-  .music-carousel { scroll-snap-type: x mandatory; padding-bottom: 10px; }
+  .carousel-track { scroll-snap-type: x mandatory; padding-bottom: 10px; }
   .music-filters { gap: 6px; } 
   .music-filter-btn { padding: 8px 14px; font-size: 0.78rem; } 
 }
