@@ -82,15 +82,7 @@ const Hero = () => {
 
       <div className="hero-content container">
         <motion.div className="hero-left" variants={textContainer} initial="hidden" animate="visible" style={{ y: heroY }}>
-          <motion.div className="hero-badge" variants={textLine}>
-            <span className="badge-dot" />
-            <span>Available for Collaborations</span>
-            <div className="hero-badge-eq" aria-hidden="true">
-              {[10, 14, 8, 12, 6].map((h, i) => (
-                <div key={i} className="hero-badge-eq-bar" style={{ '--eq-h': `${h}px`, '--eq-dur': `${0.4 + i * 0.1}s`, '--eq-delay': `${i * 0.08}s` }} />
-              ))}
-            </div>
-          </motion.div>
+
 
           <div className="hero-title" aria-label="I am Amos Frank">
             <motion.span className="hero-title-line" variants={textLine}>I AM</motion.span>
@@ -110,9 +102,7 @@ const Hero = () => {
             />
           </motion.div>
 
-          <motion.p className="hero-description" variants={textLine}>
-            Crafting melodies that move souls — spanning keyboards, guitars, and production. Every note tells a story, every beat carries a message.
-          </motion.p>
+
 
           <motion.div className="hero-buttons" variants={textLine}>
             <Link to="/music" className="btn btn-primary hero-btn"><FaPlay /> Explore Music</Link>

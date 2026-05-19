@@ -43,7 +43,6 @@ const Footer = () => {
               <div aria-hidden="true" />
               <div>
                 <span className="footer-logo-name">AMOS <span className="text-accent">FRANK</span></span>
-                <span className="footer-logo-tagline">The Music Experience</span>
               </div>
             </div>
             <p className="footer-brand-desc">

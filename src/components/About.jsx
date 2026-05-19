@@ -32,7 +32,7 @@ const About = () => {
       <div className="container" ref={ref}>
         <motion.div className="section-header" variants={container} initial="hidden" animate={isInView ? 'visible' : 'hidden'}>
           <motion.p className="section-subtitle" variants={item}>Know Me</motion.p>
-          <motion.h2 className="section-title" variants={item}>About The <span className="accent">Artist</span></motion.h2>
+          <motion.h2 className="section-title" variants={item}>About <span className="accent">Me</span></motion.h2>
           <motion.div className="glow-line" variants={item} />
         </motion.div>
 
@@ -57,16 +57,7 @@ const About = () => {
                 </div>
               </motion.div>
 
-              {/* Experience badge */}
-              <motion.div
-                className="about-exp-badge"
-                whileHover={{ scale: 1.05 }}
-                animate={{ y: [-8, 8, -8] }}
-                transition={{ duration: 4, repeat: Infinity }}
-              >
-                <span className="about-exp-number">{artistInfo.stats.yearsActive}+</span>
-                <span className="about-exp-label">Years of Music</span>
-              </motion.div>
+
             </div>
             <div className="about-dots-pattern" aria-hidden="true" />
           </motion.div>
@@ -112,9 +103,6 @@ const About = () => {
               <Link to="/music" className="btn btn-primary about-cta-btn">
                 Explore My Music <FaArrowRight />
               </Link>
-              <a href="/amos-frank-epk.pdf" download className="btn btn-outline about-cta-btn">
-                <FaDownload /> Download EPK
-              </a>
             </motion.div>
           </motion.div>
         </motion.div>
