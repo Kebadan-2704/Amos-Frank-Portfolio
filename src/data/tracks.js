@@ -20,6 +20,7 @@ export const youtubeVideos = [
   { id: 'wIT5EjP6deg', title: 'En Parigaari (Healer)', artist: 'Hallelujah Tower', category: 'original' },
   { id: 'sxw14GszsXs', title: 'Ratchagar Yesu Piranthar', artist: 'Christmas Song', category: 'original' },
   { id: '68YxWgyHYDU', title: 'Solven Yesu', artist: 'Zac Robert', category: 'cover' },
+  { id: 'mYsHEKeZ1nM', title: 'Enna Thavam Seithaen', artist: 'Angelin Blessey', category: 'original' },
   { id: '_5JfSO43QCM', title: 'Shubhavela', artist: 'Merge Music', category: 'original' },
   { id: 'e1wZPZcflfA', title: 'ELSHADDAI', artist: 'Freddy John Samuel', category: 'original' },
   { id: '78rLQG1N30k', title: 'Chattan Telugu', artist: 'Merge Music', category: 'original' },
