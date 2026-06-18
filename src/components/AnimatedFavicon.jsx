@@ -21,6 +21,12 @@ const AnimatedFavicon = () => {
     }
 
     const draw = () => {
+      // Pause animation when the tab is not visible to save CPU/battery
+      if (document.hidden) {
+        animationId = requestAnimationFrame(draw);
+        return;
+      }
+
       const size = 64;
       const center = size / 2;
       const imgRadius = 24;

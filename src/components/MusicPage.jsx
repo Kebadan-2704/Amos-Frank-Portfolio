@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { FaPlay, FaTimes, FaYoutube, FaChevronLeft, FaChevronRight, FaMusic, FaCompactDisc, FaSpotify } from 'react-icons/fa';
+import { FaPlay, FaTimes, FaYoutube, FaChevronLeft, FaChevronRight, FaMusic, FaSpotify } from 'react-icons/fa';
 import { youtubeVideos, spotifyTracks, getThumbnail, featuredVideoId } from '../data/tracks';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';
 import LazyYouTube from './LazyYouTube';

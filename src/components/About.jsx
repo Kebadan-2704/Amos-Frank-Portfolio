@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { FaMapMarkerAlt, FaEnvelope, FaKeyboard, FaArrowRight, FaGuitar, FaPhone, FaDownload } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaEnvelope, FaArrowRight, FaPhone } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { artistInfo } from '../data/tracks';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';
@@ -90,7 +90,7 @@ const About = () => {
                   <span className="about-info-value">{artistInfo.contact.phone}</span>
                 </div>
               </motion.div>
-              <motion.div className="about-info-item" variants={item} whileHover={{ x: 6, borderColor: 'rgba(229,9,20,0.2)' }}>
+              <motion.div className="about-info-item" variants={item} whileHover={isHover ? { x: 6, borderColor: 'rgba(229,9,20,0.2)' } : undefined}>
                 <FaMapMarkerAlt className="about-info-icon" />
                 <div>
                   <span className="about-info-label">Location</span>

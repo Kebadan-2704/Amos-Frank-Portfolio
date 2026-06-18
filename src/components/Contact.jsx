@@ -11,7 +11,7 @@ const WEB3FORMS_KEY = import.meta.env.VITE_WEB3FORMS_KEY || '';
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null); // null | 'success' | 'error'
+  const [submitStatus, setSubmitStatus] = useState(null); // null | 'success' | 'error' | 'validation'
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-60px' });
   const isHover = useIsHoverDevice();
@@ -36,7 +36,8 @@ const Contact = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setIsSubmitting(false);
-      setSubmitStatus('error');
+      setSubmitStatus('validation');
+      setTimeout(() => setSubmitStatus(null), 5000);
       return;
     }
 
@@ -194,7 +195,8 @@ const Contact = () => {
             {/* ARIA Live Region for Screen Readers */}
             <div aria-live="polite" className="sr-only">
               {submitStatus === 'success' && 'Your message was successfully sent!'}
-              {submitStatus === 'error' && 'There was an error sending your message. Please check your inputs and try again.'}
+              {submitStatus === 'validation' && 'Please enter a valid email address.'}
+              {submitStatus === 'error' && 'There was a network error sending your message. Please try again.'}
             </div>
 
             {[
@@ -237,8 +239,10 @@ const Contact = () => {
                 <span className="contact-spinner" aria-label="Sending message..." />
               ) : submitStatus === 'success' ? (
                 <><FaCheckCircle aria-hidden="true" /> Message Sent!</>
+              ) : submitStatus === 'validation' ? (
+                <><FaExclamationTriangle aria-hidden="true" /> Invalid Email</>
               ) : submitStatus === 'error' ? (
-                <><FaExclamationTriangle aria-hidden="true" /> Failed — Try Again</>
+                <><FaExclamationTriangle aria-hidden="true" /> Network Error — Retry</>
               ) : (
                 <><FaPaperPlane aria-hidden="true" /> Send Message</>
               )}

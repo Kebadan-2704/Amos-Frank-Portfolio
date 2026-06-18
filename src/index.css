@@ -456,8 +456,55 @@ button:focus-visible {
 }
 
 /* ---- Skip Link ---- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  padding: 12px 24px;
+  background: var(--accent-primary);
+  color: #fff;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  z-index: 10000;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: top 0.2s;
+}
 .skip-link:focus {
   top: 0 !important;
+  color: #fff;
+}
+
+/* ---- App Wrapper ---- */
+.app-wrapper {
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+/* ---- Page Fallback (lazy-loading skeleton) ---- */
+.page-fallback {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px 24px;
+}
+.page-fallback-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(229,9,20,0.2);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin-slow 0.6s linear infinite;
+}
+.page-fallback-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 600px;
 }
 
 /* ---- Selection ---- */
@@ -600,39 +647,39 @@ button:focus-visible {
 
 /* --- Buttons in Light Mode --- */
 [data-theme="light"] .btn-primary {
-  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3), 0 2px 8px rgba(236, 72, 153, 0.2);
+  box-shadow: 0 4px 15px color-mix(in srgb, var(--accent-primary) 30%, transparent), 0 2px 8px color-mix(in srgb, var(--accent-glow) 20%, transparent);
 }
 [data-theme="light"] .btn-primary:hover {
-  box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4), 0 0 60px rgba(236, 72, 153, 0.15);
+  box-shadow: 0 8px 30px color-mix(in srgb, var(--accent-primary) 40%, transparent), 0 0 60px color-mix(in srgb, var(--accent-glow) 15%, transparent);
 }
 [data-theme="light"] .btn-outline {
-  border: 2px solid rgba(124, 58, 237, 0.2);
+  border: 2px solid var(--accent-subtle-border);
   color: var(--text-primary);
 }
 [data-theme="light"] .btn-outline:hover {
-  background: rgba(124, 58, 237, 0.04);
-  border-color: rgba(124, 58, 237, 0.4);
-  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.12);
+  background: var(--accent-subtle);
+  border-color: color-mix(in srgb, var(--accent-primary) 40%, transparent);
+  box-shadow: 0 8px 25px color-mix(in srgb, var(--accent-primary) 12%, transparent);
 }
 [data-theme="light"] .btn-outline::after {
-  background: linear-gradient(135deg, transparent 30%, rgba(124,58,237,0.3) 50%, transparent 70%);
+  background: linear-gradient(135deg, transparent 30%, color-mix(in srgb, var(--accent-primary) 30%, transparent) 50%, transparent 70%);
 }
 
 /* --- Glass Cards in Light Mode --- */
 [data-theme="light"] .glass-card {
   background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(124, 58, 237, 0.1);
-  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.06), 0 2px 8px rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-md);
 }
 [data-theme="light"] .glass-card:hover {
-  border-color: rgba(124, 58, 237, 0.2);
-  box-shadow: 0 12px 40px rgba(124, 58, 237, 0.1), 0 0 20px rgba(236, 72, 153, 0.05);
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
 }
 
 /* --- Glow Elements --- */
 [data-theme="light"] .glow-line {
   background: var(--accent-gradient);
-  box-shadow: 0 0 15px rgba(124, 58, 237, 0.3), 0 0 30px rgba(236, 72, 153, 0.15);
+  box-shadow: var(--shadow-glow), var(--shadow-glow-intense);
 }
 
 /* --- Section Subtitles --- */
@@ -643,8 +690,8 @@ button:focus-visible {
 
 /* --- Selection --- */
 [data-theme="light"] ::selection {
-  background: rgba(124, 58, 237, 0.15);
-  color: #1a1025;
+  background: color-mix(in srgb, var(--accent-primary) 15%, transparent);
+  color: var(--text-primary);
 }
 
 /* --- Scrollbar --- */
@@ -663,11 +710,5 @@ button:focus-visible {
 
 /* --- Focus styles --- */
 [data-theme="light"] *:focus-visible {
-  outline-color: #7C3AED;
-}
-
-/* Shimmer animation for skeleton loaders (Feature 6) */
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  outline-color: var(--accent-primary);
 }

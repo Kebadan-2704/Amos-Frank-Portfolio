@@ -4,7 +4,7 @@ import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
 import { loadTextShape } from '@tsparticles/shape-text';
 import { TypeAnimation } from 'react-type-animation';
-import { FaInstagram, FaPlay, FaChevronDown, FaHeadphones, FaMusic, FaSpotify } from 'react-icons/fa';
+import { FaInstagram, FaPlay, FaHeadphones, FaMusic, FaSpotify } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { artistInfo, spotifyTracks } from '../data/tracks';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';

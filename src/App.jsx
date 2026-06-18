@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -9,8 +9,8 @@ import ScrollToTop from './components/ScrollToTop';
 import { HelmetProvider } from 'react-helmet-async';
 import SEO from './components/SEO';
 import AnimatedFavicon from './components/AnimatedFavicon';
+import Preloader from './components/Preloader';
 import { ThemeProvider } from './context/ThemeContext';
-import { useEffect } from 'react';
 
 // Lazy-loaded pages for code splitting with chunk retry mechanism
 import { lazyWithRetry } from './utils/lazyWithRetry';
@@ -33,25 +33,11 @@ const pageVariants = {
   exit: { opacity: 0, transition: { duration: 0.1 } },
 };
 
-// Shimmer skeleton fallback while lazy chunks load (Feature 6)
+// Shimmer skeleton fallback while lazy chunks load
 const PageFallback = () => (
-  <div style={{
-    minHeight: '60vh',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '20px',
-    padding: '40px 24px',
-  }}>
-    <div style={{
-      width: 32, height: 32,
-      border: '3px solid rgba(229,9,20,0.2)',
-      borderTopColor: '#e50914',
-      borderRadius: '50%',
-      animation: 'spin-slow 0.6s linear infinite',
-    }} />
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', maxWidth: '600px' }}>
+  <div className="page-fallback">
+    <div className="page-fallback-spinner" />
+    <div className="page-fallback-lines">
       {[200, 400, 300].map((w, i) => (
         <div key={i} className="shimmer-line" style={{
           height: i === 0 ? '24px' : '14px',
@@ -83,38 +69,40 @@ const AnimatedRoutes = () => {
 };
 
 function App() {
+  const [loaded, setLoaded] = useState(false);
+
   return (
     <ThemeProvider>
       <HelmetProvider>
         <ErrorBoundary>
           <AnimatedFavicon />
-          <Router>
-          <SEO />
-          {/* Skip to content link for keyboard/screen-reader users */}
-          <a href="#main-content" className="skip-link" style={{
-            position: 'absolute', top: '-100%', left: '16px',
-            padding: '12px 24px', background: '#e50914', color: '#fff',
-            borderRadius: '0 0 8px 8px', zIndex: 10000,
-            fontWeight: 600, fontSize: '0.9rem', textDecoration: 'none',
-            transition: 'top 0.2s',
-          }} onFocus={(e) => e.target.style.top = '0'} onBlur={(e) => e.target.style.top = '-100%'}>
-            Skip to Content
-          </a>
+          {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
+          {loaded && (
+            <Router>
+            <SEO />
+            {/* Skip to content link for keyboard/screen-reader users */}
+            <a href="#main-content" className="skip-link"
+              onFocus={(e) => e.target.style.top = '0'}
+              onBlur={(e) => e.target.style.top = '-100%'}
+            >
+              Skip to Content
+            </a>
 
-          <ScrollToTopOnNav />
-          <div style={{ opacity: 1, transition: 'opacity 0.6s ease' }}>
-            <CustomCursor />
-            <Navbar />
-            <main id="main-content">
-              <AnimatedRoutes />
-            </main>
-            <Footer />
-            <ScrollToTop />
-          </div>
-        </Router>
-      </ErrorBoundary>
-    </HelmetProvider>
-  </ThemeProvider>
+            <ScrollToTopOnNav />
+            <div className="app-wrapper">
+              <CustomCursor />
+              <Navbar />
+              <main id="main-content">
+                <AnimatedRoutes />
+              </main>
+              <Footer />
+              <ScrollToTop />
+            </div>
+          </Router>
+          )}
+        </ErrorBoundary>
+      </HelmetProvider>
+    </ThemeProvider>
   );
 }
 

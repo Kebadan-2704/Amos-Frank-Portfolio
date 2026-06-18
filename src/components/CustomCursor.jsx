@@ -40,17 +40,20 @@ const CustomCursor = () => {
     document.addEventListener('mouseleave', leave);
     document.addEventListener('mouseenter', enter);
 
-    // Track hover on interactive elements
-    const addHoverListeners = () => {
-      const interactives = document.querySelectorAll('a, button, input, textarea, .music-card, .carousel-thumb, .music-filter-btn');
-      interactives.forEach(el => {
-        el.addEventListener('mouseenter', () => setHovered(true));
-        el.addEventListener('mouseleave', () => setHovered(false));
-      });
+    // Use event delegation on the document body instead of attaching listeners
+    // to every interactive element. This avoids the memory leak from the
+    // MutationObserver re-querying and re-attaching listeners on every DOM change.
+    const handleMouseOver = (e) => {
+      const target = e.target.closest('a, button, input, textarea, .music-card, .carousel-thumb, .music-filter-btn');
+      if (target) setHovered(true);
     };
-    addHoverListeners();
-    const observer = new MutationObserver(addHoverListeners);
-    observer.observe(document.body, { childList: true, subtree: true });
+    const handleMouseOut = (e) => {
+      const target = e.target.closest('a, button, input, textarea, .music-card, .carousel-thumb, .music-filter-btn');
+      if (target) setHovered(false);
+    };
+
+    document.addEventListener('mouseover', handleMouseOver);
+    document.addEventListener('mouseout', handleMouseOut);
 
     return () => {
       window.removeEventListener('mousemove', move);
@@ -58,7 +61,8 @@ const CustomCursor = () => {
       window.removeEventListener('mouseup', up);
       document.removeEventListener('mouseleave', leave);
       document.removeEventListener('mouseenter', enter);
-      observer.disconnect();
+      document.removeEventListener('mouseover', handleMouseOver);
+      document.removeEventListener('mouseout', handleMouseOut);
     };
   }, [cursorX, cursorY]);
 
