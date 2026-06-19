@@ -2,12 +2,15 @@ import { useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { FaMapMarkerAlt, FaEnvelope, FaArrowRight, FaPhone } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { artistInfo } from '../data/tracks';
+import { artistInfo as staticArtistInfo } from '../data/tracks';
+import { usePortfolioData } from '../context/DataContext';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';
 import './About.css';
 
 const About = () => {
   const ref = useRef(null);
+  const { artistInfo: firestoreArtist } = usePortfolioData();
+  const artistInfo = firestoreArtist || staticArtistInfo;
   const isInView = useInView(ref, { once: true, margin: '-60px' });
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
   const imageY = useTransform(scrollYProgress, [0, 1], [40, -40]);

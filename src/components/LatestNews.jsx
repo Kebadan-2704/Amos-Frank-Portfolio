@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { FaCalendarAlt, FaArrowRight, FaSpotify, FaYoutube, FaMusic } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { usePortfolioData } from '../context/DataContext';
 import './LatestNews.css';
 
 const newsItems = [
@@ -28,9 +29,20 @@ const newsItems = [
   },
 ];
 
+const getNewsIcon = (type) => {
+  switch (type) {
+    case 'release': return <FaSpotify />;
+    case 'video': return <FaYoutube />;
+    case 'announcement': return <FaMusic />;
+    default: return <FaMusic />;
+  }
+};
+
 const LatestNews = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-60px' });
+  const { latestNews: firestoreNews } = usePortfolioData();
+  const activeNewsItems = firestoreNews || newsItems;
 
   const container = {
     hidden: { opacity: 0 },
@@ -60,7 +72,7 @@ const LatestNews = () => {
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
         >
-          {newsItems.map((news, i) => (
+          {activeNewsItems.map((news, i) => (
             <motion.div key={i} className="news-item" variants={item}>
               <div className="news-date">
                 <FaCalendarAlt />
@@ -68,7 +80,7 @@ const LatestNews = () => {
               </div>
               <div className="news-card glass-card">
                 <div className={`news-icon news-icon-${news.type}`}>
-                  {news.icon}
+                  {news.icon || getNewsIcon(news.type)}
                 </div>
                 <div className="news-body">
                   <h4 className="news-title">{news.title}</h4>

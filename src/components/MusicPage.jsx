@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { FaPlay, FaTimes, FaYoutube, FaChevronLeft, FaChevronRight, FaMusic, FaSpotify } from 'react-icons/fa';
-import { youtubeVideos, spotifyTracks, getThumbnail, featuredVideoId } from '../data/tracks';
+import { youtubeVideos as staticVideos, spotifyTracks as staticSpotify, getThumbnail, featuredVideoId as staticFeaturedId } from '../data/tracks';
+import { usePortfolioData } from '../context/DataContext';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';
 import LazyYouTube from './LazyYouTube';
 import './MusicPage.css';
@@ -13,9 +14,12 @@ const categories = [
 ];
 
 const MusicPage = () => {
+  const { youtubeVideos: fsVideos, spotifyTracks: fsSpotify, featuredVideoId: fsFeaturedId } = usePortfolioData();
+  const youtubeVideos = fsVideos || staticVideos;
+  const spotifyTracks = fsSpotify || staticSpotify;
   const [activeTab, setActiveTab] = useState('all');
   const [selectedVideo, setSelectedVideo] = useState(null);
-  const [featuredVideo, setFeaturedVideo] = useState(featuredVideoId);
+  const [featuredVideo, setFeaturedVideo] = useState(fsFeaturedId || staticFeaturedId);
   const [showCount, setShowCount] = useState(9);
   const carouselRef = useRef(null);
   const modalRef = useRef(null);

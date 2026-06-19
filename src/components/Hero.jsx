@@ -6,13 +6,17 @@ import { loadTextShape } from '@tsparticles/shape-text';
 import { TypeAnimation } from 'react-type-animation';
 import { FaInstagram, FaPlay, FaHeadphones, FaMusic, FaSpotify } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { artistInfo, spotifyTracks } from '../data/tracks';
+import { artistInfo as staticArtistInfo, spotifyTracks as staticSpotify } from '../data/tracks';
+import { usePortfolioData } from '../context/DataContext';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';
 import { useTheme } from '../context/ThemeContext';
 import './Hero.css';
 
 const Hero = () => {
   const { theme } = useTheme();
+  const { artistInfo: firestoreArtist, spotifyTracks: firestoreSpotify } = usePortfolioData();
+  const artistInfo = firestoreArtist || staticArtistInfo;
+  const spotifyTracks = firestoreSpotify || staticSpotify;
   const [particlesReady, setParticlesReady] = useState(false);
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 600], [0, 150]);

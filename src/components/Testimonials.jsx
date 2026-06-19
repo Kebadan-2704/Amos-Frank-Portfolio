@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { FaStar, FaQuoteLeft, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';
+import { usePortfolioData } from '../context/DataContext';
 import './Testimonials.css';
 
 const testimonials = [
@@ -36,18 +37,20 @@ const Testimonials = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-60px' });
   const isHover = useIsHoverDevice();
+  const { testimonials: firestoreTestimonials } = usePortfolioData();
+  const activeTestimonials = firestoreTestimonials || testimonials;
 
   // Auto-rotate every 5s
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % testimonials.length);
+      setCurrent((prev) => (prev + 1) % activeTestimonials.length);
     }, 5000);
     return () => clearInterval(timer);
   }, []);
 
-  const next = () => setCurrent((prev) => (prev + 1) % testimonials.length);
-  const prev = () => setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  const t = testimonials[current];
+  const next = () => setCurrent((prev) => (prev + 1) % activeTestimonials.length);
+  const prev = () => setCurrent((prev) => (prev - 1 + activeTestimonials.length) % activeTestimonials.length);
+  const t = activeTestimonials[current];
 
   return (
     <section className="testimonials section" ref={ref}>
@@ -95,7 +98,7 @@ const Testimonials = () => {
               <FaChevronLeft />
             </button>
             <div className="testimonials-dots">
-              {testimonials.map((_, i) => (
+              {activeTestimonials.map((_, i) => (
                 <button
                   key={i}
                   className={`testimonials-dot ${i === current ? 'active' : ''}`}

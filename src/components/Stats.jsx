@@ -1,16 +1,10 @@
 import { useRef, useState, useEffect, useMemo } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { FaMusic, FaVideo, FaCalendarAlt, FaGuitar } from 'react-icons/fa';
-import { artistInfo } from '../data/tracks';
+import { artistInfo as staticArtistInfo } from '../data/tracks';
+import { usePortfolioData } from '../context/DataContext';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';
 import './Stats.css';
-
-const statsData = [
-  { iconType: 'music', end: artistInfo.stats.tracks, suffix: '+', label: 'Original Tracks', colorVar: '--stat-color-1' },
-  { iconType: 'video', end: artistInfo.stats.videos, suffix: '+', label: 'Music Videos', colorVar: '--stat-color-2' },
-  { iconType: 'guitar', end: artistInfo.stats.yearsPerforming, suffix: '+', label: 'Years Performing', colorVar: '--stat-color-3' },
-  { iconType: 'calendar', end: artistInfo.stats.yearsActive, suffix: '+', label: 'Years in Music', colorVar: '--stat-color-4' },
-];
 
 const getIcon = (type) => {
   switch (type) {
@@ -76,6 +70,15 @@ const StatItem = ({ stat, index }) => {
 const Stats = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const { artistInfo: firestoreArtist } = usePortfolioData();
+  const artistInfo = firestoreArtist || staticArtistInfo;
+
+  const statsData = [
+    { iconType: 'music', end: artistInfo.stats.tracks, suffix: '+', label: 'Original Tracks', colorVar: '--stat-color-1' },
+    { iconType: 'video', end: artistInfo.stats.videos, suffix: '+', label: 'Music Videos', colorVar: '--stat-color-2' },
+    { iconType: 'guitar', end: artistInfo.stats.yearsPerforming, suffix: '+', label: 'Years Performing', colorVar: '--stat-color-3' },
+    { iconType: 'calendar', end: artistInfo.stats.yearsActive, suffix: '+', label: 'Years in Music', colorVar: '--stat-color-4' },
+  ];
 
   return (
     <section className="stats section" ref={ref}>

@@ -11,6 +11,7 @@ import SEO from './components/SEO';
 import AnimatedFavicon from './components/AnimatedFavicon';
 import Preloader from './components/Preloader';
 import { ThemeProvider } from './context/ThemeContext';
+import { DataProvider } from './context/DataContext';
 
 // Lazy-loaded pages for code splitting with chunk retry mechanism
 import { lazyWithRetry } from './utils/lazyWithRetry';
@@ -74,6 +75,7 @@ function App() {
   return (
     <ThemeProvider>
       <HelmetProvider>
+        <DataProvider>
         <ErrorBoundary>
           <AnimatedFavicon />
           {!loaded && <Preloader onComplete={() => setLoaded(true)} />}
@@ -101,6 +103,7 @@ function App() {
           </Router>
           )}
         </ErrorBoundary>
+        </DataProvider>
       </HelmetProvider>
     </ThemeProvider>
   );
