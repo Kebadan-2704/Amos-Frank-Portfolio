@@ -2,11 +2,14 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import { FaHeart, FaInstagram, FaMusic } from 'react-icons/fa';
-import { artistInfo } from '../data/tracks';
+import { artistInfo as staticArtistInfo } from '../data/tracks';
+import { usePortfolioData } from '../context/DataContext';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';
 import './Footer.css';
 
 const Footer = () => {
+  const { artistInfo: firestoreArtist } = usePortfolioData();
+  const artistInfo = firestoreArtist || staticArtistInfo;
   const year = new Date().getFullYear();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-40px' });
@@ -42,7 +45,7 @@ const Footer = () => {
             <div className="footer-logo">
               <div aria-hidden="true" />
               <div>
-                <span className="footer-logo-name">AMOS <span className="text-accent">FRANK</span></span>
+                <span className="footer-logo-name">{(artistInfo.name.split(' ')[0] || '').toUpperCase()} <span className="text-accent">{(artistInfo.name.split(' ').slice(1).join(' ')).toUpperCase()}</span></span>
               </div>
             </div>
             <p className="footer-brand-desc">

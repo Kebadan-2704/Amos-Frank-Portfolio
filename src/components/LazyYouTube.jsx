@@ -35,7 +35,17 @@ const LazyYouTube = ({ videoId, title, autoplay = false }) => {
         alt={title}
         className="lazy-youtube-thumb"
         loading="lazy"
-        onError={(e) => { e.target.src = getThumbnail(videoId, 'hqdefault'); }}
+        onLoad={(e) => {
+          // YouTube returns a 120x90 3-dots placeholder (with a 200 OK) if maxresdefault doesn't exist
+          if (e.target.naturalWidth <= 120 && e.target.src.includes('maxresdefault')) {
+            e.target.src = getThumbnail(videoId, 'hqdefault');
+          }
+        }}
+        onError={(e) => { 
+          if (e.target.src.includes('maxresdefault')) {
+            e.target.src = getThumbnail(videoId, 'hqdefault'); 
+          }
+        }}
       />
       <div className="lazy-youtube-overlay">
         <div className="lazy-youtube-play">

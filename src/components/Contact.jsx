@@ -53,7 +53,7 @@ const Contact = () => {
             phone: formData.phone,
             message: formData.message,
             subject: `Portfolio Contact from ${formData.name}`,
-            from_name: 'Amos Frank Portfolio',
+            from_name: `${artistInfo.name} Portfolio`,
           }),
         });
 
@@ -253,7 +253,7 @@ const Contact = () => {
 
       {/* Floating WhatsApp Button */}
       <motion.a
-        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hi Amos! I visited your portfolio and would like to connect.')}`}
+        href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hi ${artistInfo.name.split(' ')[0]}! I visited your portfolio and would like to connect.`)}`}
         target="_blank"
         rel="noreferrer"
         className="whatsapp-float"

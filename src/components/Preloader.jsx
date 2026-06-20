@@ -1,8 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Preloader.css';
+import { usePortfolioData } from '../context/DataContext';
+import { artistInfo as staticArtistInfo } from '../data/tracks';
 
 const Preloader = ({ onComplete }) => {
+  const { artistInfo: firestoreArtist } = usePortfolioData();
+  const artistInfo = firestoreArtist || staticArtistInfo;
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState('loading');
 
@@ -55,7 +59,7 @@ const Preloader = ({ onComplete }) => {
             <motion.div className="preloader-spin-ring preloader-ring-1" animate={{ rotate: 360 }} transition={{ duration: 8, repeat: Infinity, ease: 'linear' }} />
             <motion.div className="preloader-spin-ring preloader-ring-2" animate={{ rotate: -360 }} transition={{ duration: 12, repeat: Infinity, ease: 'linear' }} />
             <motion.div className="preloader-avatar-wrapper" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.8, ease: "easeOut" }}>
-              <img src="/amos-hero.jpg" className="preloader-avatar" alt="Amos Frank" />
+              <img src={artistInfo.photos.hero} className="preloader-avatar" alt={artistInfo.name} />
             </motion.div>
           </div>
 

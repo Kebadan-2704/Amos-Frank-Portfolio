@@ -88,20 +88,23 @@ const Hero = () => {
         <motion.div className="hero-left" variants={textContainer} initial="hidden" animate="visible" style={{ y: heroY }}>
 
 
-          <div className="hero-title" aria-label="I am Amos Frank">
+          <div className="hero-title" aria-label={`I am ${artistInfo.name}`}>
             <motion.span className="hero-title-line" variants={textLine}>I AM</motion.span>
             <motion.div className="hero-title-overflow" variants={textLine}>
-              <span className="hero-title-name">AMOS</span>
+              <span className="hero-title-name">{(artistInfo.name.split(' ')[0] || '').toUpperCase()}</span>
             </motion.div>
-            <motion.div className="hero-title-overflow" variants={textLine}>
-              <span className="hero-title-name hero-title-accent">FRANK</span>
-            </motion.div>
+            {artistInfo.name.split(' ').length > 1 && (
+              <motion.div className="hero-title-overflow" variants={textLine}>
+                <span className="hero-title-name hero-title-accent">{(artistInfo.name.split(' ').slice(1).join(' ')).toUpperCase()}</span>
+              </motion.div>
+            )}
           </div>
 
           <motion.div className="hero-typed-wrapper" variants={textLine}>
             <span className="hero-typed-label">I'm a </span>
             <TypeAnimation
-              sequence={['Music Producer', 2000, 'Performer', 2000, 'Teacher', 2000]}
+              key={artistInfo.roles.join(',')}
+              sequence={artistInfo.roles.flatMap(role => [role, 2000])}
               wrapper="span" className="hero-typed-text" speed={50} repeat={Infinity}
             />
           </motion.div>
@@ -175,7 +178,7 @@ const Hero = () => {
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'hidden' }}>
                       <span style={{ color: 'var(--text-primary)', fontSize: '0.9rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{track.title}</span>
-                      <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>Amos Frank • Spotify</span>
+                      <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>{artistInfo.name} • Spotify</span>
                     </div>
                     <div style={{ padding: '6px 14px', borderRadius: '50px', background: 'transparent', border: '1px solid #1db954', color: '#1db954', fontSize: '0.75rem', fontWeight: 600, flexShrink: 0 }}>
                       PLAY

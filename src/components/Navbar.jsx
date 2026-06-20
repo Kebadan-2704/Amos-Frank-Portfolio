@@ -2,10 +2,14 @@ import { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaMusic, FaBars, FaTimes, FaSun, FaMoon } from 'react-icons/fa';
 import { useTheme } from '../context/ThemeContext';
+import { usePortfolioData } from '../context/DataContext';
+import { artistInfo as staticArtistInfo } from '../data/tracks';
 import './Navbar.css';
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
+  const { artistInfo: firestoreArtist } = usePortfolioData();
+  const artistInfo = firestoreArtist || staticArtistInfo;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
@@ -53,11 +57,11 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`} role="navigation" aria-label="Main navigation">
       <div className="container navbar-container">
-        <Link to="/" className="navbar-logo" aria-label="Amos Frank - Home">
+        <Link to="/" className="navbar-logo" aria-label={`${artistInfo.name} - Home`}>
           <div className="navbar-logo-circle">
-            <img src="/amos-hero.jpg" alt="Amos" className="navbar-logo-face" />
+            <img src={artistInfo.photos.hero} alt={artistInfo.name} className="navbar-logo-face" />
           </div>
-          <span className="logo-text-reveal">AMOS <span className="logo-accent">FRANK</span></span>
+          <span className="logo-text-reveal">{(artistInfo.name.split(' ')[0] || '').toUpperCase()} <span className="logo-accent">{(artistInfo.name.split(' ').slice(1).join(' ')).toUpperCase()}</span></span>
         </Link>
 
         <div className={`navbar-links ${mobileOpen ? 'open' : ''}`} role="menubar">

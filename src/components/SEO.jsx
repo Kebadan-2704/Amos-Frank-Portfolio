@@ -1,17 +1,21 @@
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
-import { artistInfo } from '../data/tracks';
+import { artistInfo as staticArtistInfo } from '../data/tracks';
+import { usePortfolioData } from '../context/DataContext';
 
-const pageMeta = {
+const getPageMeta = (artistInfo) => ({
   '/': { title: `${artistInfo.name} | ${artistInfo.tagline}`, description: `${artistInfo.name} — Keyboardist, Guitarist, Bass Guitarist, Music Producer, Performer & Teacher. Explore the official portfolio.` },
   '/about': { title: `About ${artistInfo.name} | Musician & Producer`, description: `Learn about ${artistInfo.name}'s 20+ year musical journey — from keyboards to production.` },
   '/music': { title: `Music | ${artistInfo.name}`, description: `Explore ${artistInfo.name}'s complete music collection — original tracks, covers, and collaborations.` },
   '/contact': { title: `Contact ${artistInfo.name} | Book & Collaborate`, description: `Get in touch with ${artistInfo.name} for collaborations, bookings, and music lessons at Musik Hub.` },
-};
+});
 
 const SEO = () => {
+  const { artistInfo: firestoreArtist } = usePortfolioData();
+  const artistInfo = firestoreArtist || staticArtistInfo;
   const location = useLocation();
   const origin = typeof window !== 'undefined' ? window.location.origin : 'https://amosfrank.com';
+  const pageMeta = getPageMeta(artistInfo);
   const meta = pageMeta[location.pathname] || pageMeta['/'];
 
   const ldJson = {

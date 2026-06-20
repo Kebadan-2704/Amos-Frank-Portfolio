@@ -68,7 +68,7 @@ const About = () => {
           {/* Content */}
           <motion.div className="about-content-col" variants={container}>
             <motion.h3 className="about-name" variants={textReveal}>
-              I AM <span className="text-accent">Amos Frank</span>
+              I AM <span className="text-accent">{artistInfo.name}</span>
             </motion.h3>
             <motion.p className="about-role" variants={item}>
               {artistInfo.tagline}

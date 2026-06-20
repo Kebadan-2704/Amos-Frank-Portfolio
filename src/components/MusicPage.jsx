@@ -124,7 +124,7 @@ const MusicPage = () => {
                     <FaSpotify style={{ color: '#1db954', fontSize: '32px', marginBottom: '16px' }} />
                     <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                       <span style={{ color: 'var(--text-primary)', fontSize: '1.2rem', fontWeight: 700, marginBottom: '4px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{track.title}</span>
-                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Amos Frank • Music Producer</span>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{artistInfo.name} • {artistInfo.tagline}</span>
                     </div>
                     <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', gap: '8px', color: '#1db954', fontSize: '0.85rem', fontWeight: 600 }}>
                       <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(29, 185, 84, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
