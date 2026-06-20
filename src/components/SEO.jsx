@@ -14,7 +14,7 @@ const SEO = () => {
   const { artistInfo: firestoreArtist } = usePortfolioData();
   const artistInfo = firestoreArtist || staticArtistInfo;
   const location = useLocation();
-  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://amosfrank.com';
+  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://amos-frank.vercel.app';
   const pageMeta = getPageMeta(artistInfo);
   const meta = pageMeta[location.pathname] || pageMeta['/'];
 
