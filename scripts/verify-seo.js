@@ -13,8 +13,7 @@ console.log('6. H1:', home.match(/<h1[\s\S]*?<\/h1>/)?.[0].slice(0, 150) + '...'
 console.log('7. Music Heading:', home.match(/<h2 class="section-title">[\s\S]*?<\/h2>/)?.[0]);
 console.log('8. Sample Video Card Titles:', home.match(/<h3 class="music-card-title">.*?<\/h3>/g)?.slice(0, 3));
 console.log('9. Total Video Titles in Prerender:', home.match(/<h3 class="music-card-title">.*?<\/h3>/g)?.length);
-console.log('10. FAQ Heading:', home.match(/<h2 id="faq-heading"[\s\S]*?<\/h2>/)?.[0]);
-console.log('11. Has JSON-LD scripts:', home.match(/<script type="application\/ld\+json">/g)?.length);
+console.log('10. Has JSON-LD scripts:', home.match(/<script type="application\/ld\+json">/g)?.length);
 
 console.log('\n=== VERIFY CONTACT (/contact) RAW HTML ===');
 console.log('1. Title:', contact.match(/<title>.*?<\/title>/)?.[0]);

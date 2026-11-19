@@ -7,7 +7,6 @@ import {
   getPersonSchema,
   getWebsiteSchema,
   getProfilePageSchema,
-  getFaqSchema,
   getVideoSchemaList,
   getMusicRecordingSchemaList,
   getContactBreadcrumbSchema,
@@ -42,7 +41,6 @@ const SEO = () => {
     schemas.push(getPersonSchema(artistInfo));
     schemas.push(getWebsiteSchema(artistInfo));
     schemas.push(getProfilePageSchema(artistInfo));
-    schemas.push(getFaqSchema());
     const videoSchemas = getVideoSchemaList(fsVideos, artistInfo);
     schemas.push(...videoSchemas);
     const spotifySchemas = getMusicRecordingSchemaList(fsSpotify, artistInfo);
