@@ -58,15 +58,7 @@ const AnimatedRoutes = () => {
 };
 
 function App({ isSSR = false, RouterComponent = Router, routerProps = {}, helmetContext = {} }) {
-  const [showPreloader, setShowPreloader] = useState(false);
-
-  useEffect(() => {
-    try {
-      if (!sessionStorage.getItem('portfolio_visited')) {
-        setShowPreloader(true);
-      }
-    } catch (e) {}
-  }, []);
+  const [showPreloader, setShowPreloader] = useState(!isSSR);
 
   return (
     <ThemeProvider>

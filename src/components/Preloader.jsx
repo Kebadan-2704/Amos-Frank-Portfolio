@@ -28,39 +28,20 @@ const Preloader = ({ onComplete }) => {
   })), []);
 
   useEffect(() => {
-    try {
-      if (typeof window !== 'undefined' && sessionStorage.getItem('portfolio_visited')) {
-        onComplete();
-        return;
-      }
-      if (typeof window !== 'undefined') {
-        sessionStorage.setItem('portfolio_visited', 'true');
-      }
-    } catch (e) {}
-
     const timer = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
           clearInterval(timer);
-          setTimeout(() => setPhase('reveal'), 30);
-          setTimeout(() => setPhase('exit'), 150);
-          setTimeout(() => onComplete(), 300);
+          setTimeout(() => setPhase('reveal'), 80);
+          setTimeout(() => setPhase('exit'), 320);
+          setTimeout(() => onComplete(), 580);
           return 100;
         }
-        return prev + Math.random() * 35 + 20;
+        return prev + Math.random() * 14 + 6;
       });
-    }, 16);
+    }, 28);
 
-    // Safety timeout cap so preloader never delays LCP
-    const safetyCap = setTimeout(() => {
-      clearInterval(timer);
-      onComplete();
-    }, 400);
-
-    return () => {
-      clearInterval(timer);
-      clearTimeout(safetyCap);
-    };
+    return () => clearInterval(timer);
   }, [onComplete]);
 
   return (
