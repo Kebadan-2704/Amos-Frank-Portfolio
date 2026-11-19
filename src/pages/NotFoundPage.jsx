@@ -64,7 +64,7 @@ const NotFoundPage = () => {
           <Link to="/" className="btn btn-primary" style={{ padding: '14px 32px' }}>
             <FaHome /> Go Home
           </Link>
-          <Link to="/music" className="btn btn-outline" style={{ padding: '14px 32px' }}>
+          <Link to="/#music" className="btn btn-outline" style={{ padding: '14px 32px' }}>
             <FaMusic /> Explore Music
           </Link>
         </div>

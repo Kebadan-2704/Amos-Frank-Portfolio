@@ -1,4 +1,9 @@
-.music-page { background: var(--bg-primary); padding: 120px 0 60px; min-height: 100dvh; }
+.music-page {
+  background: var(--bg-primary);
+  padding: 80px 0 60px;
+  scroll-margin-top: 80px;
+  position: relative;
+}
 .music-page .section-description { max-width: 500px; }
 
 /* Filters */
@@ -78,8 +83,13 @@
 .music-modal-info h3 { font-size: 1.2rem; font-weight: 700; }
 .music-modal-info p { color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px; }
 
-@media (max-width: 1024px) { .music-grid { grid-template-columns: repeat(2, 1fr); } .spotify-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 1024px) {
+  .music-page { padding: 60px 0 50px; scroll-margin-top: 70px; }
+  .music-grid { grid-template-columns: repeat(2, 1fr); }
+  .spotify-grid { grid-template-columns: 1fr 1fr; }
+}
 @media (max-width: 600px) { 
+  .music-page { padding: 40px 0 40px; scroll-margin-top: 60px; }
   .music-grid { grid-template-columns: 1fr; } 
   .spotify-grid { grid-template-columns: 1fr; } 
   .carousel-thumb { width: 280px; height: 160px; scroll-snap-align: center; } 

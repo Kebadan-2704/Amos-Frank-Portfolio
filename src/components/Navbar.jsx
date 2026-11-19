@@ -12,6 +12,7 @@ const Navbar = () => {
   const artistInfo = firestoreArtist || staticArtistInfo;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
   const location = useLocation();
 
   useEffect(() => {
@@ -19,6 +20,30 @@ const Navbar = () => {
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Track active section on Home page for nav highlight
+  useEffect(() => {
+    if (location.pathname !== '/') {
+      setActiveSection('');
+      return;
+    }
+
+    const handleScroll = () => {
+      const musicEl = document.getElementById('music');
+      if (musicEl) {
+        const rect = musicEl.getBoundingClientRect();
+        if (rect.top <= 250) {
+          setActiveSection('music');
+        } else {
+          setActiveSection('home');
+        }
+      }
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [location.pathname]);
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -49,8 +74,7 @@ const Navbar = () => {
 
   const navLinks = [
     { path: '/', label: 'Home' },
-    { path: '/about', label: 'About' },
-    { path: '/music', label: 'Music' },
+    { path: '/#music', label: 'Music', isHash: true },
     { path: '/contact', label: 'Contact' },
   ];
 
@@ -65,17 +89,39 @@ const Navbar = () => {
         </Link>
 
         <div className={`navbar-links ${mobileOpen ? 'open' : ''}`} role="menubar">
-          {navLinks.map(link => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`navbar-link ${location.pathname === link.path ? 'active' : ''}`}
-              role="menuitem"
-              tabIndex={mobileOpen ? 0 : undefined}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map(link => {
+            const isActive = link.isHash
+              ? (location.pathname === '/' && activeSection === 'music')
+              : link.path === '/'
+                ? (location.pathname === '/' && activeSection === 'home')
+                : (location.pathname === link.path);
+
+            return (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`navbar-link ${isActive ? 'active' : ''}`}
+                role="menuitem"
+                tabIndex={mobileOpen ? 0 : undefined}
+                onClick={(e) => {
+                  if (link.isHash) {
+                    if (location.pathname === '/') {
+                      e.preventDefault();
+                      document.getElementById('music')?.scrollIntoView({ behavior: 'smooth' });
+                      window.history.pushState(null, '', '/#music');
+                    }
+                  } else if (link.path === '/' && location.pathname === '/') {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    window.history.pushState(null, '', '/');
+                  }
+                  setMobileOpen(false);
+                }}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
 
         <div className="navbar-right">

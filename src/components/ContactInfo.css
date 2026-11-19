@@ -1,0 +1,206 @@
+/* ============================================
+   ContactInfo — Compact contact strip for Home
+   ============================================ */
+
+.contact-info {
+  padding: 30px 0 60px;
+}
+
+.contact-info-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 32px 40px;
+}
+
+/* ---- Contact Items Row ---- */
+.contact-info-items-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+/* ---- Individual Chip ---- */
+.contact-info-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  background: var(--bg-secondary);
+  text-decoration: none;
+  color: inherit;
+  transition: all var(--transition-medium);
+  min-width: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contact-info-chip:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--glass-border-hover);
+    box-shadow: var(--shadow-sm);
+  }
+  .contact-info-chip:hover .contact-info-chip-icon {
+    color: var(--accent-primary);
+  }
+}
+
+.contact-info-chip:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 3px;
+}
+
+.contact-info-chip-icon {
+  font-size: 1.1rem;
+  color: var(--accent-primary);
+  flex-shrink: 0;
+  transition: color var(--transition-fast);
+}
+
+.contact-info-chip-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.contact-info-chip-label {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  line-height: 1;
+  margin-bottom: 3px;
+}
+
+.contact-info-chip-value {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- Social Links ---- */
+.contact-info-socials {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.contact-info-social {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  transition: all var(--transition-medium);
+  text-decoration: none;
+}
+
+.contact-info-social:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contact-info-social.instagram:hover {
+    color: #fff;
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    border-color: transparent;
+  }
+  .contact-info-social.musik-hub:hover {
+    color: #fff;
+    background: var(--accent-primary);
+    border-color: transparent;
+  }
+  .contact-info-social.whatsapp:hover {
+    color: #fff;
+    background: #25d366;
+    border-color: transparent;
+  }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+  .contact-info-strip {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 28px 32px;
+    gap: 24px;
+  }
+
+  .contact-info-items-row {
+    justify-content: center;
+  }
+
+  .contact-info-socials {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-info {
+    padding: 0 0 40px;
+  }
+
+  .contact-info-strip {
+    padding: 24px 20px;
+    gap: 20px;
+  }
+
+  .contact-info-items-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .contact-info-chip {
+    padding: 14px 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-info-strip {
+    padding: 20px 16px;
+  }
+
+  .contact-info-chip-value {
+    font-size: 0.82rem;
+  }
+}
+
+/* ---- Light Theme Overrides ---- */
+[data-theme="light"] .contact-info-chip {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(124, 58, 237, 0.12);
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.04);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-theme="light"] .contact-info-chip:hover {
+    background: #ffffff;
+    border-color: rgba(124, 58, 237, 0.25);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.08);
+  }
+}
+
+[data-theme="light"] .contact-info-social {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(124, 58, 237, 0.12);
+  color: var(--text-secondary);
+}
+

@@ -26,8 +26,7 @@ const Footer = () => {
 
   const quickLinks = [
     { label: 'Home', path: '/' },
-    { label: 'About', path: '/about' },
-    { label: 'Music', path: '/music' },
+    { label: 'Music', path: '/#music', isHash: true },
     { label: 'Contact', path: '/contact' },
   ];
 
@@ -62,7 +61,24 @@ const Footer = () => {
             <h4 className="footer-col-title">Quick Links</h4>
             <ul className="footer-quick-links">
               {quickLinks.map(link => (
-                <li key={link.path}><Link to={link.path}>{link.label}</Link></li>
+                <li key={link.label}>
+                  {link.isHash ? (
+                    <a
+                      href="/#music"
+                      onClick={(e) => {
+                        if (window.location.pathname === '/') {
+                          e.preventDefault();
+                          document.getElementById('music')?.scrollIntoView({ behavior: 'smooth' });
+                          window.history.pushState(null, '', '/#music');
+                        }
+                      }}
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link to={link.path}>{link.label}</Link>
+                  )}
+                </li>
               ))}
             </ul>
           </motion.div>

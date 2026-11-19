@@ -4,10 +4,14 @@ import { artistInfo as staticArtistInfo } from '../data/tracks';
 import { usePortfolioData } from '../context/DataContext';
 
 const getPageMeta = (artistInfo) => ({
-  '/': { title: `${artistInfo.name} | ${artistInfo.tagline}`, description: `${artistInfo.name} — Keyboardist, Guitarist, Bass Guitarist, Music Producer, Performer & Teacher. Explore the official portfolio.` },
-  '/about': { title: `About ${artistInfo.name} | Musician & Producer`, description: `Learn about ${artistInfo.name}'s 20+ year musical journey — from keyboards to production.` },
-  '/music': { title: `Music | ${artistInfo.name}`, description: `Explore ${artistInfo.name}'s complete music collection — original tracks, covers, and collaborations.` },
-  '/contact': { title: `Contact ${artistInfo.name} | Book & Collaborate`, description: `Get in touch with ${artistInfo.name} for collaborations, bookings, and music lessons at Musik Hub.` },
+  '/': {
+    title: `${artistInfo.name} | Keyboardist, Music Producer, Performer & Teacher`,
+    description: `${artistInfo.name} — Keyboardist, Guitarist, Bassist & Music Producer. 20+ years of musical journey. Watch official music videos, stream Spotify releases, and explore collaborations.`
+  },
+  '/contact': {
+    title: `Contact ${artistInfo.name} | Book & Collaborate`,
+    description: `Get in touch with ${artistInfo.name} for collaborations, bookings, and music lessons at Musik Hub.`
+  },
 });
 
 const SEO = () => {

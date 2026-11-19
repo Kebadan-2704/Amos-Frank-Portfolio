@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { FaPlay, FaTimes, FaYoutube, FaChevronLeft, FaChevronRight, FaMusic, FaSpotify } from 'react-icons/fa';
-import { youtubeVideos as staticVideos, spotifyTracks as staticSpotify, getThumbnail, featuredVideoId as staticFeaturedId } from '../data/tracks';
+import { youtubeVideos as staticVideos, spotifyTracks as staticSpotify, getThumbnail, featuredVideoId as staticFeaturedId, artistInfo as staticArtistInfo } from '../data/tracks';
 import { usePortfolioData } from '../context/DataContext';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';
 import LazyYouTube from './LazyYouTube';
@@ -14,9 +14,10 @@ const categories = [
 ];
 
 const MusicPage = () => {
-  const { youtubeVideos: fsVideos, spotifyTracks: fsSpotify, featuredVideoId: fsFeaturedId } = usePortfolioData();
+  const { youtubeVideos: fsVideos, spotifyTracks: fsSpotify, featuredVideoId: fsFeaturedId, artistInfo: fsArtistInfo } = usePortfolioData();
   const youtubeVideos = fsVideos || staticVideos;
   const spotifyTracks = fsSpotify || staticSpotify;
+  const artistInfo = fsArtistInfo || staticArtistInfo;
   const [activeTab, setActiveTab] = useState('all');
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [featuredVideo, setFeaturedVideo] = useState(fsFeaturedId || staticFeaturedId);
@@ -80,7 +81,7 @@ const MusicPage = () => {
   }, [selectedVideo, closeModal]);
 
   return (
-    <section className="music-page" ref={ref}>
+    <section id="music" className="music-page" ref={ref}>
       <div className="container">
         {/* Header */}
         <motion.div className="section-header" initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }}>

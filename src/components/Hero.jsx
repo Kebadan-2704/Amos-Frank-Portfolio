@@ -4,8 +4,7 @@ import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
 import { loadTextShape } from '@tsparticles/shape-text';
 import { TypeAnimation } from 'react-type-animation';
-import { FaInstagram, FaPlay, FaHeadphones, FaMusic, FaSpotify } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { FaInstagram, FaPlay, FaMusic, FaSpotify } from 'react-icons/fa';
 import { artistInfo as staticArtistInfo, spotifyTracks as staticSpotify } from '../data/tracks';
 import { usePortfolioData } from '../context/DataContext';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';
@@ -112,8 +111,17 @@ const Hero = () => {
 
 
           <motion.div className="hero-buttons" variants={textLine}>
-            <Link to="/music" className="btn btn-primary hero-btn"><FaPlay /> Explore Music</Link>
-            <Link to="/about" className="btn btn-outline hero-btn"><FaHeadphones /> About Me</Link>
+            <a
+              href="#music"
+              className="btn btn-primary hero-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('music')?.scrollIntoView({ behavior: 'smooth' });
+                window.history.pushState(null, '', '#music');
+              }}
+            >
+              <FaPlay /> Explore Music
+            </a>
           </motion.div>
 
           <motion.div className="hero-socials" variants={textLine}>

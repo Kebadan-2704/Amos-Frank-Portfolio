@@ -1,5 +1,5 @@
 import { useState, Suspense, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ErrorBoundary from './components/ErrorBoundary';
 import Navbar from './components/Navbar';
@@ -17,14 +17,25 @@ import { DataProvider } from './context/DataContext';
 import { lazyWithRetry } from './utils/lazyWithRetry';
 
 const HomePage = lazyWithRetry(() => import('./pages/HomePage'));
-const AboutPage = lazyWithRetry(() => import('./pages/AboutPage'));
-const MusicPageRoute = lazyWithRetry(() => import('./pages/MusicPageRoute'));
 const ContactPage = lazyWithRetry(() => import('./pages/ContactPage'));
 const NotFoundPage = lazyWithRetry(() => import('./pages/NotFoundPage'));
 
 const ScrollToTopOnNav = () => {
-  const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (hash) {
+      const targetId = hash.replace('#', '');
+      const timer = setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 150);
+      return () => clearTimeout(timer);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
   return null;
 };
 
@@ -60,8 +71,8 @@ const AnimatedRoutes = () => {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Suspense fallback={<PageFallback />}><HomePage /></Suspense></motion.div>} />
-        <Route path="/about" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Suspense fallback={<PageFallback />}><AboutPage /></Suspense></motion.div>} />
-        <Route path="/music" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Suspense fallback={<PageFallback />}><MusicPageRoute /></Suspense></motion.div>} />
+        <Route path="/about" element={<Navigate to="/" replace />} />
+        <Route path="/music" element={<Navigate to="/#music" replace />} />
         <Route path="/contact" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Suspense fallback={<PageFallback />}><ContactPage /></Suspense></motion.div>} />
         <Route path="*" element={<motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit"><Suspense fallback={<PageFallback />}><NotFoundPage /></Suspense></motion.div>} />
       </Routes>
