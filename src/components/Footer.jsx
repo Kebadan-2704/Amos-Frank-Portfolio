@@ -52,13 +52,13 @@ const Footer = () => {
               tuned for the latest releases and performances.
             </p>
             <div className="footer-socials">
-              <motion.a href={artistInfo.social.instagram} className="footer-social" aria-label="Instagram" target="_blank" rel="noreferrer" whileHover={isHover ? { y: -4, scale: 1.1 } : undefined}><FaInstagram /></motion.a>
-              <motion.a href={artistInfo.social.musikHub} className="footer-social" aria-label="Musik Hub" target="_blank" rel="noreferrer" whileHover={isHover ? { y: -4, scale: 1.1 } : undefined}><FaMusic /></motion.a>
+              <motion.a href={artistInfo.social.instagram} className="footer-social" aria-label="Instagram" target="_blank" rel="me noopener noreferrer" whileHover={isHover ? { y: -4, scale: 1.1 } : undefined}><FaInstagram /></motion.a>
+              <motion.a href={artistInfo.social.musikHub} className="footer-social" aria-label="Musik Hub" target="_blank" rel="me noopener noreferrer" whileHover={isHover ? { y: -4, scale: 1.1 } : undefined}><FaMusic /></motion.a>
             </div>
           </motion.div>
 
           <motion.div className="footer-links-col" variants={item}>
-            <h4 className="footer-col-title">Quick Links</h4>
+            <h3 className="footer-col-title">Quick Links</h3>
             <ul className="footer-quick-links">
               {quickLinks.map(link => (
                 <li key={link.label}>
@@ -84,16 +84,16 @@ const Footer = () => {
           </motion.div>
 
           <motion.div className="footer-contact-col" variants={item}>
-            <h4 className="footer-col-title">Contact Info</h4>
+            <h3 className="footer-col-title">Contact Info</h3>
             <div className="footer-contact-items">
               <p><a href={`mailto:${artistInfo.contact.email}`}>{artistInfo.contact.email}</a></p>
               <p><a href={`tel:${artistInfo.contact.phone.replace(/[^0-9+]/g, '')}`}>{artistInfo.contact.phone}</a></p>
-              <p><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(artistInfo.contact.location)}`} target="_blank" rel="noreferrer">{artistInfo.contact.location}</a></p>
+              <p><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(artistInfo.contact.location)}`} target="_blank" rel="noopener noreferrer">{artistInfo.contact.location}</a></p>
             </div>
-            <h4 className="footer-col-title" style={{ marginTop: '20px' }}>Follow & Learn</h4>
+            <h3 className="footer-col-title" style={{ marginTop: '20px' }}>Follow &amp; Learn</h3>
             <ul className="footer-quick-links">
               {externalLinks.map(link => (
-                <li key={link.label}><a href={link.href} target="_blank" rel="noreferrer">{link.label}</a></li>
+                <li key={link.label}><a href={link.href} target="_blank" rel="me noopener noreferrer">{link.label}</a></li>
               ))}
             </ul>
           </motion.div>

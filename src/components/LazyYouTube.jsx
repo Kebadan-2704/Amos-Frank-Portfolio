@@ -14,7 +14,7 @@ const LazyYouTube = ({ videoId, title, autoplay = false }) => {
   if (loaded) {
     return (
       <iframe
-        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
+        src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`}
         title={title}
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -34,7 +34,10 @@ const LazyYouTube = ({ videoId, title, autoplay = false }) => {
         src={getThumbnail(videoId, 'maxresdefault')}
         alt={title}
         className="lazy-youtube-thumb"
+        width="640"
+        height="360"
         loading="lazy"
+        decoding="async"
         onLoad={(e) => {
           // YouTube returns a 120x90 3-dots placeholder (with a 200 OK) if maxresdefault doesn't exist
           if (e.target.naturalWidth <= 120 && e.target.src.includes('maxresdefault')) {

@@ -9,6 +9,7 @@ import { artistInfo as staticArtistInfo, spotifyTracks as staticSpotify } from '
 import { usePortfolioData } from '../context/DataContext';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';
 import { useTheme } from '../context/ThemeContext';
+import analytics from '../utils/analytics';
 import './Hero.css';
 
 const Hero = () => {
@@ -23,10 +24,25 @@ const Hero = () => {
   const isHover = useIsHoverDevice();
 
   useEffect(() => {
-    initParticlesEngine(async (engine) => { 
-      await loadTextShape(engine);
-      await loadSlim(engine); 
-    }).then(() => setParticlesReady(true));
+    // Respect reduced motion
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+    // Defer particle initialization until browser idle so LCP and TBT stay optimal
+    const init = () => {
+      initParticlesEngine(async (engine) => { 
+        await loadTextShape(engine);
+        await loadSlim(engine); 
+      }).then(() => setParticlesReady(true));
+    };
+
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      const handle = window.requestIdleCallback(init, { timeout: 2000 });
+      return () => window.cancelIdleCallback(handle);
+    } else {
+      const timer = setTimeout(init, 800);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   // Theme-aware particle options, recalculated when theme changes
@@ -87,7 +103,8 @@ const Hero = () => {
         <motion.div className="hero-left" variants={textContainer} initial="hidden" animate="visible" style={{ y: heroY }}>
 
 
-          <div className="hero-title" aria-label={`I am ${artistInfo.name}`}>
+          <h1 className="hero-title" aria-label={`I am ${artistInfo.name}`}>
+            <span className="sr-only">I am {artistInfo.name}</span>
             <motion.span className="hero-title-line" variants={textLine}>I AM</motion.span>
             <motion.div className="hero-title-overflow" variants={textLine}>
               <span className="hero-title-name">{(artistInfo.name.split(' ')[0] || '').toUpperCase()}</span>
@@ -97,7 +114,7 @@ const Hero = () => {
                 <span className="hero-title-name hero-title-accent">{(artistInfo.name.split(' ').slice(1).join(' ')).toUpperCase()}</span>
               </motion.div>
             )}
-          </div>
+          </h1>
 
           <motion.div className="hero-typed-wrapper" variants={textLine}>
             <span className="hero-typed-label">I'm a </span>
@@ -106,6 +123,10 @@ const Hero = () => {
               sequence={artistInfo.roles.flatMap(role => [role, 2000])}
               wrapper="span" className="hero-typed-text" speed={50} repeat={Infinity}
             />
+            {/* Semantic static text for search engine crawlers and screen readers */}
+            <span className="sr-only">
+              Keyboardist, Bass Guitarist, Music Producer &amp; Teacher based in Coimbatore, India
+            </span>
           </motion.div>
 
 
@@ -116,6 +137,7 @@ const Hero = () => {
               className="btn btn-primary hero-btn"
               onClick={(e) => {
                 e.preventDefault();
+                analytics.clickExploreMusic();
                 document.getElementById('music')?.scrollIntoView({ behavior: 'smooth' });
                 window.history.pushState(null, '', '#music');
               }}
@@ -125,8 +147,8 @@ const Hero = () => {
           </motion.div>
 
           <motion.div className="hero-socials" variants={textLine}>
-            <a href={artistInfo.social.instagram} className="hero-social-link" aria-label="Instagram" target="_blank" rel="noreferrer"><FaInstagram /></a>
-            <a href={artistInfo.social.musikHub} className="hero-social-link" aria-label="Musik Hub" target="_blank" rel="noreferrer"><FaMusic /></a>
+            <a href={artistInfo.social.instagram} className="hero-social-link" aria-label="Instagram" target="_blank" rel="me noopener noreferrer"><FaInstagram /></a>
+            <a href={artistInfo.social.musikHub} className="hero-social-link" aria-label="Musik Hub" target="_blank" rel="me noopener noreferrer"><FaMusic /></a>
           </motion.div>
         </motion.div>
 
@@ -146,7 +168,19 @@ const Hero = () => {
               whileHover={isHover ? { scale: 1.03 } : undefined}
               transition={{ duration: 0.4 }}
             >
-              <img src={artistInfo.photos.hero} alt="Amos Frank - Keyboardist & Music Producer" className="hero-image" />
+              <picture>
+                <source type="image/avif" srcSet="/amos-hero.avif" />
+                <source type="image/webp" srcSet="/amos-hero.webp" />
+                <img
+                  src={artistInfo.photos.hero}
+                  alt="Amos Frank - Keyboardist, Music Producer and Educator in Coimbatore"
+                  className="hero-image"
+                  width="500"
+                  height="500"
+                  fetchPriority="high"
+                  decoding="async"
+                />
+              </picture>
             </motion.div>
             {/* Floating music notes */}
             {['♪', '♫', '♬', '🎵', '♪'].map((note, i) => (

@@ -1,11 +1,16 @@
-const CACHE_NAME = 'amos-frank-portfolio-v1';
+const CACHE_VERSION = 'v2-' + Date.now();
+const CACHE_NAME = 'amos-frank-portfolio-' + CACHE_VERSION;
 const STATIC_ASSETS = [
   '/',
   '/index.html',
+  '/amos-hero.avif',
+  '/amos-hero.webp',
   '/amos-hero.jpg',
-  '/amos-stage-bw.jpg',
-  '/amos-keys.jpg',
   '/manifest.json',
+  '/pwa-192x192.png',
+  '/pwa-512x512.png',
+  '/fonts/Space-Grotesk-700.woff2',
+  '/fonts/Outfit-400.woff2',
 ];
 
 // Install — cache essential assets
@@ -18,7 +23,7 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// Activate — clean old caches
+// Activate — clean old caches immediately
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -30,42 +35,57 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch — network first, fallback to cache (for pages)
-// Cache first for static assets (images, fonts)
+// Fetch handler
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Skip non-GET and cross-origin
-  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
+  // Skip non-GET, cross-origin, robots.txt, and sitemap.xml
+  if (
+    request.method !== 'GET' ||
+    url.origin !== self.location.origin ||
+    url.pathname === '/robots.txt' ||
+    url.pathname === '/sitemap.xml' ||
+    url.pathname === '/sw.js'
+  ) {
+    return;
+  }
 
-  // Static assets — cache first
-  if (request.destination === 'image' || request.destination === 'font' || request.destination === 'style') {
+  // Static assets (fonts, images, styles, scripts) — Stale-While-Revalidate
+  if (
+    request.destination === 'image' ||
+    request.destination === 'font' ||
+    request.destination === 'style' ||
+    request.destination === 'script'
+  ) {
     event.respondWith(
       caches.match(request).then((cached) => {
-        if (cached) return cached;
-        return fetch(request).then((response) => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-          return response;
-        }).catch(() => {
-          // If network fails (e.g. offline), try returning cached again just in case, 
-          // or fail gracefully instead of breaking the entire image fetch promise.
-          return new Response('', { status: 404, statusText: 'Offline' });
-        });
+        const fetchPromise = fetch(request)
+          .then((networkResponse) => {
+            if (networkResponse && networkResponse.status === 200) {
+              const clone = networkResponse.clone();
+              caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+            }
+            return networkResponse;
+          })
+          .catch(() => cached || new Response('', { status: 404, statusText: 'Offline' }));
+
+        return cached || fetchPromise;
       })
     );
     return;
   }
 
-  // Pages — network first, fallback to cache
+  // Navigation / HTML pages — Network First, fallback to cache
   event.respondWith(
     fetch(request)
       .then((response) => {
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+        if (response && response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+        }
         return response;
       })
-      .catch(() => caches.match(request))
+      .catch(() => caches.match(request) || caches.match('/'))
   );
 });

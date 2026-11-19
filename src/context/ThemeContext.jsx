@@ -5,11 +5,14 @@ const ThemeContext = createContext(undefined);
 export const ThemeProvider = ({ children }) => {
   // Theme State: Local storage first, then system preference, default to dark
   const getInitialTheme = () => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) return savedTheme;
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      return 'light';
-    }
+    if (typeof window === 'undefined') return 'dark';
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) return savedTheme;
+      if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+        return 'light';
+      }
+    } catch (e) {}
     return 'dark';
   };
 

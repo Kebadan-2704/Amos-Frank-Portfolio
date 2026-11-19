@@ -5,6 +5,7 @@ import { youtubeVideos as staticVideos, spotifyTracks as staticSpotify, getThumb
 import { usePortfolioData } from '../context/DataContext';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';
 import LazyYouTube from './LazyYouTube';
+import analytics from '../utils/analytics';
 import './MusicPage.css';
 
 const categories = [
@@ -118,7 +119,8 @@ const MusicPage = () => {
                   <a
                     href={`https://open.spotify.com/track/${track.id}`}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
+                    onClick={() => analytics.clickSpotifyTrack(track)}
                     style={{ width: '100%', height: '100%', minHeight: '152px', borderRadius: '12px', display: 'flex', flexDirection: 'column', padding: '24px', textDecoration: 'none', background: 'var(--bg-elevated)', border: '1px solid rgba(255,255,255,0.08)', transition: 'all 0.3s ease', position: 'relative', overflow: 'hidden' }}
                     className="custom-musicpage-card"
                   >
@@ -163,11 +165,18 @@ const MusicPage = () => {
                     <div
                       key={video.id}
                       className={`carousel-thumb ${featuredVideo === video.id ? 'active' : ''}`}
-                      onClick={() => setFeaturedVideo(video.id)}
+                      onClick={() => {
+                        setFeaturedVideo(video.id);
+                        analytics.playVideo(video);
+                      }}
                     >
-                      <img src={getThumbnail(video.id)} alt={video.title} loading="lazy" />
+                      <img src={getThumbnail(video.id)} alt={`Preview of ${video.title} by ${video.artist}`} width="280" height="158" loading="lazy" decoding="async" />
                       <span className="carousel-thumb-title">{video.title}</span>
-                      {featuredVideo === video.id && <div className="carousel-playing-indicator" aria-label="Now playing"><span /><span /><span /></div>}
+                      {featuredVideo === video.id && (
+                        <div className="carousel-playing-indicator" role="status" aria-label="Now playing">
+                          <span /><span /><span />
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -180,7 +189,7 @@ const MusicPage = () => {
               <h3 className="music-section-label"><FaYoutube /> Music Videos</h3>
               <motion.div className="music-grid" layout>
                 <AnimatePresence mode="popLayout">
-                  {visibleVideos.map((video, i) => (
+                  {filteredVideos.map((video, i) => (
                     <motion.div
                       key={video.id}
                       className="music-card"
@@ -189,22 +198,32 @@ const MusicPage = () => {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}
                       transition={{ delay: i * 0.04, duration: 0.4 }}
-                      whileHover={isHover ? { y: -6 } : undefined}
-                      onClick={() => setSelectedVideo(video)}
+                      style={i >= showCount ? { display: 'none' } : undefined}
+                      whileHover={isHover && i < showCount ? { y: -6 } : undefined}
+                      onClick={() => {
+                        setSelectedVideo(video);
+                        analytics.openModalVideo(video);
+                      }}
                       role="button"
                       tabIndex={0}
-                      aria-label={`Play ${video.title}`}
-                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedVideo(video); } }}
+                      aria-label={`${video.title} - ${video.artist}`}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setSelectedVideo(video);
+                          analytics.openModalVideo(video);
+                        }
+                      }}
                     >
                       <div className="music-card-thumb">
-                        <img src={getThumbnail(video.id)} alt={video.title} loading="lazy" />
+                        <img src={getThumbnail(video.id)} alt={`Watch ${video.title} - ${video.artist}`} width="480" height="270" loading="lazy" decoding="async" />
                         <div className="music-card-overlay">
                           <FaPlay className="music-card-play" />
                         </div>
                         <div className="music-card-badge" aria-hidden="true"><FaYoutube /></div>
                       </div>
                       <div className="music-card-info">
-                        <h4 className="music-card-title">{video.title}</h4>
+                        <h3 className="music-card-title">{video.title}</h3>
                         <p className="music-card-artist">{video.artist}</p>
                       </div>
                     </motion.div>
@@ -254,7 +273,7 @@ const MusicPage = () => {
                 </button>
                 <div className="music-modal-player">
                   <iframe
-                    src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1&rel=0`}
+                    src={`https://www.youtube-nocookie.com/embed/${selectedVideo.id}?autoplay=1&rel=0`}
                     title={selectedVideo.title}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

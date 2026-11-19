@@ -47,14 +47,15 @@ const ContactInfo = () => {
   ];
 
   const socialLinks = [
-    { icon: FaInstagram, href: artistInfo.social.instagram, label: 'Instagram', className: 'instagram' },
-    { icon: FaMusic, href: artistInfo.social.musikHub, label: 'Musik Hub', className: 'musik-hub' },
-    { icon: FaWhatsapp, href: `https://wa.me/${whatsappNumber}`, label: 'WhatsApp', className: 'whatsapp' },
+    { icon: FaInstagram, href: artistInfo.social.instagram, label: 'Instagram', className: 'instagram', rel: 'me noopener noreferrer' },
+    { icon: FaMusic, href: artistInfo.social.musikHub, label: 'Musik Hub', className: 'musik-hub', rel: 'me noopener noreferrer' },
+    { icon: FaWhatsapp, href: `https://wa.me/${whatsappNumber}`, label: 'WhatsApp', className: 'whatsapp', rel: 'noopener noreferrer' },
   ];
 
   return (
-    <section className="contact-info section" ref={ref}>
+    <section className="contact-info section" ref={ref} aria-labelledby="contact-info-heading">
       <div className="container">
+        <h2 id="contact-info-heading" className="sr-only">Contact Amos Frank &amp; Social Links</h2>
         <motion.div
           className="contact-info-strip glass-card"
           variants={container}
@@ -67,7 +68,7 @@ const ContactInfo = () => {
                 key={ci.label}
                 href={ci.href}
                 target={ci.external ? '_blank' : undefined}
-                rel={ci.external ? 'noreferrer' : undefined}
+                rel={ci.external ? 'noopener noreferrer' : undefined}
                 className="contact-info-chip"
                 variants={item}
                 whileHover={isHover ? { y: -4, borderColor: 'var(--accent-subtle-border)' } : undefined}
@@ -88,7 +89,7 @@ const ContactInfo = () => {
                 key={sl.label}
                 href={sl.href}
                 target="_blank"
-                rel="noreferrer"
+                rel={sl.rel}
                 className={`contact-info-social ${sl.className}`}
                 aria-label={sl.label}
                 whileHover={isHover ? { y: -4, scale: 1.1 } : undefined}

@@ -80,8 +80,10 @@
 }
 
 .footer-social {
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;

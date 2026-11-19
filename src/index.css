@@ -4,7 +4,16 @@
    Theme: Red & Black Cinematic
    ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap');
+@import './fonts.css';
+
+/* Fallback for no-js and pre-rendered crawlers */
+@media (scripting: none) {
+  *, *::before, *::after {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+}
 
 /* ---- CSS Custom Properties (Design Tokens) ---- */
 :root {
@@ -263,11 +272,15 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 4px;
-  color: var(--accent-primary);
+  color: #ff4d5a;
   margin-bottom: 12px;
   display: inline-flex;
   align-items: center;
   gap: 12px;
+}
+
+[data-theme="light"] .section-subtitle {
+  color: var(--accent-primary);
 }
 
 .section-subtitle::before,

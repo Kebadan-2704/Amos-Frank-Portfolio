@@ -3,6 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import { FaUser, FaEnvelope, FaPhone, FaCommentDots, FaPaperPlane, FaMapMarkerAlt, FaInstagram, FaMusic, FaCheckCircle, FaExclamationTriangle, FaWhatsapp } from 'react-icons/fa';
 import { artistInfo } from '../data/tracks';
 import useIsHoverDevice from '../hooks/useIsHoverDevice';
+import analytics from '../utils/analytics';
 import './Contact.css';
 
 // Web3Forms — Free, no signup. Get your key at https://web3forms.com (just enter your email)
@@ -37,6 +38,7 @@ const Contact = () => {
     if (!emailRegex.test(formData.email)) {
       setIsSubmitting(false);
       setSubmitStatus('validation');
+      analytics.submitContactForm('validation_error');
       setTimeout(() => setSubmitStatus(null), 5000);
       return;
     }
@@ -60,9 +62,11 @@ const Contact = () => {
         const result = await response.json();
         if (result.success) {
           setSubmitStatus('success');
+          analytics.submitContactForm('success');
           setFormData({ name: '', email: '', phone: '', message: '' });
         } else {
           setSubmitStatus('error');
+          analytics.submitContactForm('api_error');
         }
       } else {
         const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`);
@@ -71,6 +75,7 @@ const Contact = () => {
         );
         window.open(`mailto:${artistInfo.contact.email}?subject=${subject}&body=${body}`, '_self');
         setSubmitStatus('success');
+        analytics.submitContactForm('mailto_fallback');
         setFormData({ name: '', email: '', phone: '', message: '' });
       }
 
@@ -78,6 +83,7 @@ const Contact = () => {
     } catch (error) {
       console.error('Contact form error:', error);
       setSubmitStatus('error');
+      analytics.submitContactForm('network_error');
       setTimeout(() => setSubmitStatus(null), 5000);
     } finally {
       setIsSubmitting(false);
@@ -136,7 +142,7 @@ const Contact = () => {
                 <motion.a
                   href={getLinkHref(info)}
                   target={info.type === 'location' ? '_blank' : undefined}
-                  rel={info.type === 'location' ? 'noreferrer' : undefined}
+                  rel={info.type === 'location' ? 'noopener noreferrer' : undefined}
                   key={index}
                   className="contact-info-item"
                   variants={item}
@@ -152,16 +158,16 @@ const Contact = () => {
             </div>
 
             <div className="contact-socials">
-              <motion.a href={artistInfo.social.instagram} className="contact-social-link instagram" target="_blank" rel="noreferrer" aria-label="Instagram" whileHover={isHover ? { y: -5, scale: 1.1 } : undefined} whileTap={{ scale: 0.9 }}><FaInstagram /></motion.a>
-              <motion.a href={artistInfo.social.musikHub} className="contact-social-link musik-hub" target="_blank" rel="noreferrer" aria-label="Musik Hub Classes" whileHover={isHover ? { y: -5, scale: 1.1 } : undefined} whileTap={{ scale: 0.9 }}><FaMusic /></motion.a>
-              <motion.a href={`https://wa.me/${whatsappNumber}`} className="contact-social-link whatsapp" target="_blank" rel="noreferrer" aria-label="WhatsApp" whileHover={isHover ? { y: -5, scale: 1.1 } : undefined} whileTap={{ scale: 0.9 }}><FaWhatsapp /></motion.a>
+              <motion.a href={artistInfo.social.instagram} className="contact-social-link instagram" target="_blank" rel="me noopener noreferrer" aria-label="Instagram" whileHover={isHover ? { y: -5, scale: 1.1 } : undefined} whileTap={{ scale: 0.9 }}><FaInstagram /></motion.a>
+              <motion.a href={artistInfo.social.musikHub} className="contact-social-link musik-hub" target="_blank" rel="me noopener noreferrer" aria-label="Musik Hub Classes" whileHover={isHover ? { y: -5, scale: 1.1 } : undefined} whileTap={{ scale: 0.9 }}><FaMusic /></motion.a>
+              <motion.a href={`https://wa.me/${whatsappNumber}`} className="contact-social-link whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" whileHover={isHover ? { y: -5, scale: 1.1 } : undefined} whileTap={{ scale: 0.9 }}><FaWhatsapp /></motion.a>
             </div>
 
             {/* Musik Hub CTA */}
             <motion.a
               href={artistInfo.social.musikHub}
               target="_blank"
-              rel="noreferrer"
+              rel="me noopener noreferrer"
               className="contact-musik-hub-cta"
               whileHover={isHover ? { scale: 1.02 } : undefined}
               whileTap={{ scale: 0.98 }}
@@ -205,6 +211,7 @@ const Contact = () => {
               { icon: FaPhone, name: 'phone', type: 'tel', placeholder: 'Phone Number' },
             ].map(field => (
               <div key={field.name} className="contact-form-group">
+                <label htmlFor={`contact-${field.name}`} className="sr-only">{field.placeholder}</label>
                 <field.icon className="contact-form-icon" />
                 <input
                   type={field.type} name={field.name} placeholder={field.placeholder}
@@ -218,6 +225,7 @@ const Contact = () => {
             ))}
 
             <div className="contact-form-group">
+              <label htmlFor="contact-message" className="sr-only">Your Message</label>
               <FaCommentDots className="contact-form-icon textarea-icon" />
               <textarea
                 name="message" placeholder="Your Message"

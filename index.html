@@ -1,35 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-IN">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/pwa-icon.png" />
-    <link rel="apple-touch-icon" href="/pwa-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png" />
+    <link rel="apple-touch-icon" href="/pwa-192x192.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     
-    <!-- SEO Meta Tags -->
-    <title>Amos Frank | Keyboardist, Guitarist & Music Producer</title>
-    <meta name="description" content="Amos Frank — Keyboardist, Guitarist, Bass Guitarist, Music Producer, Performer & Teacher. 20+ years of musical journey. Explore the official portfolio featuring music videos and live performances." />
-    <meta name="keywords" content="Amos Frank, keyboardist, guitarist, bass guitarist, music producer, performer, teacher, musician, Musik Hub, keyboards, music videos" />
+    <!-- SEO Meta Tags (Static Fallback for bots/scrapers) -->
+    <title>Amos Frank | Keyboardist, Music Producer &amp; Teacher</title>
+    <meta name="title" content="Amos Frank | Keyboardist, Music Producer &amp; Teacher" />
+    <meta name="description" content="Official portfolio of Amos Frank — Keyboardist, bassist, and music producer in Coimbatore, India. Watch music videos, stream tracks, and book sessions." />
+    <meta name="keywords" content="Amos Frank, keyboardist Coimbatore, music producer Coimbatore, bass guitarist Coimbatore, Musik Hub, keyboard classes Coimbatore, music production India" />
     <meta name="author" content="Amos Frank" />
+    <link rel="canonical" href="https://amosfrank.com/" />
     
-    <!-- Open Graph -->
-    <meta property="og:title" content="Amos Frank | Keyboardist, Guitarist & Music Producer" />
-    <meta property="og:description" content="Explore Amos Frank's music — videos, live performances, and music production." />
+    <!-- Open Graph (Static Fallback) -->
+    <meta property="og:title" content="Amos Frank | Keyboardist, Music Producer &amp; Teacher" />
+    <meta property="og:description" content="Official portfolio of Amos Frank — Keyboardist, bassist, and music producer in Coimbatore, India. Watch music videos, stream tracks, and book sessions." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:image" content="https://amosfrank.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Amos Frank - Keyboardist, Music Producer &amp; Educator" />
     <meta property="og:url" content="https://amosfrank.com/" />
+    <meta property="og:site_name" content="Amos Frank" />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter Cards (Static Fallback) -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://amosfrank.com/" />
+    <meta property="twitter:title" content="Amos Frank | Keyboardist, Music Producer &amp; Teacher" />
+    <meta property="twitter:description" content="Official portfolio of Amos Frank — Keyboardist, bassist, and music producer in Coimbatore, India." />
+    <meta property="twitter:image" content="https://amosfrank.com/og-image.jpg" />
+
+    <!-- Geographic Entities -->
+    <meta name="geo.region" content="IN-TN" />
+    <meta name="geo.placename" content="Coimbatore" />
     
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#7C3AED" />
+    <!-- Theme & PWA -->
+    <meta name="theme-color" content="#7C3AED" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Search Engine Verification Placeholders -->
+    <!-- Google Search Console: replace with your verification token -->
+    <!-- <meta name="google-site-verification" content="YOUR_GSC_VERIFICATION_TOKEN" /> -->
+    <!-- Bing Webmaster: replace with your verification token -->
+    <!-- <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_TOKEN" /> -->
     
-    <!-- Preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://img.youtube.com" />
+    <!-- Preload Critical Above-The-Fold Assets -->
+    <link rel="preload" as="image" href="/amos-hero.avif" type="image/avif" fetchpriority="high" />
+    <link rel="preload" href="/fonts/Space-Grotesk-700.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/Outfit-400.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preconnect" href="https://i.ytimg.com" crossorigin />
+
     <script>
       (function() {
         try {
@@ -44,7 +71,7 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
     <script>
-      // Service Worker Registration (Feature 14)
+      // Service Worker Registration
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
           if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
@@ -59,16 +86,5 @@
         });
       }
     </script>
-    <!-- Analytics: Replace GA_MEASUREMENT_ID with your Google Analytics 4 ID (Feature 15) -->
-    <!-- To enable: create a GA4 property at https://analytics.google.com and uncomment below -->
-    <!--
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'GA_MEASUREMENT_ID');
-    </script>
-    -->
   </body>
 </html>

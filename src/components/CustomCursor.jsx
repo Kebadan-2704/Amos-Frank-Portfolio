@@ -21,8 +21,8 @@ const CustomCursor = () => {
   const ringY = useSpring(cursorY, springConfigRing);
 
   useEffect(() => {
-    // Don't show on touch devices
-    if ('ontouchstart' in window) return;
+    // Don't show on touch devices or SSR
+    if (typeof window === 'undefined' || 'ontouchstart' in window || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches)) return;
 
     const move = (e) => {
       cursorX.set(e.clientX);
@@ -66,7 +66,7 @@ const CustomCursor = () => {
     };
   }, [cursorX, cursorY]);
 
-  if ('ontouchstart' in window) return null;
+  if (typeof window === 'undefined' || 'ontouchstart' in window || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches)) return null;
 
   return (
     <>
