@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef, useCallback } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
@@ -92,6 +92,55 @@ const Hero = () => {
     const timer = setTimeout(() => setShowIframe(true), 800);
     return () => clearTimeout(timer);
   }, []);
+
+  // Spotify auto-scroll carousel
+  const spotifyStripRef = useRef(null);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [isSpotifyPaused, setIsSpotifyPaused] = useState(false);
+
+  useEffect(() => {
+    if (isSpotifyPaused || !spotifyTracks || spotifyTracks.length <= 1) return;
+
+    const timer = setInterval(() => {
+      if (!spotifyStripRef.current) return;
+      const strip = spotifyStripRef.current;
+      const maxScroll = strip.scrollWidth - strip.clientWidth;
+      const cardWidth = strip.firstElementChild?.offsetWidth || strip.offsetWidth;
+      const nextIndex = (currentTrackIndex + 1) % spotifyTracks.length;
+      
+      const targetScroll = nextIndex * (cardWidth + 16);
+      strip.scrollTo({
+        left: targetScroll > maxScroll ? 0 : targetScroll,
+        behavior: 'smooth',
+      });
+      setCurrentTrackIndex(nextIndex);
+    }, 3500);
+
+    return () => clearInterval(timer);
+  }, [isSpotifyPaused, currentTrackIndex, spotifyTracks]);
+
+  const handleSpotifyScroll = useCallback(() => {
+    if (!spotifyStripRef.current) return;
+    const strip = spotifyStripRef.current;
+    const cardWidth = strip.firstElementChild?.offsetWidth || strip.offsetWidth;
+    if (cardWidth > 0) {
+      const newIndex = Math.round(strip.scrollLeft / (cardWidth + 16));
+      if (newIndex >= 0 && newIndex < spotifyTracks.length && newIndex !== currentTrackIndex) {
+        setCurrentTrackIndex(newIndex);
+      }
+    }
+  }, [currentTrackIndex, spotifyTracks.length]);
+
+  const scrollToSpotifyTrack = (index) => {
+    if (!spotifyStripRef.current) return;
+    const strip = spotifyStripRef.current;
+    const cardWidth = strip.firstElementChild?.offsetWidth || strip.offsetWidth;
+    strip.scrollTo({
+      left: index * (cardWidth + 16),
+      behavior: 'smooth',
+    });
+    setCurrentTrackIndex(index);
+  };
 
   return (
     <section id="home" className="hero">
@@ -203,34 +252,64 @@ const Hero = () => {
             ))}
           </motion.div>
 
-          {/* Spotify swipeable carousel - STRICT RENDERER CRASH PROTECTION */}
-          <div className="hero-spotify-strip">
-            {spotifyTracks.slice(0, 3).map((track, idx) => (
-              <div className="hero-spotify-item" key={idx} style={{ minHeight: '80px', background: 'var(--bg-card)' }}>
-                {showIframe ? (
-                  <a
-                    href={`https://open.spotify.com/track/${track.id}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ width: '100%', height: '80px', borderRadius: '12px', display: 'flex', alignItems: 'center', padding: '0 16px', textDecoration: 'none', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', gap: '14px', transition: 'all 0.3s ease' }}
-                    className="custom-spotify-card"
-                  >
-                    <div style={{ width: '48px', height: '48px', borderRadius: '6px', background: 'linear-gradient(135deg, #1db954, #121212)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <FaSpotify style={{ color: 'white', fontSize: '24px' }} />
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'hidden' }}>
-                      <span style={{ color: 'var(--text-primary)', fontSize: '0.9rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{track.title}</span>
-                      <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>{artistInfo.name} • Spotify</span>
-                    </div>
-                    <div style={{ padding: '6px 14px', borderRadius: '50px', background: 'transparent', border: '1px solid #1db954', color: '#1db954', fontSize: '0.75rem', fontWeight: 600, flexShrink: 0 }}>
-                      PLAY
-                    </div>
-                  </a>
-                ) : (
-                  <div style={{ width: 32, height: 32, border: '3px solid rgba(229,9,20,0.2)', borderTopColor: '#e50914', borderRadius: '50%', animation: 'spin-slow 0.6s linear infinite', margin: '24px auto' }} />
-                )}
+          {/* Spotify swipeable & auto-scrolling carousel */}
+          <div
+            className="hero-spotify-wrapper"
+            onMouseEnter={() => setIsSpotifyPaused(true)}
+            onMouseLeave={() => setIsSpotifyPaused(false)}
+            onTouchStart={() => setIsSpotifyPaused(true)}
+            onTouchEnd={() => setTimeout(() => setIsSpotifyPaused(false), 2000)}
+          >
+            <div
+              className="hero-spotify-strip"
+              ref={spotifyStripRef}
+              onScroll={handleSpotifyScroll}
+            >
+              {spotifyTracks.map((track, idx) => (
+                <div className="hero-spotify-item" key={track.id || idx} style={{ minHeight: '80px', background: 'var(--bg-card)' }}>
+                  {showIframe ? (
+                    <a
+                      href={`https://open.spotify.com/track/${track.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => analytics.clickSpotifyTrack(track)}
+                      style={{ width: '100%', height: '80px', borderRadius: '12px', display: 'flex', alignItems: 'center', padding: '0 16px', textDecoration: 'none', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', gap: '14px', transition: 'all 0.3s ease' }}
+                      className="custom-spotify-card"
+                    >
+                      <div style={{ width: '48px', height: '48px', borderRadius: '6px', background: 'linear-gradient(135deg, #1db954, #121212)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <FaSpotify style={{ color: 'white', fontSize: '24px' }} />
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'hidden' }}>
+                        <span style={{ color: 'var(--text-primary)', fontSize: '0.9rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{track.title}</span>
+                        <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>{artistInfo.name} • Spotify</span>
+                      </div>
+                      <div style={{ padding: '6px 14px', borderRadius: '50px', background: 'transparent', border: '1px solid #1db954', color: '#1db954', fontSize: '0.75rem', fontWeight: 600, flexShrink: 0 }}>
+                        PLAY
+                      </div>
+                    </a>
+                  ) : (
+                    <div style={{ width: 32, height: 32, border: '3px solid rgba(229,9,20,0.2)', borderTopColor: '#e50914', borderRadius: '50%', animation: 'spin-slow 0.6s linear infinite', margin: '24px auto' }} />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Pagination dots */}
+            {spotifyTracks.length > 1 && (
+              <div className="hero-spotify-dots" role="tablist" aria-label="Spotify track selection">
+                {spotifyTracks.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    role="tab"
+                    aria-selected={currentTrackIndex === i}
+                    className={`hero-spotify-dot ${currentTrackIndex === i ? 'active' : ''}`}
+                    onClick={() => scrollToSpotifyTrack(i)}
+                    aria-label={`Go to track ${i + 1}`}
+                  />
+                ))}
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>

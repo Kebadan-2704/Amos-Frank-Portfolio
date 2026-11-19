@@ -72,26 +72,58 @@
 }
 
 /* Spotify Carousel */
+.hero-spotify-wrapper {
+  width: 100%;
+  max-width: 380px;
+  position: relative;
+}
+
 .hero-spotify-strip {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   width: 100%;
-  max-width: 380px;
   gap: 16px;
-  padding-bottom: 12px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent-primary) transparent;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 .hero-spotify-strip::-webkit-scrollbar {
-  height: 4px;
+  display: none;
 }
-.hero-spotify-strip::-webkit-scrollbar-thumb {
-  background: var(--accent-primary);
+
+.hero-spotify-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.hero-spotify-dot {
+  width: 8px;
+  height: 8px;
   border-radius: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
 }
-.hero-spotify-strip::-webkit-scrollbar-track {
-  background: transparent;
+
+.hero-spotify-dot.active {
+  width: 24px;
+  background: #1db954;
+  box-shadow: 0 0 10px rgba(29, 185, 84, 0.5);
+}
+
+[data-theme="light"] .hero-spotify-dot {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .hero-spotify-dot.active {
+  background: #1db954;
 }
 
 .hero-spotify-item {
