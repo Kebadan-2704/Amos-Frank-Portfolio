@@ -1,10 +1,113 @@
 .hero { position: relative; min-height: 100dvh; display: flex; align-items: center; overflow: hidden; padding-top: 80px; }
-.hero-particles { position: absolute; inset: 0; z-index: 0; }
-.hero-gradient-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(10,10,10,0.96) 0%, rgba(10,10,10,0.6) 40%, rgba(10,10,10,0.8) 70%, rgba(10,10,10,0.95) 100%); z-index: 1; pointer-events: none; }
+.hero-particles { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.hero-gradient-overlay { 
+  position: absolute; 
+  inset: 0; 
+  background: radial-gradient(circle at 75% 35%, rgba(229, 9, 20, 0.12) 0%, transparent 60%), linear-gradient(180deg, rgba(10,10,10,0.45) 0%, rgba(10,10,10,0.65) 65%, #0a0a0a 100%); 
+  z-index: 2; 
+  pointer-events: none; 
+}
 /* Cinematic vignette */
-.hero::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%); }
+.hero::after { 
+  content: ''; 
+  position: absolute; 
+  inset: 0; 
+  z-index: 2; 
+  pointer-events: none; 
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%); 
+}
 
-.hero-content { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 50px; z-index: 2; position: relative; }
+/* ====================================================
+   Living Stage Aurora Lighting (Concert Atmosphere)
+   ==================================================== */
+.hero-aurora-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.aurora-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(85px);
+  opacity: 0.55;
+  will-change: transform;
+}
+
+.aurora-orb-1 {
+  width: 580px;
+  height: 580px;
+  background: radial-gradient(circle, rgba(229, 9, 20, 0.75) 0%, rgba(255, 42, 75, 0.35) 45%, transparent 70%);
+  top: 5%;
+  right: 2%;
+  animation: aurora-orbit-1 18s ease-in-out infinite alternate;
+}
+
+.aurora-orb-2 {
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(255, 159, 28, 0.6) 0%, rgba(229, 9, 20, 0.25) 45%, transparent 70%);
+  bottom: 10%;
+  left: 10%;
+  animation: aurora-orbit-2 22s ease-in-out infinite alternate;
+}
+
+.aurora-orb-3 {
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.5) 0%, rgba(229, 9, 20, 0.2) 45%, transparent 70%);
+  top: 30%;
+  left: 40%;
+  animation: aurora-orbit-3 20s ease-in-out infinite alternate;
+}
+
+.aurora-orb-4 {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(255, 26, 26, 0.7) 0%, transparent 70%);
+  bottom: 5%;
+  right: 30%;
+  animation: aurora-orbit-4 15s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-orbit-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-70px, 50px) scale(1.15); }
+  100% { transform: translate(50px, -60px) scale(0.92); }
+}
+
+@keyframes aurora-orbit-2 {
+  0% { transform: translate(0, 0) scale(0.95); }
+  50% { transform: translate(60px, -70px) scale(1.18); }
+  100% { transform: translate(-50px, 40px) scale(1); }
+}
+
+@keyframes aurora-orbit-3 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-60px, -40px) scale(1.12); }
+  100% { transform: translate(70px, 60px) scale(0.95); }
+}
+
+@keyframes aurora-orbit-4 {
+  0% { transform: translate(0, 0) scale(1.1); }
+  50% { transform: translate(-50px, -50px) scale(0.85); }
+  100% { transform: translate(40px, 30px) scale(1.08); }
+}
+
+/* Studio Soundwave Mesh Horizon */
+.hero-soundwave-mesh {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 240px;
+  background: radial-gradient(ellipse at 50% 100%, rgba(229, 9, 20, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-content { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 50px; z-index: 3; position: relative; }
 .hero-left { display: flex; flex-direction: column; gap: 18px; }
 
 /* Badge */
@@ -288,5 +391,31 @@
 [data-theme="light"] .custom-spotify-card:hover {
   border-color: rgba(29, 185, 84, 0.5) !important;
   box-shadow: 0 12px 30px rgba(29, 185, 84, 0.15);
+}
+
+/* Light Theme Aurora Overrides */
+[data-theme="light"] .aurora-orb-1 {
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.45) 0%, rgba(236, 72, 153, 0.22) 50%, transparent 70%);
+}
+[data-theme="light"] .aurora-orb-2 {
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.4) 0%, rgba(124, 58, 237, 0.18) 50%, transparent 70%);
+}
+[data-theme="light"] .aurora-orb-3 {
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.35) 0%, transparent 70%);
+}
+[data-theme="light"] .aurora-orb-4 {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, transparent 70%);
+}
+[data-theme="light"] .hero-soundwave-mesh {
+  background: radial-gradient(ellipse at 50% 100%, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-orb-1,
+  .aurora-orb-2,
+  .aurora-orb-3,
+  .aurora-orb-4 {
+    animation: none !important;
+  }
 }
 

@@ -49,11 +49,10 @@ const Hero = () => {
   const isLight = theme === 'light';
   const particlesOptions = useMemo(() => {
     const colors = isLight
-      ? ['#7C3AED', '#EC4899', '#F97316']
-      : ['#e50914', '#ff1a1a', '#ff4444'];
-    const linkColor = isLight ? '#7C3AED' : '#e50914';
-    const linkOpacity = isLight ? 0.15 : 0.1;
-    const size = isLight ? { min: 2, max: 4 } : { min: 2, max: 4 };
+      ? ['#7C3AED', '#EC4899', '#F97316', '#3B82F6']
+      : ['#ff1a1a', '#ff4d5a', '#ff9f1c', '#ffffff'];
+    const linkColor = isLight ? '#7C3AED' : '#ff3344';
+    const linkOpacity = isLight ? 0.22 : 0.2;
 
     return {
       fullScreen: false,
@@ -61,16 +60,56 @@ const Hero = () => {
       fpsLimit: 60,
       particles: {
         color: { value: colors },
-        links: { color: linkColor, distance: 140, enable: true, opacity: linkOpacity, width: 1 },
-        move: { enable: true, speed: 1.0, direction: 'none', random: true, outModes: { default: 'bounce' } },
-        number: { value: 25, density: { enable: true, area: 900 } },
-        opacity: { value: { min: 0.15, max: 0.45 } },
+        links: {
+          color: linkColor,
+          distance: 145,
+          enable: true,
+          opacity: linkOpacity,
+          width: 1.2,
+          triangles: {
+            enable: true,
+            opacity: 0.04,
+          },
+        },
+        move: {
+          enable: true,
+          speed: 1.2,
+          direction: 'none',
+          random: true,
+          outModes: { default: 'bounce' },
+        },
+        number: {
+          value: 38,
+          density: { enable: true, area: 850 },
+        },
+        opacity: {
+          value: { min: 0.2, max: 0.75 },
+          animation: {
+            enable: true,
+            speed: 1.2,
+            minimumValue: 0.15,
+            sync: false,
+          },
+        },
         shape: { type: 'circle' },
-        size: { value: size },
+        size: {
+          value: { min: 1.5, max: 4.5 },
+          animation: {
+            enable: true,
+            speed: 1.8,
+            minimumValue: 1,
+            sync: false,
+          },
+        },
       },
       interactivity: {
-        events: { onHover: { enable: true, mode: 'grab' } },
-        modes: { grab: { distance: 160, links: { opacity: 0.3 } } },
+        events: {
+          onHover: { enable: true, mode: ['grab', 'bubble'] },
+        },
+        modes: {
+          grab: { distance: 180, links: { opacity: 0.45 } },
+          bubble: { distance: 140, size: 6, duration: 2, opacity: 0.85 },
+        },
       },
       detectRetina: true,
     };
@@ -144,6 +183,15 @@ const Hero = () => {
 
   return (
     <section id="home" className="hero">
+      {/* Living Stage Aurora Lighting */}
+      <div className="hero-aurora-bg" aria-hidden="true">
+        <div className="aurora-orb aurora-orb-1" />
+        <div className="aurora-orb aurora-orb-2" />
+        <div className="aurora-orb aurora-orb-3" />
+        <div className="aurora-orb aurora-orb-4" />
+        <div className="hero-soundwave-mesh" />
+      </div>
+
       {/* Key on theme forces particles to reinit with correct colors (Bug 1 fix) */}
       {particlesReady && <Particles key={theme} id="hero-particles" className="hero-particles" options={particlesOptions} />}
       <div className="hero-gradient-overlay" />
